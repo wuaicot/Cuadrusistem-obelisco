@@ -1,75 +1,59 @@
+import { useEffect } from 'react';
+import { Routes, Route, Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useRoleStore } from './store/useRoleStore';
 import { RoleSelectionPage } from './pages/RoleSelectionPage';
-import { ReporteZUpload } from './components/reportes-z/ReporteZUpload';
-import { PlanillaGrid } from './components/planillas/PlanillaGrid';
-import { CuadreDisplay } from './components/cuadre/CuadreDisplay';
+import { AdminPage } from './pages/AdminPage';
+import { CocinaPage } from './pages/CocinaPage';
+import { CajaPage } from './pages/CajaPage';
 
-function App() {
-  const { role } = useRoleStore();
+// Layout component to wrap pages with sidebar and header
+function AppLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { setRole } = useRoleStore();
 
-  if (!role) {
-    return <RoleSelectionPage />;
-  }
+  // Log route changes for development
+  useEffect(() => {
+    console.log(
+      `%c[Navigation] => ${location.pathname}`,
+      'color: #8a2be2; font-weight: bold;'
+    );
+  }, [location.pathname]);
 
   const getTitle = () => {
-    switch (role) {
-      case 'COCINA':
+    switch (location.pathname) {
+      case '/cocina':
         return 'Planilla de Cocina';
-      case 'CAJA':
+      case '/caja':
         return 'Planilla de Caja';
-      case 'ADMIN':
+      case '/admin':
         return 'Panel de Administración';
       default:
         return 'CuadriSistem';
     }
   };
 
-  const renderContent = () => {
-    switch (role) {
-      case 'ADMIN':
-        return (
-          <>
-            <ReporteZUpload />
-            <hr className="my-8" />
-            <CuadreDisplay />
-          </>
-        );
-      case 'COCINA':
-      case 'CAJA':
-        return <PlanillaGrid tipo={role} />;
-      default:
-        return null;
-    }
+  const handleLogout = () => {
+    setRole(null);
+    navigate('/');
   };
+  
+  const isAdmin = location.pathname === '/admin';
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar (shown for Admin, can be adjusted for other roles) */}
-      {role === 'ADMIN' && (
+      {/* Sidebar (shown for Admin) */}
+      {isAdmin && (
         <aside className="w-64 bg-gray-800 text-white p-4">
           <h2 className="text-xl font-bold mb-4">CuadriSistem</h2>
           <nav>
             <ul>
               <li className="mb-2">
-                <a href="#" className="hover:bg-gray-700 p-2 block rounded">
+                <Link to="/admin" className="hover:bg-gray-700 p-2 block rounded">
                   Dashboard
-                </a>
+                </Link>
               </li>
-              <li className="mb-2">
-                <a href="#" className="hover:bg-gray-700 p-2 block rounded">
-                  Planillas
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="#" className="hover:bg-gray-700 p-2 block rounded">
-                  Reportes Z
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="#" className="hover:bg-gray-700 p-2 block rounded">
-                  Cuadres
-                </a>
-              </li>
+              {/* Add other admin links here if needed */}
             </ul>
           </nav>
         </aside>
@@ -80,7 +64,7 @@ function App() {
         <header className="bg-white shadow p-4 flex justify-between items-center">
           <h1 className="text-2xl font-semibold">{getTitle()}</h1>
           <button
-            onClick={() => useRoleStore.getState().setRole(null)}
+            onClick={handleLogout}
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           >
             Salir
@@ -89,10 +73,24 @@ function App() {
 
         {/* Main Content */}
         <main className="p-6 overflow-y-auto">
-          {renderContent()}
+          <Outlet /> {/* Child routes will be rendered here */}
         </main>
       </div>
     </div>
+  );
+}
+
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<RoleSelectionPage />} />
+      <Route element={<AppLayout />}>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/cocina" element={<CocinaPage />} />
+        <Route path="/caja" element={<CajaPage />} />
+      </Route>
+    </Routes>
   );
 }
 

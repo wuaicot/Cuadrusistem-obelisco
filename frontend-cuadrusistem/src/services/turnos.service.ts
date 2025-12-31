@@ -1,5 +1,5 @@
 import api from './api';
-import { TurnoTipo } from '../../../backend-cuadrusistem/src/domain/enums/turno.enum'; // Assuming direct import is okay for types
+import { TurnoTipo } from '../types/enums'; // Assuming direct import is okay for types
 
 export interface Turno {
   id: string;

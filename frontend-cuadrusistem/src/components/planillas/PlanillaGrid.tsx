@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import type { Role } from '../../store/useRoleStore';
+import { useState, useEffect } from "react";
+import type { Role } from "../../store/useRoleStore";
 import {
   fetchIngredientes,
   type IngredienteDef,
-} from '../../services/ingredientes.service';
-import { fetchLocales, type Local } from '../../services/locales.service';
-import { createPlanilla } from '../../services/planillas.service'; // Import createPlanilla
-import { fetchTurnos, type Turno } from '../../services/turnos.service'; // Import fetchTurnos and Turno type
+} from "../../services/ingredientes.service";
+import { fetchLocales, type Local } from "../../services/locales.service";
+import { createPlanilla } from "../../services/planillas.service"; // Import createPlanilla
+import { fetchTurnos, type Turno } from "../../services/turnos.service"; // Import fetchTurnos and Turno type
 
-const SEGMENTOS = ['SALDO_INICIAL', 'ENTRADA', 'DEVOLUC', 'SALDO_FINAL'];
+const SEGMENTOS = ["SALDO_INICIAL", "ENTRADA", "DEVOLUC", "SALDO_FINAL"];
 // const turnoTipos = ['TURNO_I', 'TURNO_II']; // No longer needed, will use fetched turnos
 
 type PlanillaData = Record<string, Record<string, number>>;
@@ -23,16 +23,18 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const [ingredientes, setIngredientes] = useState<IngredienteDef[]>([]);
 
   // State for form fields
-  const [fechaOperacion, setFechaOperacion] = useState('');
+  const [fechaOperacion, setFechaOperacion] = useState("");
   // const [turno, setTurno] = useState(turnoTipos[0]); // No longer needed
   const [turnos, setTurnos] = useState<Turno[]>([]); // New state for fetched turnos
-  const [selectedTurnoId, setSelectedTurnoId] = useState(''); // New state for selected turno ID
+  const [selectedTurnoId, setSelectedTurnoId] = useState(""); // New state for selected turno ID
   const [locales, setLocales] = useState<Local[]>([]);
-  const [selectedLocalId, setSelectedLocalId] = useState('');
+  const [selectedLocalId, setSelectedLocalId] = useState("");
 
   // State for UI feedback (ingredients)
   const [isLoadingIngredientes, setIsLoadingIngredientes] = useState(true);
-  const [errorIngredientes, setErrorIngredientes] = useState<string | null>(null);
+  const [errorIngredientes, setErrorIngredientes] = useState<string | null>(
+    null
+  );
 
   // State for UI feedback (locales)
   const [isLoadingLocales, setIsLoadingLocales] = useState(true);
@@ -55,7 +57,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         const fetchedIngredientes = await fetchIngredientes();
         setIngredientes(fetchedIngredientes);
       } catch (err) {
-        setErrorIngredientes('No se pudo cargar la lista de ingredientes.');
+        setErrorIngredientes("No se pudo cargar la lista de ingredientes.");
         console.error(err);
       } finally {
         setIsLoadingIngredientes(false);
@@ -75,8 +77,8 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
           setSelectedLocalId(data[0].id); // Select the first locale by default
         }
       } catch (error) {
-        console.error('Error fetching locales:', error);
-        setErrorLocales('No se pudieron cargar los locales.');
+        console.error("Error fetching locales:", error);
+        setErrorLocales("No se pudieron cargar los locales.");
       } finally {
         setIsLoadingLocales(false);
       }
@@ -95,8 +97,8 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
           setSelectedTurnoId(data[0].id); // Select the first turno by default
         }
       } catch (error) {
-        console.error('Error fetching turnos:', error);
-        setErrorTurnos('No se pudieron cargar los turnos.');
+        console.error("Error fetching turnos:", error);
+        setErrorTurnos("No se pudieron cargar los turnos.");
       } finally {
         setIsLoadingTurnos(false);
       }
@@ -122,7 +124,9 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      alert('Por favor, complete todos los campos de la planilla (Fecha, Turno, Local).');
+      alert(
+        "Por favor, complete todos los campos de la planilla (Fecha, Turno, Local)."
+      );
       return;
     }
 
@@ -141,33 +145,35 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
           cantidad: entrada,
         };
       })
-      .filter(item => item.cantidad > 0); // Only send items with quantity > 0
+      .filter((item) => item.cantidad > 0); // Only send items with quantity > 0
 
     const createPlanillaDto = {
       fecha: fechaOperacion,
-      tipo: tipo === 'COCINA' ? 'COCINA' : 'CAJA', // Map Role to TipoPlanilla enum
+      tipo: tipo === "COCINA" ? "COCINA" : "CAJA", // Map Role to TipoPlanilla enum
       turnoId: selectedTurnoId, // Use selectedTurnoId
       localId: selectedLocalId,
       items: items,
     };
 
     try {
-      const response = await createPlanilla(createPlanillaDto); // Use createPlanilla from service
+      await createPlanilla(createPlanillaDto); // Use createPlanilla from service
       // The service function already returns the created planilla, so we don't need to check response.status
       setSaveSuccess(`¡Planilla de ${tipo} guardada exitosamente!`);
       // Optionally reset form/grid data
       setData({});
-      setFechaOperacion(''); // Clear date field
-    } catch (err: any) {
-      console.error('Error saving planilla:', err);
-      const message = err.response?.data?.message || 'Error desconocido al guardar la planilla.';
+      setFechaOperacion(""); // Clear date field
+    } catch (err) {
+      console.error("Error saving planilla:", err);
+      const message =
+        (err instanceof Error) ? err.message : "Error desconocido al guardar la planilla.";
       setSaveError(`Error: ${message}`);
     } finally {
       setIsSaving(false);
     }
   };
 
-  if (isLoadingIngredientes || isLoadingLocales || isLoadingTurnos) { // Include isLoadingTurnos
+  if (isLoadingIngredientes || isLoadingLocales || isLoadingTurnos) {
+    // Include isLoadingTurnos
     return <p className="text-center">Cargando datos necesarios...</p>;
   }
 
@@ -179,7 +185,8 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
     return <p className="text-center text-red-500">{errorLocales}</p>;
   }
 
-  if (errorTurnos) { // Handle errorTurnos
+  if (errorTurnos) {
+    // Handle errorTurnos
     return <p className="text-center text-red-500">{errorTurnos}</p>;
   }
 
@@ -190,7 +197,10 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         {/* New form fields for Planilla metadata */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fechaPlanilla">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="fechaPlanilla"
+            >
               Fecha de Operación
             </label>
             <input
@@ -203,7 +213,10 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
             />
           </div>
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="turnoPlanilla">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="turnoPlanilla"
+            >
               Turno
             </label>
             <select
@@ -215,13 +228,17 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
             >
               {turnos.map((t) => (
                 <option key={t.id} value={t.id}>
-                  {t.tipo} ({t.fecha}) {/* Display turno tipo and date for clarity */}
+                  {t.tipo} ({t.fecha}){" "}
+                  {/* Display turno tipo and date for clarity */}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="localPlanilla">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="localPlanilla"
+            >
               Local
             </label>
             <select
@@ -252,7 +269,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
                     key={segmento}
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    {segmento.replace('_', ' ')}
+                    {segmento.replace("_", " ")}
                   </th>
                 ))}
               </tr>
@@ -268,12 +285,11 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
                       <input
                         type="number"
                         min="0"
-                        title={`${ingrediente.nombreVisible} - ${segmento.replace(
-                          '_',
-                          ' '
-                        )}`}
+                        title={`${
+                          ingrediente.nombreVisible
+                        } - ${segmento.replace("_", " ")}`}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        value={data[ingrediente.codigo]?.[segmento] || ''}
+                        value={data[ingrediente.codigo]?.[segmento] || ""}
                         onChange={(e) =>
                           handleCellChange(
                             ingrediente.codigo,
@@ -296,7 +312,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
             className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400"
             disabled={isSaving}
           >
-            {isSaving ? 'Guardando...' : 'Guardar Planilla'}
+            {isSaving ? "Guardando..." : "Guardar Planilla"}
           </button>
         </div>
 
