@@ -6,6 +6,7 @@ import { TurnosModule } from '../../modules/turnos/turnos.module';
 import { LocalesModule } from '../../modules/locales/locales.module';
 import { CuadreModule } from '../../modules/cuadre/cuadre.module';
 import { ReporteZModule } from '../../modules/reporte-z/reporte-z.module';
+import { IngredientesModule } from '../../modules/ingredientes/ingredientes.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ReporteZModule } from '../../modules/reporte-z/reporte-z.module';
     LocalesModule,
     CuadreModule,
     ReporteZModule,
+    IngredientesModule,
   ],
 })
 export class AppModule {}

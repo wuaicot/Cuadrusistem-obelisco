@@ -4,4 +4,5 @@ export enum CuadreEstado {
   CUADRADO = 'CUADRADO',
   SOBRANTE = 'SOBRANTE',
   FALTANTE = 'FALTANTE',
+  MIXTO = 'MIXTO',
 }

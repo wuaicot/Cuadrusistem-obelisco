@@ -1,9 +1,9 @@
 // src/domain/catalogo/catalogo.base.ts
 
 import { CatalogoFactory, CatalogoProcesado } from './catalogo.factory';
-import { Producto } from '../producto/producto.entity';
+import { ProductoEntity } from '../producto/producto.entity';
 
-export type CatalogoProductos = Map<string, Producto>;
+export type CatalogoProductos = Map<string, ProductoEntity>;
 export const CATALOGO_BASE: CatalogoProcesado = (() => {
   const catalogo = CatalogoFactory.crearCatalogo();
 
