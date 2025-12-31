@@ -1,17 +1,30 @@
+import { useNavigate } from 'react-router-dom';
 import { useRoleStore } from '../store/useRoleStore';
 import type { Role } from '../store/useRoleStore';
 
 export function RoleSelectionPage() {
   const { setRole } = useRoleStore();
+  const navigate = useNavigate();
 
   const handleRoleSelection = (role: Role) => {
     setRole(role);
+    switch (role) {
+      case 'COCINA':
+        navigate('/cocina');
+        break;
+      case 'CAJA':
+        navigate('/caja');
+        break;
+      case 'ADMIN':
+        navigate('/admin');
+        break;
+    }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 bg-yellow-200">
+    <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="text-center">
-        <h1 className="text-4xl bg-black font-bold mb-8">Bienvenido a CuadriSistem</h1>
+        <h1 className="text-4xl font-bold mb-8">Bienvenido a CuadriSistem</h1>
         <div className="space-x-4">
           <button
             onClick={() => handleRoleSelection('COCINA')}

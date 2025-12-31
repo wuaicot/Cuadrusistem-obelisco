@@ -1,6 +1,5 @@
-import api from './api';
-import { ResultadoCuadre, ResultadoIngredienteCuadre } from '../../../backend-cuadrusistem/src/domain/cuadre/calcularCuadre'; // Import backend types
-import { CuadreEstado } from '../../../backend-cuadrusistem/src/domain/enums/cuadre-estado.enum';
+import api from "./api";
+import { CuadreEstado } from "../../../backend-cuadrusistem/src/domain/enums/cuadre-estado.enum";
 
 export interface ProcessCuadrePayload {
   reporteZId: string;
@@ -17,13 +16,18 @@ export interface CuadreResult {
   planillaCocina: { id: string };
   planillaCaja: { id: string };
   estado: CuadreEstado;
-  detalle: Record<string, { teorico: number; real: number; diferencia: number }>;
+  detalle: Record<
+    string,
+    { teorico: number; real: number; diferencia: number }
+  >;
   recalculado: boolean;
   created_at: string;
   updated_at: string;
 }
 
-export const processCuadre = async (payload: ProcessCuadrePayload): Promise<CuadreResult> => {
-  const response = await api.post('/cuadre/process', payload);
+export const processCuadre = async (
+  payload: ProcessCuadrePayload
+): Promise<CuadreResult> => {
+  const response = await api.post("/cuadre/process", payload);
   return response.data;
 };
