@@ -3,8 +3,9 @@ import { LocalEntity } from '../locales/local.entity';
 import { ReporteZEntity } from '../reporte-z/reporte-z.entity';
 import { PlanillaEntity } from '../planillas/planilla.entity';
 
-import { TurnoTipo } from '../../domain/enums/turno.enum';
+// import { TurnoTipo } from '../../domain/enums/turno.enum';
 import { CuadreEstado } from '../../domain/enums/cuadre-estado.enum';
+import { TurnoEntity } from '../turnos/turno.entity'; // Import TurnoEntity
 
 export interface CuadreDominioResultado {
   estado: CuadreEstado;
@@ -21,7 +22,7 @@ export interface CuadreDominioResultado {
 export class CuadreMapper {
   static toEntity(params: {
     fechaOperacion: string;
-    turno: TurnoTipo;
+    turno: TurnoEntity; // Change type to TurnoEntity
     local: LocalEntity;
     reporteZ: ReporteZEntity;
     planillaCocina: PlanillaEntity;

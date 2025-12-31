@@ -41,8 +41,11 @@ export class PlanillaEntity {
   /**
    * Usuario responsable
    */
-  @ManyToOne(() => UserEntity, { nullable: false })
+  @ManyToOne(() => UserEntity, { nullable: true })
   usuario: UserEntity;
+
+  @Column({ type: 'jsonb', nullable: true, default: [] })
+  items: { ingrediente: string; cantidad: number }[];
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
   totalDeclarado: number;

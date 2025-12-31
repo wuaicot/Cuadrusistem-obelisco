@@ -35,7 +35,6 @@ export class CuadrarTurnoService {
      * 1️⃣ Ventas por código
      */
     const ventasPorCodigo = new Map<string, number>();
-
     for (const item of reporteZ.items) {
       ventasPorCodigo.set(
         item.codigo,
@@ -44,41 +43,70 @@ export class CuadrarTurnoService {
     }
 
     /**
-     * 2️⃣ Consumo teórico (TIPADO CORRECTAMENTE)
+     * 2️⃣ Consumo teórico
      */
     const catalogo: CatalogoProcesado = CATALOGO_BASE;
-
     const consumoTeorico = calcularConsumoTeorico(ventasPorCodigo, catalogo);
 
     /**
-     * 3️⃣ Construcción del detalle
+     * 3️⃣ Consumo Real
+     */
+    const consumoReal = new Map<string, number>();
+    const planillas = [planillaCocina, planillaCaja];
+
+    for (const planilla of planillas) {
+      if (planilla.items) {
+        for (const item of planilla.items) {
+          consumoReal.set(
+            item.ingrediente,
+            (consumoReal.get(item.ingrediente) ?? 0) + item.cantidad,
+          );
+        }
+      }
+    }
+
+    /**
+     * 4️⃣ Construcción del detalle
      */
     const detalle: Record<
       string,
       { teorico: number; real: number; diferencia: number }
     > = {};
 
-    for (const [ingrediente, teorico] of consumoTeorico.entries()) {
+    const allIngredientes = new Set([
+      ...consumoTeorico.keys(),
+      ...consumoReal.keys(),
+    ]);
+
+    for (const ingrediente of allIngredientes) {
+      const teorico = consumoTeorico.get(ingrediente) ?? 0;
+      const real = consumoReal.get(ingrediente) ?? 0;
+      const diferencia = real - teorico;
+
       detalle[ingrediente] = {
         teorico,
-        real: 0,
-        diferencia: -teorico,
+        real,
+        diferencia,
       };
     }
 
     /**
-     * 4️⃣ Estado del cuadre
+     * 5️⃣ Estado del cuadre
      */
     const hayFaltantes = Object.values(detalle).some((d) => d.diferencia < 0);
     const haySobrantes = Object.values(detalle).some((d) => d.diferencia > 0);
 
     let estado: CuadreEstado = CuadreEstado.CUADRADO;
-
-    if (hayFaltantes) estado = CuadreEstado.FALTANTE;
-    else if (haySobrantes) estado = CuadreEstado.SOBRANTE;
+    if (hayFaltantes && haySobrantes) {
+      estado = CuadreEstado.MIXTO;
+    } else if (hayFaltantes) {
+      estado = CuadreEstado.FALTANTE;
+    } else if (haySobrantes) {
+      estado = CuadreEstado.SOBRANTE;
+    }
 
     /**
-     * 5️⃣ Persistencia
+     * 6️⃣ Persistencia
      */
     const cuadre = this.cuadreRepo.create({
       fechaOperacion: reporteZ.fechaOperacion,

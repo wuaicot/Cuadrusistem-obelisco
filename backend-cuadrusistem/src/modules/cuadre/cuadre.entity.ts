@@ -9,12 +9,12 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { TurnoTipo } from '../../domain/enums/turno.enum';
 import { CuadreEstado } from '../../domain/enums/cuadre-estado.enum';
 
 import { LocalEntity } from '../locales/local.entity';
 import { ReporteZEntity } from '../reporte-z/reporte-z.entity';
 import { PlanillaEntity } from '../planillas/planilla.entity';
+import { TurnoEntity } from '../turnos/turno.entity'; // Import TurnoEntity
 
 @Entity({ name: 'cuadres' })
 export class CuadreEntity {
@@ -30,11 +30,12 @@ export class CuadreEntity {
   /**
    * Turno evaluado
    */
-  @Column({
-    type: 'enum',
-    enum: TurnoTipo,
+  @ManyToOne(() => TurnoEntity, {
+    nullable: false,
+    onDelete: 'CASCADE',
   })
-  turno: TurnoTipo;
+  @JoinColumn({ name: 'turno_id' }) // Specify the foreign key column name
+  turno: TurnoEntity; // Change type to TurnoEntity
 
   /**
    * Local

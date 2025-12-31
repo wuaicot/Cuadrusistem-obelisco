@@ -1,10 +1,10 @@
-import { Ingrediente } from '../ingrediente/ingrediente.entity';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 /**
  * Relación ingrediente ↔ cantidad dentro de una receta
  */
 export type IngredienteReceta = {
-  ingrediente: Ingrediente;
+  ingrediente: any; // Simplified for JSONB storage, can be string code.
   cantidad: number;
 };
 
@@ -12,33 +12,19 @@ export type IngredienteReceta = {
  * Producto vendible según POS (Reporte Z)
  * Puede ser menú, empanada o bebestible.
  */
-export class Producto {
-  readonly codigo: string;
-  readonly nombre: string;
-  readonly seccion: 'BAR' | 'COCINA' | 'EMPANADAS';
-  readonly receta?: IngredienteReceta[];
+@Entity({ name: 'productos' })
+export class ProductoEntity {
+  @PrimaryColumn()
+  codigo: string;
 
-  constructor(params: {
-    codigo: string;
-    nombre: string;
-    seccion: 'BAR' | 'COCINA' | 'EMPANADAS';
-    receta?: IngredienteReceta[];
-  }) {
-    if (!params.codigo) {
-      throw new Error('Producto debe tener código POS');
-    }
+  @Column()
+  nombre: string;
 
-    this.codigo = params.codigo;
-    this.nombre = params.nombre;
-    this.seccion = params.seccion;
+  @Column({ type: 'text' }) // Using 'text' is safer for enums that might change
+  seccion: 'BAR' | 'COCINA' | 'EMPANADAS';
 
-    // Solo cocina y empanadas pueden tener receta
-    if (params.receta && params.seccion === 'BAR') {
-      throw new Error('Un bebestible no puede tener receta');
-    }
-
-    this.receta = params.receta;
-  }
+  @Column({ type: 'jsonb', nullable: true })
+  receta?: IngredienteReceta[];
 
   /**
    * Calcula ingredientes teóricos según cantidad vendida
@@ -52,3 +38,4 @@ export class Producto {
     }));
   }
 }
+

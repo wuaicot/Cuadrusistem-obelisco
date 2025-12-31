@@ -8,9 +8,9 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { TurnoTipo } from '../../domain/enums/turno.enum';
 import { UserEntity } from '../users/user.entity';
 import { LocalEntity } from '../locales/local.entity';
+import { TurnoEntity } from '../turnos/turno.entity'; // Import TurnoEntity
 
 /**
  * Reporte Z
@@ -25,11 +25,12 @@ export class ReporteZEntity {
   /**
    * Turno al que corresponde el reporte
    */
-  @Column({
-    type: 'enum',
-    enum: TurnoTipo,
+  @ManyToOne(() => TurnoEntity, {
+    nullable: false,
+    onDelete: 'CASCADE',
   })
-  turno: TurnoTipo;
+  @JoinColumn({ name: 'turno_id' }) // Specify the foreign key column name
+  turno: TurnoEntity; // Change type to TurnoEntity
 
   /**
    * Fecha operativa del negocio (NO timestamp del sistema)
