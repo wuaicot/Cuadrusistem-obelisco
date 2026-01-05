@@ -56,7 +56,7 @@ export function ReporteZUpload() {
     setUploadSuccess(null);
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('reporteZFile', file);
     formData.append('fechaOperacion', fechaOperacion);
     formData.append('turno', turno);
     formData.append('localId', selectedLocalId);

@@ -1,7 +1,7 @@
 import api from './api';
 
 export interface IngredienteDef {
-  codigo: string;
+  id: string; // Corrected from 'codigo' to 'id'
   nombreVisible: string;
 }
 
