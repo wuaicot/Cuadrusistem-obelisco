@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import { createWorker } from 'tesseract.js';
-import { parseReporteZ } from '../../parseReporteZ';
+import { parseReporteZ } from '../parseReporteZ';
 
 const router = Router();
 

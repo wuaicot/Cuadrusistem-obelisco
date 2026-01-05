@@ -1,5 +1,5 @@
 import api from "./api";
-import { CuadreEstado } from "../../../backend-cuadrusistem/src/domain/enums/cuadre-estado.enum";
+import type { CuadreEstado } from "../types/enums";
 
 export interface ProcessCuadrePayload {
   reporteZId: string;
