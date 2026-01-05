@@ -29,6 +29,38 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 /**
+ * @route   GET /api/reporte-z
+ * @desc    Get a list of all Reporte Z files (processed or unprocessed)
+ * @access  Public (for now)
+ */
+router.get('/', (req: Request, res: Response) => {
+  console.log(chalk.blue('GET /api/reporte-z -> Fetching Reporte Z files.'));
+
+  try {
+    const files = fs.readdirSync(uploadDir);
+    const reporteZFiles = files.map(filename => ({
+      filename: filename,
+      path: `/uploads/reportes-z/${filename}`, // Frontend can use this path to display/download
+      processed: false, // Placeholder: assume unprocessed for now
+      // Add more metadata if available from DB later
+    }));
+
+    // Optionally filter by 'procesado=false' query parameter, but for now, return all
+    // const filterProcessed = req.query.procesado === 'false';
+    // let filteredFiles = reporteZFiles;
+    // if (filterProcessed) {
+    //   filteredFiles = reporteZFiles.filter(file => !file.processed);
+    // }
+
+    console.log(chalk.green(`✓ Found ${reporteZFiles.length} Reporte Z files.`));
+    res.status(200).json(reporteZFiles);
+  } catch (error) {
+    console.error(chalk.red('✗ Error fetching Reporte Z files:'), error);
+    res.status(500).json({ message: 'Error fetching Reporte Z files.' });
+  }
+});
+
+/**
  * @route   POST /api/reporte-z
  * @desc    Upload and process a Reporte Z image file
  * @access  Public (for now)

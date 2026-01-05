@@ -7,7 +7,7 @@ const router = Router();
 // Esto debe coincidir con los datos que la nueva UI de la planilla genera.
 interface PlanillaItemPayload {
   ingrediente: string; // Codigo del ingrediente
-  segmento: string;    // 'SALDO_INICIAL', 'ENTRADA', 'DEVOLUC', 'SALDO_FINAL'
+  segmento: string; // 'SALDO_INICIAL', 'ENTRADA', 'DEVOLUC', 'SALDO_FINAL'
   cantidad: number;
 }
 
@@ -18,6 +18,25 @@ interface CreatePlanillaPayload {
   localId: string;
   items: PlanillaItemPayload[];
 }
+
+/**
+ * @route   GET /api/planillas
+ * @desc    Consultar planillas existentes (actualmente devuelve un array vacío)
+ * @access  Public (temporalmente)
+ */
+router.get('/', (req: Request, res: Response) => {
+  const tipo = req.query.tipo;
+  console.log(
+    chalk.blue(
+      `GET /api/planillas -> Consultando planillas de tipo: ${tipo || 'todos'}`,
+    ),
+  );
+
+  // TODO: Implementar la lógica para buscar en la base de datos
+  // Por ahora, devolvemos un array vacío para que el frontend no reciba un 404.
+
+  res.status(200).json([]);
+});
 
 /**
  * @route   POST /api/planillas
@@ -32,15 +51,29 @@ router.post('/', (req: Request, res: Response) => {
   const payload: CreatePlanillaPayload = req.body;
 
   // Validación básica para asegurar que los campos principales existen
-  if (!payload.fecha || !payload.turnoId || !payload.localId || !Array.isArray(payload.items)) {
-    console.log(chalk.red('✗ Error: Faltan campos obligatorios en el payload.'));
-    return res.status(400).json({ message: 'Faltan campos obligatorios: fecha, turnoId, localId, o items.' });
+  if (
+    !payload.fecha ||
+    !payload.turnoId ||
+    !payload.localId ||
+    !Array.isArray(payload.items)
+  ) {
+    console.log(
+      chalk.red('✗ Error: Faltan campos obligatorios en el payload.'),
+    );
+    return res
+      .status(400)
+      .json({
+        message:
+          'Faltan campos obligatorios: fecha, turnoId, localId, o items.',
+      });
   }
 
   // --- Aquí irá la lógica para guardar en la base de datos ---
   // Por ahora, solo simulamos que el proceso fue exitoso.
-  
-  console.log(chalk.green('✓ Payload validado y procesado exitosamente (simulación).'));
+
+  console.log(
+    chalk.green('✓ Payload validado y procesado exitosamente (simulación).'),
+  );
 
   // Devolvemos una respuesta de éxito (201 Creado)
   res.status(201).json({
