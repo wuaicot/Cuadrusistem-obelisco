@@ -219,7 +219,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
     try {
       await createPlanilla({
         fecha: fechaOperacion,
-        tipo: tipo === "COCINA" ? "COCINA" : "CAJA",
+        tipo: tipo === "COCINA" ? 'COCINA' : 'CAJA',
         turnoId: selectedTurnoId,
         localId: selectedLocalId,
         items: items,

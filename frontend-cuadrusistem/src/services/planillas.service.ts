@@ -1,5 +1,5 @@
 import api from './api';
-import { TipoPlanilla } from '../types/enums'; // Import from frontend types
+import type { TipoPlanilla } from '../types/enums'; // Import from frontend types
 
 // Updated: This interface now matches the detailed structure from the UI and backend
 export interface PlanillaItem {
