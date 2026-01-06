@@ -119,7 +119,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Reporte Z</option>
             {reportesZ.map((reporte) => (
               <option key={reporte.id} value={reporte.id}>
-                {reporte.fechaOperacion} - {reporte.turno.tipo} - {reporte.local.nombre}
+                {reporte.fechaOperacion} - {reporte.turno?.tipo} - {reporte.local?.nombre}
               </option>
             ))}
           </select>
@@ -140,7 +140,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Planilla Cocina</option>
             {planillasCocina.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {planilla.fecha} - {planilla.turno.tipo} - {planilla.local.nombre}
+                {planilla.fecha} - {planilla.turno?.tipo} - {planilla.local?.nombre}
               </option>
             ))}
           </select>
@@ -161,7 +161,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Planilla Caja</option>
             {planillasCaja.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {planilla.fecha} - {planilla.turno.tipo} - {planilla.local.nombre}
+                {planilla.fecha} - {planilla.turno?.tipo} - {planilla.local?.nombre}
               </option>
             ))}
           </select>
