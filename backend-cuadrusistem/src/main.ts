@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import chalk from "chalk";
+import path from "path";
 import routes from "./routes";
 
 dotenv.config({ path: "./.env" });
@@ -14,6 +15,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev")); // HTTP request logger
+
+// Servir archivos estáticos desde la carpeta 'public'
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Rutas principales
 console.log(chalk.blue("-> Loading API routes under /api..."));

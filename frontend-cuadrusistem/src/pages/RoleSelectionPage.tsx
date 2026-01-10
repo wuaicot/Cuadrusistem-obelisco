@@ -40,9 +40,9 @@ export function RoleSelectionPage() {
           </button>
           <button
             onClick={() => handleRoleSelection('ADMIN')}
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg text-2xl"
+            className="bg-purple-500 hover:bg-purple-700 text-grren font-bold py-4 px-8 rounded-lg text-2xl"
           >
-            Admin
+            Admin.
           </button>
         </div>
       </div>
