@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Custom grid layout for the ingredient tables */
+  .grid-ingredient-tabla {
+    /* 
+      Col 1: Ingredient Name (auto width, min 50px)
+      Col 2: Segment Name & Total (auto width, min 120px)
+      Col 3: Number grid (takes the rest of the space)
+    */
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+  }
+
+  /* Vertical text for the ingredient name cell */
+  .ingredient-nombre-vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Vertical text for the "100" column header */
+  .numero-vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+  
+  /* Custom grid columns for the 19 number cells */
+  .grid-cols-19 {
+    display: grid;
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+}

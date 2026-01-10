@@ -39,10 +39,13 @@ function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
     <div
       onClick={disabled ? undefined : onClick}
       className={`
-        w-8 h-8 flex items-center justify-center border border-gray-300 text-xs font-medium cursor-pointer select-none
-        transition-colors duration-100
-        ${isSelected ? "bg-gray-900" : "bg-white hover:bg-gray-100"}
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        w-full h-8 flex items-center justify-center border-b border-r border-gray-400 text-xs font-medium cursor-pointer select-none
+        transition-colors duration-150
+        ${isSelected
+          ? "bg-[oklch(28.2%_0.091_267.935)] text-white"
+          : "bg-white hover:bg-blue-100"
+        }
+        ${disabled ? "bg-gray-200 opacity-50 cursor-not-allowed" : ""}
       `}
     />
   );
@@ -52,10 +55,10 @@ function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
 // // Sub-component: IngredienteTabla (Independent Ingredient Grid)
 // ============================================================================
 interface IngredienteTablaProps {
-  id: string; // Corrected from 'codigo'
+  id: string;
   nombreVisible: string;
   isSaving: boolean;
-  onStateChange: (ingredienteId: string, tablaState: TablaState) => void; // Corrected parameter name
+  onStateChange: (ingredienteId: string, tablaState: TablaState) => void;
 }
 
 function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: IngredienteTablaProps) {
@@ -77,43 +80,48 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
         [segmento]: { selectedNumbers: newSelected, total: newTotal },
       };
       
-      onStateChange(id, newTablaState); // Use id here
+      onStateChange(id, newTablaState);
       
       return newTablaState;
     });
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-      <div className="grid" style={{ gridTemplateColumns: 'auto auto 1fr' }}>
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-400">
+      <div className="grid grid-ingredient-tabla">
+        {/* Ingredient Name Cell */}
         <div 
-          className="row-span-5 flex items-center justify-center border-r border-gray-200 text-center text-sm font-bold bg-gray-50 text-gray-700 p-1"
-          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+          className="row-span-5 flex items-center justify-center border-r border-gray-400 text-center text-sm font-bold bg-gray-100 text-gray-800 p-2 ingredient-nombre-vertical"
         >
           {nombreVisible}
         </div>
         
-        <div className="border-b border-r border-gray-200 bg-gray-100"></div>
+        {/* Spacer Cell (Top-Left of the number grid) */}
+        <div className="border-b border-r border-gray-400 bg-gray-100"></div>
 
-        <div className="col-start-3 grid grid-cols-19 border-b border-gray-200 bg-gray-100">
+        {/* Number Headers */}
+        <div className="col-start-3 grid grid-cols-19 border-b border-gray-400 bg-gray-100">
           {NUMEROS_PLANILLA.map(num => (
-            <div key={num} className="flex items-center justify-center h-8 border-l border-gray-200 text-xs font-bold text-gray-600">
-              <span style={{ writingMode: num === 100 ? 'vertical-lr' : undefined }}>{num}</span>
+            <div key={num} className="flex items-center justify-center h-8 border-r border-gray-400 last:border-r-0 text-xs font-bold text-gray-600">
+              <span className={num === 100 ? 'numero-vertical' : ''}>{num}</span>
             </div>
           ))}
         </div>
 
+        {/* Segment Rows */}
         {SEGMENTOS.map(segmento => (
           <React.Fragment key={segmento}>
-            <div className="col-start-2 flex items-center justify-between p-2 border-b border-r border-gray-200 text-xs font-bold text-gray-700 bg-gray-50">
-              <span>{segmento.replace('_', ' ')}</span>
-              <span className="ml-2 text-indigo-600 font-black text-sm px-1.5 py-0.5 bg-indigo-100 rounded">
+            {/* Segment Name & Total Cell */}
+            <div className="col-start-2 flex items-center justify-between p-2 border-b border-r border-gray-400 text-xs font-bold text-gray-700 bg-gray-50">
+              <span className="uppercase">{segmento.replace('_', ' ')}</span>
+              <span className="ml-2 text-blue-900 font-black text-sm px-2 py-0.5 bg-blue-100 rounded-md">
                 {tablaState[segmento]?.total || 0}
               </span>
             </div>
             
-            <div className="col-start-3 grid grid-cols-19 border-b border-gray-200">
-              {NUMEROS_PLANILLA.map(num => (
+            {/* Tablilla Cells for the Segment */}
+            <div className="col-start-3 grid grid-cols-19">
+              {NUMEROS_PLANILLA.map((num, index) => (
                   <Tablilla
                     key={num}
                     isSelected={tablaState[segmento]?.selectedNumbers.includes(num) || false}
@@ -242,14 +250,14 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
       <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
         <header className="mb-8">
           <h3 className="text-3xl font-bold text-gray-900">Planilla de {tipo}</h3>
-          <p className="mt-1 text-sm text-gray-500">Llene los datos de inventario para cada ingrediente tocando las tablillas.</p>
+          <p className="mt-1 text-sm text-gray-500 bg-red">Llene los datos de inventario para cada ingrediente</p>
         </header>
         
         <form onSubmit={handleSubmit}>
           <div className="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="fechaPlanilla">
+                <label className="block text-sm font-medium text-blue-500 mb-1" htmlFor="fechaPlanilla">
                   Fecha de Operación
                 </label>
                 <input
@@ -263,7 +271,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="turnoPlanilla">
+                <label className="block text-sm font-medium text-blue-700 mb-1" htmlFor="turnoPlanilla">
                   Turno
                 </label>
                 <select
