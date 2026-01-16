@@ -19,12 +19,39 @@ interface CreatePlanillaPayload {
   items: PlanillaItemPayload[];
 }
 
-// (La ruta GET no cambia por ahora)
-router.get('/', (req: Request, res: Response) => {
-  const tipo = req.query.tipo;
+/**
+ * @route   GET /api/planillas
+ * @desc    Consultar planillas existentes
+ * @access  Public (temporalmente)
+ */
+router.get('/', async (req: Request, res: Response) => {
+  const tipo = req.query.tipo as string;
   console.log(chalk.blue(`GET /api/planillas -> Consultando planillas de tipo: ${tipo || 'todos'}`));
-  // TODO: Implementar la lógica para buscar en la base de datos
-  res.status(200).json([]);
+
+  try {
+    const queryParams: any[] = [];
+    let queryText = `
+      SELECT p.id, p.fecha, p.tipo, t.tipo as turno_tipo, l.nombre as local_nombre
+      FROM "planillas" p
+      LEFT JOIN "turnos" t ON p."turnoId" = t.id
+      LEFT JOIN "locales" l ON p."localId" = l.id
+    `;
+
+    if (tipo && (tipo.toUpperCase() === 'COCINA' || tipo.toUpperCase() === 'CAJA')) {
+      queryText += ` WHERE p.tipo = $1`;
+      queryParams.push(tipo.toUpperCase());
+    }
+
+    queryText += ` ORDER BY p.fecha DESC, p.created_at DESC;`;
+
+    const { rows } = await db.query(queryText, queryParams);
+    console.log(chalk.green(`✓ Encontradas ${rows.length} planillas de tipo ${tipo || 'todos'}.`));
+    res.status(200).json(rows);
+
+  } catch (error) {
+    console.error(chalk.red('✗ Error al consultar planillas:'), error);
+    res.status(500).json({ message: 'Error al consultar las planillas.' });
+  }
 });
 
 /**
@@ -52,7 +79,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     // 1. Insertar en la tabla 'planillas'
     const planillaInsertQuery = `
-      INSERT INTO "planillas" (fecha, tipo, turno_id, local_id)
+      INSERT INTO "planillas" (fecha, tipo, "turnoId", "localId")
       VALUES ($1, $2, $3, $4)
       RETURNING id;
     `;

@@ -2,14 +2,15 @@ import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto'; // Import crypto for checksum
 import chalk from 'chalk';
 import { createWorker } from 'tesseract.js';
 import { parseReporteZ } from '../parseReporteZ';
-import db from '../db'; // Importar la configuración de la base de datos
+import db from '../db';
 
 const router = Router();
 
-// (El código de configuración de multer y directorio no cambia)
+// Multer config remains the same
 const uploadDir = path.join(__dirname, '../../public/uploads/reportes-z');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -23,10 +24,35 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
 // (La ruta GET no cambia por ahora)
-router.get('/', (req: Request, res: Response) => {
-  // ... (lógica existente)
+router.get('/', async (req: Request, res: Response) => {
+  console.log(chalk.blue('GET /api/reporte-z -> Fetching Reporte Z records from database.'));
+
+  try {
+    const queryParams: any[] = [];
+    let queryText = `
+      SELECT r.id, r."fechaOperacion", r."archivoOriginal", r.checksum, r.procesado,
+             l.nombre as local_nombre,
+             t.tipo as turno_tipo
+      FROM "reporte_z" r
+      LEFT JOIN "locales" l ON r.local_id = l.id
+      LEFT JOIN "turnos" t ON r.turno_id = t.id
+    `;
+
+    if (req.query.procesado === 'false') {
+      queryText += ` WHERE r.procesado = FALSE`;
+    }
+    
+    queryText += ` ORDER BY r."fechaOperacion" DESC, r."created_at" DESC;`;
+
+    const { rows } = await db.query(queryText, queryParams);
+    
+    console.log(chalk.green(`✓ Found ${rows.length} Reporte Z records.`));
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(chalk.red('✗ Error fetching Reporte Z records from database:'), error);
+    res.status(500).json({ message: 'Error fetching Reporte Z records.' });
+  }
 });
 
 
@@ -39,60 +65,63 @@ router.post('/', upload.single('reporteZFile'), async (req: Request, res: Respon
   console.log(chalk.blue('POST /api/reporte-z -> Received file for processing.'));
 
   if (!req.file) {
-    console.log(chalk.red('✗ Error: No file uploaded.'));
     return res.status(400).json({ message: 'No file uploaded.' });
   }
 
   console.log(chalk.green('✓ File uploaded successfully:'), { filename: req.file.filename });
   
   const worker = await createWorker('spa');
-  let newReporteZId: string | null = null;
 
   try {
-    // Iniciar transacción
-    await db.query('BEGIN');
-    console.log(chalk.magenta('-> Transacción de Reporte Z iniciada.'));
+    // --- This entire block is new logic ---
 
-    // 1. Insertar registro inicial en 'reportes_z'
-    const reporteInsertQuery = `INSERT INTO "reportes_z" (file_path) VALUES ($1) RETURNING id;`;
-    const reporteResult = await db.query(reporteInsertQuery, [req.file.path]);
-    newReporteZId = reporteResult.rows[0].id;
-    console.log(chalk.cyan(`   - Creado reporte_z con ID: ${newReporteZId}`));
-
-    // 2. Procesar la imagen con OCR
+    // 1. Process OCR to get the text
     console.log(chalk.yellow('Recognizing text from image...'));
-    const ret = await worker.recognize(req.file.path);
-    const textoExtraido = ret.data.text;
+    const { data: { text: textoExtraido } } = await worker.recognize(req.file.path);
     console.log(chalk.green('✓ Text recognized successfully.'));
 
-    // 3. Actualizar el registro con el texto extraído y la fecha de procesamiento
-    const reporteUpdateQuery = `UPDATE "reportes_z" SET raw_text = $1, processed_at = NOW() WHERE id = $2;`;
-    await db.query(reporteUpdateQuery, [textoExtraido, newReporteZId]);
-    console.log(chalk.cyan(`   - Actualizado reporte_z ${newReporteZId} con texto OCR.`));
-
-    // 4. Parsear el texto y guardar las ventas
+    // 2. Parse the text to get sales items
     console.log(chalk.yellow('Parsing recognized text...'));
     const ventasMap = parseReporteZ(textoExtraido);
     const ventasArray = Array.from(ventasMap.entries()).map(([codigo, cantidad]) => ({ codigo, cantidad }));
-    
-    if (ventasArray.length > 0) {
-      console.log(chalk.cyan(`   - Insertando ${ventasArray.length} items de venta...`));
-      for (const venta of ventasArray) {
-        const ventaInsertQuery = `
-          INSERT INTO "reporte_z_ventas" (reporte_z_id, codigo_producto, cantidad)
-          VALUES ($1, $2, $3);
-        `;
-        await db.query(ventaInsertQuery, [newReporteZId, venta.codigo, venta.cantidad]);
-      }
-      console.log(chalk.cyan(`   - Items de venta insertados.`));
-    }
     console.log(chalk.green('✓ Text parsed successfully.'));
 
-    // 5. Finalizar la transacción
-    await db.query('COMMIT');
-    console.log(chalk.green('✓ Transacción de Reporte Z completada (COMMIT).'));
+    // 3. Generate a checksum for the file to prevent duplicates
+    console.log(chalk.yellow('Generating file checksum...'));
+    const fileBuffer = fs.readFileSync(req.file.path);
+    const hashSum = crypto.createHash('md5');
+    hashSum.update(fileBuffer);
+    const checksum = hashSum.digest('hex');
+    console.log(chalk.green(`✓ Checksum generated: ${checksum}`));
 
-    res.status(200).json({
+    // 4. Prepare data for INSERT.
+    // WARNING: local_id, turno_id, admin_id, and fechaOperacion are hardcoded
+    // because they are not yet sent from the frontend. This is a temporary measure.
+    const archivoOriginal = req.file.path;
+    const itemsJsonb = JSON.stringify(ventasArray);
+    const fechaOperacion = new Date(); // Placeholder
+    const local_id = 'a1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7b'; // Hardcoded from seed
+    const turno_id = 'b1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7c'; // Hardcoded from seed
+    const admin_id = 'd3f8e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d'; // Hardcoded to match seeded admin user
+    const procesado = false;
+
+    // 5. Execute the single INSERT statement
+    console.log(chalk.yellow('Inserting Reporte Z into database...'));
+    const insertQuery = `
+      INSERT INTO "reporte_z" (
+        "archivoOriginal", "checksum", "items", "fechaOperacion", 
+        "local_id", "turno_id", "admin_id", "procesado"
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING id;
+    `;
+    const result = await db.query(insertQuery, [
+      archivoOriginal, checksum, itemsJsonb, fechaOperacion,
+      local_id, turno_id, admin_id, procesado
+    ]);
+    const newReporteZId = result.rows[0].id;
+    console.log(chalk.green(`✓ Successfully inserted Reporte Z with ID: ${newReporteZId}`));
+
+    res.status(201).json({
       message: 'Reporte Z procesado y guardado exitosamente.',
       reporteZId: newReporteZId,
       data: {
@@ -101,14 +130,18 @@ router.post('/', upload.single('reporteZFile'), async (req: Request, res: Respon
       }
     });
 
-  } catch (error) {
-    // Si hay un error, revertir la transacción
-    await db.query('ROLLBACK');
-    console.error(chalk.red('✗ An error occurred during Reporte Z transaction, ROLLBACK ejecutado.'), error);
+  } catch (error: any) {
+    // Check for unique constraint violation on checksum
+    if (error.code === '23505' && error.constraint === 'reporte_z_checksum_key') {
+      console.warn(chalk.yellow('⚠️  Attempted to upload a duplicate Reporte Z file.'));
+      return res.status(409).json({ message: 'Este archivo de Reporte Z ya ha sido subido.' });
+    }
+    
+    console.error(chalk.red('✗ An error occurred during Reporte Z processing:'), error);
     res.status(500).json({ message: 'Failed to process and save image.' });
 
   } finally {
-    // Asegurarse de que el worker de Tesseract siempre se cierre
+    // Ensure worker is always terminated
     await worker.terminate();
     console.log(chalk.magenta('Tesseract worker terminated.'));
   }

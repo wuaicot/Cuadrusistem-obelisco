@@ -1,7 +1,7 @@
 {
   "name": "backend-cuadrusistem",
   "version": "0.0.1",
-  "description": "",
+  "description": "aqui se procesan la logica de negocio del proyecto cuadrusistem-obelisco",
   "author": "NAYCOL RODOLFO LINARES VILLAASMIL",
   "private": true,
   "license": "UNLICENSED",

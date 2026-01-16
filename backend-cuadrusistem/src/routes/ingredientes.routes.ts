@@ -1,18 +1,19 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
+import db from '../db';
+import chalk from 'chalk';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  // Dummy data for ingredients
-  const ingredientes = [
-    { id: '1', nombre: 'Pan de Hamburguesa', unidad: 'unidad' },
-    { id: '2', nombre: 'Carne de Res 150g', unidad: 'unidad' },
-    { id: '3', nombre: 'Queso Cheddar', unidad: 'gramos' },
-    { id: '4', nombre: 'Lechuga', unidad: 'hoja' },
-    { id: '5', nombre: 'Tomate', unidad: 'rodaja' },
-    { id: '6', nombre: 'Salsa Especial', unidad: 'ml' },
-  ];
-  res.json(ingredientes);
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    console.log(chalk.blue('GET /api/ingredientes -> Fetching ingredientes from database.'));
+    // The frontend expects the column `nombreVisible`, so we will alias it here.
+    const { rows } = await db.query('SELECT id, "nombreVisible", tipo, unidad, created_at FROM "ingredientes" ORDER BY "nombreVisible" ASC;');
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(chalk.red('✗ Error fetching ingredientes from database:'), error);
+    res.status(500).json({ message: 'Error fetching ingredientes.' });
+  }
 });
 
 export default router;

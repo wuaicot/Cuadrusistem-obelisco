@@ -12,13 +12,8 @@ export interface Planilla {
   id: string;
   tipo: TipoPlanilla;
   fecha: string;
-  local: { id: string; nombre: string }; // Simplified local type
-  turno: { id: string; tipo: string }; // Simplified turno type
-  items: PlanillaItem[]; // This now uses the detailed item type
-  totalDeclarado: number;
-  cerrada: boolean;
-  created_at: string;
-  updated_at: string;
+  local_nombre: string;
+  turno_tipo: string;
 }
 
 export interface CreatePlanillaPayload {

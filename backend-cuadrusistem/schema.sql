@@ -41,8 +41,8 @@ CREATE TABLE "planillas" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "fecha" DATE NOT NULL,
   "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')),
-  "turno_id" UUID NOT NULL REFERENCES "turnos"("id"),
-  "local_id" UUID NOT NULL REFERENCES "locales"("id"),
+  "turnoId" UUID NOT NULL REFERENCES "turnos"("id"),
+  "localId" UUID NOT NULL REFERENCES "locales"("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
