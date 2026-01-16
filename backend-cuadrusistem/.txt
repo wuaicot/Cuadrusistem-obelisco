@@ -1,0 +1,2 @@
+TRUNCATE TABLE reporte_z CASCADE;
+Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST

@@ -1,20 +1,18 @@
-import { Router } from 'express';
-
-// Redefine TurnoTipo locally for backend compilation
-enum TurnoTipo {
-  MANANA = 'MANANA',
-  TARDE = 'TARDE',
-}
+import { Router, Request, Response } from 'express';
+import db from '../db';
+import chalk from 'chalk';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  // Dummy data for turnos
-  const turnos = [
-    { id: 't1', tipo: TurnoTipo.MANANA, fecha: '2025-12-31' },
-    { id: 't2', tipo: TurnoTipo.TARDE, fecha: '2025-12-31' },
-  ];
-  res.json(turnos);
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    console.log(chalk.blue('GET /api/turnos -> Fetching turnos from database.'));
+    const { rows } = await db.query('SELECT * FROM "turnos" ORDER BY fecha DESC;');
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(chalk.red('✗ Error fetching turnos from database:'), error);
+    res.status(500).json({ message: 'Error fetching turnos.' });
+  }
 });
 
 export default router;

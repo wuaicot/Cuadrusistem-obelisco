@@ -10,15 +10,11 @@ export interface ReporteZItem {
 export interface ReporteZ {
   id: string;
   fechaOperacion: string;
-  turno: { id: string; tipo: string }; // Simplified turno type
-  local: { id: string; nombre: string }; // Simplified local type
   archivoOriginal: string;
-  items: ReporteZItem[];
   checksum: string;
   procesado: boolean;
-  cargadoPor: string;
-  created_at: string;
-  updated_at: string;
+  local_nombre: string;
+  turno_tipo: string;
 }
 
 export const fetchUnprocessedReportesZ = async (): Promise<ReporteZ[]> => {

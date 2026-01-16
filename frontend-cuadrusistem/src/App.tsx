@@ -65,9 +65,9 @@ function AppLayout() {
           <h1 className="text-2xl font-semibold">{getTitle()}</h1>
           <button
             onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 bg-black rounded"
           >
-            Salir
+            Volver
           </button>
         </header>
 

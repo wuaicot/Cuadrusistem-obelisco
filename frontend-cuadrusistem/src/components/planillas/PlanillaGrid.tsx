@@ -64,6 +64,15 @@ interface IngredienteTablaProps {
 function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: IngredienteTablaProps) {
   const [tablaState, setTablaState] = useState<TablaState>({});
 
+  // Use useEffect to inform parent when internal tablaState changes
+  useEffect(() => {
+    // Only call onStateChange if tablaState has been initialized or changed significantly
+    // Avoids calling on initial mount if tablaState is empty
+    if (Object.keys(tablaState).length > 0 || Object.keys(tablaState).some(key => Object.keys(tablaState[key]).length > 0)) {
+        onStateChange(id, tablaState);
+    }
+  }, [tablaState, id, onStateChange]);
+
   const handleNumberToggle = (segmento: string, number: number) => {
     setTablaState(prevState => {
       const currentSegmentoState = prevState[segmento] || { selectedNumbers: [], total: 0 };
@@ -80,7 +89,7 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
         [segmento]: { selectedNumbers: newSelected, total: newTotal },
       };
       
-      onStateChange(id, newTablaState);
+      // onStateChange(id, newTablaState); // Removed from here
       
       return newTablaState;
     });
@@ -121,7 +130,7 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
             
             {/* Tablilla Cells for the Segment */}
             <div className="col-start-3 grid grid-cols-19">
-              {NUMEROS_PLANILLA.map((num, index) => (
+              {NUMEROS_PLANILLA.map((num) => (
                   <Tablilla
                     key={num}
                     isSelected={tablaState[segmento]?.selectedNumbers.includes(num) || false}

@@ -17,7 +17,11 @@ type CuadreDetalle = {
   diferencia: number;
 };
 
-export function CuadreDisplay() {
+interface CuadreDisplayProps {
+  reporteZRefreshKey: number;
+}
+
+export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
   // State for selections
   const [selectedReporteZId, setSelectedReporteZId] = useState('');
   const [selectedPlanillaCocinaId, setSelectedPlanillaCocinaId] = useState('');
@@ -66,7 +70,7 @@ export function CuadreDisplay() {
     };
 
     loadInitialData();
-  }, []);
+  }, [reporteZRefreshKey]);
 
   const handleProcessCuadre = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,7 +110,7 @@ export function CuadreDisplay() {
         
         <div>
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reporteZ-select">
-            Reporte Z (No procesado)
+            Reporte Z
           </label>
           <select
             id="reporteZ-select"
@@ -119,7 +123,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Reporte Z</option>
             {reportesZ.map((reporte) => (
               <option key={reporte.id} value={reporte.id}>
-                {reporte.fechaOperacion} - {reporte.turno?.tipo} - {reporte.local?.nombre}
+                {new Date(reporte.fechaOperacion).toLocaleDateString()} - {reporte.turno_tipo} - {reporte.local_nombre}
               </option>
             ))}
           </select>
@@ -140,7 +144,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Planilla Cocina</option>
             {planillasCocina.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {planilla.fecha} - {planilla.turno?.tipo} - {planilla.local?.nombre}
+                {new Date(planilla.fecha).toLocaleDateString()} - {planilla.turno_tipo} - {planilla.local_nombre}
               </option>
             ))}
           </select>
@@ -161,7 +165,7 @@ export function CuadreDisplay() {
             <option value="">Seleccione Planilla Caja</option>
             {planillasCaja.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {planilla.fecha} - {planilla.turno?.tipo} - {planilla.local?.nombre}
+                {new Date(planilla.fecha).toLocaleDateString()} - {planilla.turno_tipo} - {planilla.local_nombre}
               </option>
             ))}
           </select>
