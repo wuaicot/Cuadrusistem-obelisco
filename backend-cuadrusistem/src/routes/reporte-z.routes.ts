@@ -86,6 +86,13 @@ router.post('/', upload.single('reporteZFile'), async (req: Request, res: Respon
     const ventasArray = Array.from(ventasMap.entries()).map(([codigo, cantidad]) => ({ codigo, cantidad }));
     console.log(chalk.green('✓ Text parsed successfully.'));
 
+    // --- NEW: Log cleaned data to backend console ---
+    console.log(chalk.cyan('--- Ventas Extraídas del Reporte Z ---'));
+    ventasArray.forEach(({ codigo, cantidad }) => {
+      console.log(chalk.cyan(`  Código: ${codigo}, Cantidad: ${cantidad}`));
+    });
+    console.log(chalk.cyan('------------------------------------'));
+
     // 3. Generate a checksum for the file to prevent duplicates
     console.log(chalk.yellow('Generating file checksum...'));
     const fileBuffer = fs.readFileSync(req.file.path);
@@ -121,13 +128,10 @@ router.post('/', upload.single('reporteZFile'), async (req: Request, res: Respon
     const newReporteZId = result.rows[0].id;
     console.log(chalk.green(`✓ Successfully inserted Reporte Z with ID: ${newReporteZId}`));
 
+    // --- MODIFIED: Return a simpler response ---
     res.status(201).json({
-      message: 'Reporte Z procesado y guardado exitosamente.',
-      reporteZId: newReporteZId,
-      data: {
-        rawText: textoExtraido,
-        ventas: ventasArray,
-      }
+      message: `Reporte Z procesado y guardado exitosamente con ID: ${newReporteZId}.`,
+      reporteZId: newReporteZId
     });
 
   } catch (error: any) {
