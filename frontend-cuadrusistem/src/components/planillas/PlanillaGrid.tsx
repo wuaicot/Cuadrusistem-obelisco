@@ -174,11 +174,12 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
     const loadInitialData = async () => {
       try {
         setIsLoading(true);
+        // Pass the 'tipo' prop to fetchIngredientes to get filtered results
         const [ingredientesData, localesData, turnosData] = await Promise.all([
-          fetchIngredientes(), fetchLocales(), fetchTurnos(),
+          fetchIngredientes(tipo), fetchLocales(), fetchTurnos(),
         ]);
         
-        console.log("DEBUG: Ingredientes data received from API:", ingredientesData); // DEBUG LOG
+        console.log(`DEBUG: Loaded ${ingredientesData.length} ingredients for type '${tipo}'`, ingredientesData); // DEBUG LOG
         
         setIngredientes(ingredientesData);
         setLocales(localesData);
@@ -187,13 +188,13 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         if (turnosData.length > 0) setSelectedTurnoId(turnosData[0].id);
       } catch (err) {
         console.error(err);
-        setError("No se pudieron cargar los datos necesarios para la planilla.");
+        setError(`No se pudieron cargar los datos para la planilla de ${tipo}.`);
       } finally {
         setIsLoading(false);
       }
     };
     loadInitialData();
-  }, []);
+  }, [tipo]); // Add 'tipo' to dependency array
 
   const handleTablaStateChange = useCallback((ingredienteId: string, tablaState: TablaState) => {
     // console.log(`[PlanillaGrid] handleTablaStateChange received id:`, ingredienteId); // Removed DEBUG LOG

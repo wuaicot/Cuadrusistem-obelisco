@@ -12,18 +12,33 @@ export type BebestibleDef = { codigo: string; nombre: string; unidad?: string, i
 export type EmpanadaDef = MenuDef;
 
 export const BEBESTIBLES: Record<string, BebestibleDef> = {
-  "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500CC", unidad: "unidad" },
+  "4101": { codigo: "4101", nombre: "AUSTRAL LATA 1/2", unidad: "unidad" },
+  "4202": { codigo: "4202", nombre: "ESCUDO LITRO", unidad: "unidad" },
+  "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
+  "4207": { codigo: "4207", nombre: "BOTELLIN CRISTAL", unidad: "unidad" },
+  "4211": { codigo: "4211", nombre: "BOTELLIN TOROBAYO", unidad: "unidad" },
+  "4217": { codigo: "4217", nombre: "HEINEKEN LATA", unidad: "unidad" },
+  "4219": { codigo: "4219", nombre: "ESCUDO LATA 1/2", unidad: "unidad" },
+  "4220": { codigo: "4220", nombre: "CRISTAL LATA 1/2", unidad: "unidad" },
+  "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500CC", unidad: "unidad" },  
   "4224": { codigo: "4224", nombre: "BOTELLIN HEINEKEN", unidad: "unidad" },
+  "4228": { codigo: "4228", nombre: "CERVEZA SOL BOTELLIN", unidad: "unidad" },
   "4230": { codigo: "4230", nombre: "SHOP CRISTAL 500CC", unidad: "unidad" },
+  "4232": { codigo: "4232", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
+  "4233": { codigo: "4233", nombre: "BOTELLIN ROYAL", unidad: "unidad" },  
   "4239": { codigo: "4239", nombre: "ROYAL LATA 1/2", unidad: "unidad" },
+  "4240": { codigo: "4240", nombre: "STELLA LITRO 1LT", unidad: "unidad" },
   "4246": { codigo: "4246", nombre: "CORONA BOTELLIN", unidad: "unidad" },
   "4306": { codigo: "4306", nombre: "COCA COLA LATA", unidad: "unidad" },
   "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
   "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
+  "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
   "4428": { codigo: "4428", nombre: "BEBIDA 1 1/5", unidad: "unidad" },
   "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
+  "4601": { codigo: "4601", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
   "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
   "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
+  //Continuarà...
 };
 
 
@@ -266,17 +281,136 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Lomo Personal", cantidad: 1 },
     ],
   },
+  //Continuarà...
   
 };
 
-export const EMPANADAS: Record<string, EmpanadaDef> = {  
+export const EMPANADAS: Record<string, EmpanadaDef> = { 
+  "3510": {
+    codigo: "3510",
+    nombre: "EMP PINO MARISCO HOR",
+    ingredientes: [
+      { nombre: "Emp. Horno marisco", cantidad: 1 },            
+    ],
+  }, 
   "3601": {
     codigo: "3601",
     nombre: "EMP CAMARON QUESO FR",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
       { nombre: "Porciones de camarones", cantidad: 1, },
-      { nombre: "Queso", cantidad: 2, },
+      { nombre: "Queso laminado", cantidad: 2, },
     ],
   },
+  "3602": {
+    codigo: "3602",
+    nombre: "EMP CHAMPIGNON QUESO",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Champiñones", cantidad: 1, },
+      { nombre: "Queso laminado", cantidad: 2, },
+    ],
+  },
+  "3603": {
+    codigo: "3603",
+    nombre: "EMP ESPAÑOLA FRITA",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Chorizo", cantidad: 1, },
+      { nombre: "Queso laminado", cantidad: 2, },
+    ],
+  },
+  "3805": {
+    codigo: "3805",
+    nombre: "EMP NAPOLETANA FRITA",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },
+    ],
+  },
+  "3608": {
+    codigo: "3608",
+    nombre: "EMP PINO CARNE FRITA",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Porcion Pino Carne", cantidad: 1 },      
+    ],
+  },
+"3609": {
+    codigo: "3609",
+    nombre: "EMP PINO CARNE QUESO",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Porcion Pino Carne", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3611": {
+    codigo: "3611",
+    nombre: "EMP CARNE CHOCLO FRI",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Carne para As Gig.", cantidad: 0.5 },            
+    ],
+  },
+  "6313": {
+    codigo: "6313",
+    nombre: "EMP QUESO CHOCLO FRI",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3614": {
+    codigo: "3614",
+    nombre: "EMP VEGETARIANA FRIT",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3615": {
+    codigo: "3615",
+    nombre: "EMP MEXICANA FRITA",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3617": {
+    codigo: "3617",
+    nombre: "EMP VEGETARIANA FRIT",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3623": {
+    codigo: "3623",
+    nombre: "MECHADA QUESO FRITA",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Carne Mechada", cantidad: 1 },      
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
+  "3625": {
+    codigo: "3625",
+    nombre: "CARNE CHAMPIñON",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Carne para As Gig.", cantidad: 1 },      
+      { nombre: "Champiñones", cantidad: 1, },      
+    ],
+  },
+  "3629": {
+    codigo: "3629",
+    nombre: "EMP CARNE QUESO",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Carne para As Gig.", cantidad: 1 },      
+      { nombre: "Champiñones", cantidad: 1, },      
+    ],
+  },  
+  //Continuarà...
 };
