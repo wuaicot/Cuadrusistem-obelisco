@@ -70,6 +70,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       ('Lechuga', 'COCINA', 'unidades'),
       ('Cebolla cruda', 'COCINA', 'unidades'),
       ('Cebolla Cocida', 'COCINA', 'unidades'),
+      ('Hojarascas', 'COCINA', 'unidades'),
       ('Huevos', 'COCINA', 'unidades'),
       ('Jamón', 'COCINA', 'unidades'),
       ('Chuleta', 'COCINA', 'unidades'),

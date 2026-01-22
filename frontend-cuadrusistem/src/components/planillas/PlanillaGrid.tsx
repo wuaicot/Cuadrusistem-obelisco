@@ -256,11 +256,11 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   if (error) return <p className="p-10 text-center text-red-500">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 ">
       <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
         <header className="mb-8">
           {/* <h3 className="text-3xl font-bold text-gray-900">Planilla de {tipo}</h3> */}
-          <p className="mt-1 text-sm text-red-500">Llene los datos de inventario para cada ingrediente</p>
+          <p className="mt-1 text-sm text-red-500 bg-black">Llene los datos de inventario para cada ingrediente</p>
         </header>
         
         <form onSubmit={handleSubmit}>
