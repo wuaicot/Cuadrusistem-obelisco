@@ -39,11 +39,11 @@ function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
     <div
       onClick={disabled ? undefined : onClick}
       className={`
-        w-full h-8 flex items-center justify-center border-b border-r border-gray-400 text-xs font-medium cursor-pointer select-none
+        w-full h-7 flex items-center justify-center border-b border-r border-gray-300 text-[10px] font-medium cursor-pointer select-none
         transition-colors duration-150
         ${isSelected
           ? "bg-[oklch(28.2%_0.091_267.935)] text-white"
-          : "bg-white hover:bg-blue-100"
+          : "bg-white hover:bg-blue-100 border-gray-300" // Adjusted border color here for consistency
         }
         ${disabled ? "bg-gray-200 opacity-50 cursor-not-allowed" : ""}
       `}
@@ -109,9 +109,9 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
         <div className="border-b border-r border-gray-400 bg-gray-100"></div>
 
         {/* Number Headers */}
-        <div className="col-start-3 grid grid-cols-19 border-b border-gray-400 bg-gray-100">
+        <div className="col-start-3 grid grid-cols-19 gap-px border-b border-gray-400 bg-gray-100">
           {NUMEROS_PLANILLA.map(num => (
-            <div key={num} className="flex items-center justify-center h-8 border-r border-gray-400 last:border-r-0 text-xs font-bold text-gray-600">
+            <div key={num} className="flex items-center justify-center h-7 border-r border-gray-300 last:border-r-0 text-[11px] font-bold text-gray-600">
               <span className={num === 100 ? 'numero-vertical' : ''}>{num}</span>
             </div>
           ))}
@@ -121,7 +121,7 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
         {SEGMENTOS.map(segmento => (
           <React.Fragment key={segmento}>
             {/* Segment Name & Total Cell */}
-            <div className="col-start-2 flex items-center justify-between p-2 border-b border-r border-gray-400 text-xs font-bold text-gray-700 bg-gray-50">
+            <div className="col-start-2 flex items-center justify-between px-1.5 py-1 border-b border-r border-gray-400 text-[11px] font-bold text-gray-700 bg-gray-50">
               <span className="uppercase">{segmento.replace('_', ' ')}</span>
               <span className="ml-2 text-blue-900 font-black text-sm px-2 py-0.5 bg-blue-100 rounded-md">
                 {tablaState[segmento]?.total || 0}
@@ -129,7 +129,7 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
             </div>
             
             {/* Tablilla Cells for the Segment */}
-            <div className="col-start-3 grid grid-cols-19">
+            <div className="col-start-3 grid grid-cols-19 gap-px">
               {NUMEROS_PLANILLA.map((num) => (
                   <Tablilla
                     key={num}
@@ -259,15 +259,15 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
     <div className="min-h-screen bg-gray-100">
       <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
         <header className="mb-8">
-          <h3 className="text-3xl font-bold text-gray-900">Planilla de {tipo}</h3>
-          <p className="mt-1 text-sm text-gray-500 bg-red">Llene los datos de inventario para cada ingrediente</p>
+          {/* <h3 className="text-3xl font-bold text-gray-900">Planilla de {tipo}</h3> */}
+          <p className="mt-1 text-sm text-red-500">Llene los datos de inventario para cada ingrediente</p>
         </header>
         
         <form onSubmit={handleSubmit}>
           <div className="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
               <div>
-                <label className="block text-sm font-medium text-blue-500 mb-1" htmlFor="fechaPlanilla">
+                <label className="block text-sm  font-medium text-blue-500 mb-1" htmlFor="fechaPlanilla">
                   Fecha de Operación
                 </label>
                 <input
@@ -319,7 +319,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
             </div>
           </div>
 
-          <div className="space-y-12">
+          <div className="grid grid-cols-1 gap-y-8">
             {ingredientes.map(ing => (
               <IngredienteTabla
                 key={ing.id} // Use ing.id here
