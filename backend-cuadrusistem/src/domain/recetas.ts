@@ -286,6 +286,13 @@ export const MENUS: Record<string, MenuDef> = {
 };
 
 export const EMPANADAS: Record<string, EmpanadaDef> = { 
+  "3508": {
+    codigo: "3508",
+    nombre: "EMP PINO CERNE HORNO",
+    ingredientes: [
+      { nombre: "Emp. Horno Pino Carne", cantidad: 1 },            
+    ],
+  }, 
   "3510": {
     codigo: "3510",
     nombre: "EMP PINO MARISCO HOR",
@@ -320,7 +327,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
       { nombre: "Queso laminado", cantidad: 2, },
     ],
   },
-  "3805": {
+  "3605": {
     codigo: "3805",
     nombre: "EMP NAPOLETANA FRITA",
     ingredientes: [
@@ -390,7 +397,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "MECHADA QUESO FRITA",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Carne Mechada", cantidad: 1 },      
+      { nombre: "Carne Mechada", cantidad: 0.5 },      
       { nombre: "Queso laminado", cantidad: 2, },      
     ],
   },
@@ -399,8 +406,17 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "CARNE CHAMPIñON",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Carne para As Gig.", cantidad: 1 },      
+      { nombre: "Carne para As Gig.", cantidad: 0.5 },      
       { nombre: "Champiñones", cantidad: 1, },      
+    ],
+    },
+  "3628": {
+    codigo: "3628",
+    nombre: "EMPANADA POLLO QUESO",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 0.5 },      
+      { nombre: "Queso laminado", cantidad: 2, }      
     ],
   },
   "3629": {

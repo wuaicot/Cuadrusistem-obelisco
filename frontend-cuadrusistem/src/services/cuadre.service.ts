@@ -1,5 +1,4 @@
 import api from "./api";
-import type { CuadreEstado } from "../types/enums";
 
 export interface ProcessCuadrePayload {
   reporteZId: string;
