@@ -1,3 +1,4 @@
+// backend-cuadrusistem/src/routes/index.ts
 import { Router } from 'express';
 import ingredientesRoutes from './ingredientes.routes';
 import localesRoutes from './locales.routes';

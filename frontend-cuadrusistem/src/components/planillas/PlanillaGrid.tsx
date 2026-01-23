@@ -96,9 +96,14 @@ function IngredienteTabla({ id, nombreVisible, isSaving, onStateChange }: Ingred
   };
 
   return (
+    
     <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-400">
-      <div className="grid grid-ingredient-tabla">
+      <div className="grid grid-ingredient-tabla ">
         {/* Ingredient Name Cell */}
+        <div className="bg-red-500 text-white p-10 text-3xl">
+  Tailwind está vivo
+</div>
+
         <div 
           className="row-span-5 flex items-center justify-center border-r border-gray-400 text-center text-sm font-bold bg-gray-100 text-gray-800 p-2 ingredient-nombre-vertical"
         >

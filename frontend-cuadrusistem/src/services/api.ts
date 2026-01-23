@@ -1,3 +1,4 @@
+// frontend-cuadrusistem/src/services/api.ts
 import axios, { type AxiosError } from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
