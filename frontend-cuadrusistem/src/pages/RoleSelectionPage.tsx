@@ -22,9 +22,9 @@ export function RoleSelectionPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center h-screen bg-orange-500">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-8 bg-black">Bienvenido a CuadriSistem</h1>
+        <h1 className="text-4xl font-bold mb-16"> <span className='border border-black text-5xl'>©</span>uadru<span className='border border-black'>S</span>istem<span className=''> _OBELISCO</span></h1>
         <div className="space-x-4">
           <button
             onClick={() => handleRoleSelection('COCINA')}
