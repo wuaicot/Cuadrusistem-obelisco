@@ -7,14 +7,15 @@ import {
 import { fetchLocales, type Local } from "../../services/locales.service";
 import {
   createPlanilla,
+  type CreatePlanillaPayload,
   type PlanillaItem,
 } from "../../services/planillas.service";
 import { fetchTurnos, type Turno } from "../../services/turnos.service";
 
 // ============================================================================
-// // Constants & Helpers
+// // Constants, Types, and Helpers
 // ============================================================================
-const SEGMENTOS = ["SALDO_INICIAL", "ENTRADA", "DEVOLUC", "SALDO_FINAL"];
+const SEGMENTOS = ["SALDO INICIAL", "ENTRADA", "DEVOLUC", "SALDO FINAL"];
 const NUMEROS_UNIDADES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const NUMEROS_DECENAS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 const NUMEROS_CENTENAS = [100];
@@ -23,18 +24,16 @@ const NUMEROS_PLANILLA = [
   ...NUMEROS_CENTENAS,
   ...NUMEROS_UNIDADES,
 ];
+
 const calculateTotal = (selectedNums: number[]): number =>
   selectedNums.reduce((sum, num) => sum + num, 0);
 
-// ============================================================================
-// // Type Definitions
-// ============================================================================
 type SegmentoState = { selectedNumbers: number[]; total: number };
-type TablaState = Record<string, SegmentoState>; // State for one ingredient's 'Tabla'
-type PlanillasDataState = Record<string, TablaState>; // State for all 'Tablas' in the 'Planilla'
+type TablaState = Record<string, SegmentoState>;
+type PlanillasDataState = Record<string, TablaState>;
 
 // ============================================================================
-// // Sub-component: Tablilla (Grid Cell)
+// // Sub-component: Tablilla (The clickable cell)
 // ============================================================================
 interface TablillaProps {
   isSelected: boolean;
@@ -46,22 +45,17 @@ function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
   return (
     <div
       onClick={disabled ? undefined : onClick}
-      className={`
-        w-full h-6 flex items-center justify-center border-b border-r border-gray-300 text-xs font-medium cursor-pointer select-none
-        transition-colors duration-150
-        ${
-          isSelected
-            ? "bg-[oklch(28.2%_0.091_267.935)] text-white"
-            : "bg-white hover:bg-blue-100 border-gray-300" // Adjusted border color here for consistency
-        }
-        ${disabled ? "bg-gray-200 opacity-50 cursor-not-allowed" : ""}
-      `}
+      className={`h-full w-full cursor-pointer transition-colors duration-150 ${
+        isSelected ? "bg-black" : "bg-white"
+      } ${
+        !disabled && !isSelected ? "hover:bg-blue-100" : ""
+      } ${disabled ? "opacity-50 cursor-not-allowed bg-gray-200" : ""}`}
     />
   );
 }
 
 // ============================================================================
-// // Sub-component: IngredienteTabla (Independent Ingredient Grid)
+// // Sub-component: IngredienteTabla (The full grid for one ingredient)
 // ============================================================================
 interface IngredienteTablaProps {
   id: string;
@@ -78,105 +72,94 @@ function IngredienteTabla({
 }: IngredienteTablaProps) {
   const [tablaState, setTablaState] = useState<TablaState>({});
 
-  // Use useEffect to inform parent when internal tablaState changes
   useEffect(() => {
-    // Only call onStateChange if tablaState has been initialized or changed significantly
-    // Avoids calling on initial mount if tablaState is empty
-    if (
-      Object.keys(tablaState).length > 0 ||
-      Object.keys(tablaState).some(
-        (key) => Object.keys(tablaState[key]).length > 0,
-      )
-    ) {
-      onStateChange(id, tablaState);
-    }
+    onStateChange(id, tablaState);
   }, [tablaState, id, onStateChange]);
 
   const handleNumberToggle = (segmento: string, number: number) => {
+    const segmentoKey = segmento.replace(" ", "_");
     setTablaState((prevState) => {
-      const currentSegmentoState = prevState[segmento] || {
+      const currentSegmentoState = prevState[segmentoKey] || {
         selectedNumbers: [],
         total: 0,
       };
       const currentSelected = currentSegmentoState.selectedNumbers;
-
       const newSelected = currentSelected.includes(number)
         ? currentSelected.filter((n) => n !== number)
         : [...currentSelected, number];
-
       const newTotal = calculateTotal(newSelected);
-
-      const newTablaState = {
+      return {
         ...prevState,
-        [segmento]: { selectedNumbers: newSelected, total: newTotal },
+        [segmentoKey]: { selectedNumbers: newSelected, total: newTotal },
       };
-
-      // onStateChange(id, newTablaState); // Removed from here
-
-      return newTablaState;
     });
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-400">
-      <div className="grid grid-cols-[auto_minmax(0,max-content)_repeat(19,minmax(0,1fr))]">
-        {/* Ingredient Name Cell */}
-        
+    <div className="block bg-black border-l border-t border-black">
+      <div className="grid grid-cols-planilla">
+        {/* Row 1: Headers */}
+        <div className="border-r border-b border-black bg-white"></div> {/* Top-left spacer */}
+        <div className="border-r border-b border-black bg-white"></div> {/* Segment header spacer */}
+        {NUMEROS_PLANILLA.map((num) => (
+          <div
+            key={num}
+            className="h-8 sm:h-10 flex items-center justify-center border-r border-b border-black bg-white font-bold text-[10px] sm:text-sm p-1"
+          >
+            {num === 100 ? (
+              <span className="text-xs -rotate-90 whitespace-nowrap">100</span>
+            ) : (
+              num
+            )}
+          </div>
+        ))}
 
-        <div className="row-span-5 flex items-center justify-center border-r border-gray-400 text-center text-sm font-bold bg-gray-100 text-gray-800 [writing-mode:vertical-lr] rotate-180">
+        {/* Data Rows */}
+        <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-bold text-center text-base sm:text-lg [writing-mode:vertical-lr] rotate-180">
           {nombreVisible}
         </div>
 
-        {/* Spacer Cell (Top-Left of the number grid) */}
-        <div className="col-start-2 border-b border-r border-gray-400 bg-gray-100"></div>
-
-        {/* Number Headers */}
-        <div className="col-start-3 grid grid-cols-19 gap-px border-b border-gray-400 bg-gray-100">
-          {NUMEROS_PLANILLA.map((num) => (
-            <div
-              key={num}
-              className="flex items-center justify-center h-6 border-r border-gray-300 last:border-r-0 text-xs font-bold text-gray-600"
-            >
-              <span className={num === 100 ? "numero-vertical" : ""}>
-                {num}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Segment Rows */}
-        {SEGMENTOS.map((segmento) => (
-          <React.Fragment key={segmento}>
-            {/* Segment Name & Total Cell */}
-            <div className="col-start-2 flex items-center justify-between px-1.5 py-1 border-b border-r border-gray-400 text-xs font-bold text-gray-700 bg-gray-50">
-              <span className="uppercase">{segmento.replace("_", " ")}</span>
-              <span className="ml-2 text-blue-900 font-black text-sm px-2 py-0.5 bg-blue-100 rounded-md">
-                {tablaState[segmento]?.total || 0}
-              </span>
-            </div>
-
-            {/* Tablilla Cells for the Segment */}
-            <div className="col-start-3 grid grid-cols-19 gap-px">
-              {NUMEROS_PLANILLA.map((num) => (
-                <Tablilla
-                  key={num}
-                  isSelected={
-                    tablaState[segmento]?.selectedNumbers.includes(num) || false
-                  }
-                  onClick={() => handleNumberToggle(segmento, num)}
-                  disabled={isSaving}
-                />
+        {/* This creates the segment labels and all tablillas in a flat structure */}
+        {SEGMENTOS.flatMap((segmento) => {
+          const segmentoKey = segmento.replace(" ", "_");
+          return [
+          // Segment Label Cell
+          <div
+            key={segmento}
+            className="h-14 sm:h-16 w-28 sm:w-40 flex flex-col items-center justify-center border-r border-b border-black bg-white text-center font-bold text-sm sm:text-base p-1"
+          >
+            <div>
+              {segmento.split(" ").map((line, i) => (
+                <span key={i} className="block">{line}</span>
               ))}
             </div>
-          </React.Fragment>
-        ))}
+            <span className="mt-1 bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+              {tablaState[segmentoKey]?.total || 0}
+            </span>
+          </div>,
+          // 19 Tablilla cells for the current segment
+          ...NUMEROS_PLANILLA.map((num) => (
+            <div key={`${segmento}-${num}`} className="border-r border-b border-black bg-white">
+              <Tablilla
+                isSelected={
+                  tablaState[segmentoKey]?.selectedNumbers.includes(
+                    num
+                  ) || false
+                }
+                onClick={() => handleNumberToggle(segmento, num)}
+                disabled={isSaving}
+              />
+            </div>
+          )),
+        ]})}
       </div>
     </div>
   );
 }
 
+
 // ============================================================================
-// // Main Component: PlanillaGrid
+// // Main Component: PlanillaGrid (The page container)
 // ============================================================================
 interface PlanillaGridProps {
   tipo: Role;
@@ -185,55 +168,51 @@ interface PlanillaGridProps {
 export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const [planillasData, setPlanillasData] = useState<PlanillasDataState>({});
   const [ingredientes, setIngredientes] = useState<IngredienteDef[]>([]);
-  const [fechaOperacion, setFechaOperacion] = useState("");
+  const [fechaOperacion, setFechaOperacion] = useState(
+    new Date().toISOString().split("T")[0],
+  );
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [selectedTurnoId, setSelectedTurnoId] = useState("");
   const [locales, setLocales] = useState<Local[]>([]);
   const [selectedLocalId, setSelectedLocalId] = useState("");
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
 
   useEffect(() => {
+    if (tipo !== "COCINA" && tipo !== "CAJA") {
+      setError("Tipo de planilla no válido o no seleccionado.");
+      setIsLoading(false);
+      return;
+    }
     const loadInitialData = async () => {
       try {
         setIsLoading(true);
-        // Pass the 'tipo' prop to fetchIngredientes to get filtered results
+        setError(null);
         const [ingredientesData, localesData, turnosData] = await Promise.all([
           fetchIngredientes(tipo),
           fetchLocales(),
           fetchTurnos(),
         ]);
-
-        console.log(
-          `DEBUG: Loaded ${ingredientesData.length} ingredients for type '${tipo}'`,
-          ingredientesData,
-        ); // DEBUG LOG
-
         setIngredientes(ingredientesData);
         setLocales(localesData);
         setTurnos(turnosData);
         if (localesData.length > 0) setSelectedLocalId(localesData[0].id);
         if (turnosData.length > 0) setSelectedTurnoId(turnosData[0].id);
       } catch (err) {
-        console.error(err);
-        setError(
-          `No se pudieron cargar los datos para la planilla de ${tipo}.`,
-        );
+        const msg = err instanceof Error ? err.message : "Error desconocido.";
+        setError(`No se pudieron cargar datos: ${msg}`);
       } finally {
         setIsLoading(false);
       }
     };
     loadInitialData();
-  }, [tipo]); // Add 'tipo' to dependency array
+  }, [tipo]);
 
   const handleTablaStateChange = useCallback(
     (ingredienteId: string, tablaState: TablaState) => {
-      // console.log(`[PlanillaGrid] handleTablaStateChange received id:`, ingredienteId); // Removed DEBUG LOG
       setPlanillasData((prevData) => ({
         ...prevData,
         [ingredienteId]: tablaState,
@@ -244,169 +223,112 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      setSaveError(
-        "Por favor, complete todos los campos: Fecha, Turno y Local.",
-      );
+    if (tipo !== "COCINA" && tipo !== "CAJA") {
+      setSaveError("No se puede guardar una planilla con un tipo no válido.");
       return;
     }
-
+    if (!fechaOperacion || !selectedTurnoId || !selectedLocalId) {
+      setSaveError("Por favor, complete todos los campos: Fecha, Turno y Local.");
+      return;
+    }
     setIsSaving(true);
     setSaveError(null);
     setSaveSuccess(null);
+    const items: PlanillaItem[] = Object.entries(planillasData)
+      .flatMap(([ingredienteId, tablaState]) =>
+        Object.entries(tablaState).map(([segmento, state]) => ({
+          ingrediente: ingredienteId,
+          segmento,
+          cantidad: state.total,
+        })),
+      )
+      .filter((item) => item.cantidad > 0);
 
-    // console.log(`[PlanillaGrid] handleSubmit, current planillasData state:`, planillasData); // Removed DEBUG LOG
-    const items: PlanillaItem[] = [];
-    for (const ingredienteId in planillasData) {
-      // Use ingredienteId
-      if (Object.prototype.hasOwnProperty.call(planillasData, ingredienteId)) {
-        const tablaState = planillasData[ingredienteId];
-        for (const segmento in tablaState) {
-          if (Object.prototype.hasOwnProperty.call(tablaState, segmento)) {
-            if (tablaState[segmento].total > 0) {
-              items.push({
-                ingrediente: ingredienteId, // Use ingredienteId here
-                segmento: segmento,
-                cantidad: tablaState[segmento].total,
-              });
-            }
-          }
-        }
-      }
+    if (items.length === 0) {
+      setSaveError("No hay datos para guardar. Llene al menos un valor.");
+      setIsSaving(false);
+      return;
     }
 
+    const payload: CreatePlanillaPayload = {
+      fecha: fechaOperacion,
+      tipo: tipo, // Now safe because of the guard
+      turnoId: selectedTurnoId,
+      localId: selectedLocalId,
+      items,
+    };
+
     try {
-      await createPlanilla({
-        fecha: fechaOperacion,
-        tipo: tipo === "COCINA" ? "COCINA" : "CAJA",
-        turnoId: selectedTurnoId,
-        localId: selectedLocalId,
-        items: items,
-      });
+      await createPlanilla(payload);
       setSaveSuccess("¡Planilla guardada exitosamente!");
       setPlanillasData({});
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Error desconocido.";
-      setSaveError(`Error al guardar: ${message}`);
+      const msg = err instanceof Error ? err.message : "Error desconocido.";
+      setSaveError(`Error al guardar: ${msg}`);
     } finally {
       setIsSaving(false);
     }
   };
-
-  if (isLoading)
-    return <p className="p-10 text-center">Cargando datos necesarios...</p>;
-  if (error) return <p className="p-10 text-center text-red-500">{error}</p>;
+  
+  if (isLoading) return <p className="p-4 text-center">Cargando...</p>;
+  if (error) return <p className="p-4 text-center text-red-500">{error}</p>;
+  
+  // Guard against rendering if tipo is not valid (double check)
+  if (tipo !== "COCINA" && tipo !== "CAJA") {
+    return null; // or a more specific error component
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 ">
-      <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
-        <header className="mb-8">
-          {/* <h3 className="text-3xl font-bold text-gray-900">Planilla de {tipo}</h3> */}
-          <p className="mt-1 text-sm text-red-500 ">
-            Llene los datos de inventario para cada ingrediente
-          </p>
-        </header>
+    <div className="min-h-screen bg-gray-50 p-2 sm:p-4">
+      <header className="mb-4 text-center">
+        <h1 className="text-xl sm:text-2xl font-bold text-blue-600">
+          Planilla de {tipo.charAt(0) + tipo.slice(1).toLowerCase()}
+        </h1>
+      </header>
 
-        <form onSubmit={handleSubmit}>
-          <div className="p-6 mb-8 bg-white rounded-xl shadow-sm border border-gray-200">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-              <div>
-                <label
-                  className="block text-sm  font-medium text-blue-500 mb-1"
-                  htmlFor="fechaPlanilla"
-                >
-                  Fecha de Operación
-                </label>
-                <input
-                  type="date"
-                  id="fechaPlanilla"
-                  value={fechaOperacion}
-                  onChange={(e) => setFechaOperacion(e.target.value)}
-                  className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  disabled={isSaving}
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  className="block text-sm font-medium text-blue-700 mb-1"
-                  htmlFor="turnoPlanilla"
-                >
-                  Turno
-                </label>
-                <select
-                  id="turnoPlanilla"
-                  value={selectedTurnoId}
-                  onChange={(e) => setSelectedTurnoId(e.target.value)}
-                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  disabled={isSaving}
-                  required
-                >
-                  {turnos.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.tipo} ({t.fecha})
-                    </option>
-                  ))}
+      <form onSubmit={handleSubmit}>
+        <div className="p-4 mb-4 bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div>
+                <label className="block font-medium text-gray-700 mb-1" htmlFor="fechaPlanilla">Fecha</label>
+                <input type="date" id="fechaPlanilla" value={fechaOperacion} onChange={(e) => setFechaOperacion(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving} required />
+            </div>
+            <div>
+                <label className="block font-medium text-gray-700 mb-1" htmlFor="turnoPlanilla">Turno</label>
+                <select id="turnoPlanilla" value={selectedTurnoId} onChange={(e) => setSelectedTurnoId(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving || turnos.length === 0} required>
+                    {turnos.length === 0 ? <option>Cargando...</option> : turnos.map(t => <option key={t.id} value={t.id}>{t.tipo} ({t.fecha})</option>)}
                 </select>
-              </div>
-              <div>
-                <label
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                  htmlFor="localPlanilla"
-                >
-                  Local
-                </label>
-                <select
-                  id="localPlanilla"
-                  value={selectedLocalId}
-                  onChange={(e) => setSelectedLocalId(e.target.value)}
-                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  disabled={isSaving}
-                  required
-                >
-                  {locales.map((l) => (
-                    <option key={l.id} value={l.id}>
-                      {l.nombre}
-                    </option>
-                  ))}
+            </div>
+            <div>
+                <label className="block font-medium text-gray-700 mb-1" htmlFor="localPlanilla">Local</label>
+                <select id="localPlanilla" value={selectedLocalId} onChange={(e) => setSelectedLocalId(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving || locales.length === 0} required>
+                    {locales.length === 0 ? <option>Cargando...</option> : locales.map(l => <option key={l.id} value={l.id}>{l.nombre}</option>)}
                 </select>
-              </div>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 gap-y-8">
-            {ingredientes.map((ing) => (
+        <div className="grid grid-cols-1 gap-y-6">
+          {ingredientes.map((ing) => (
+            <div key={ing.id} className="pb-2">
               <IngredienteTabla
-                key={ing.id} // Use ing.id here
-                id={ing.id} // Pass id here
+                id={ing.id}
                 nombreVisible={ing.nombreVisible}
                 isSaving={isSaving}
                 onStateChange={handleTablaStateChange}
               />
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <footer className="mt-12">
-            <button
-              type="submit"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-              disabled={isSaving}
-            >
-              {isSaving ? "Guardando..." : "Guardar Planilla"}
-            </button>
-            {saveSuccess && (
-              <div className="mt-4 p-4 text-sm bg-green-100 text-green-800 border border-green-200 rounded-lg">
-                {saveSuccess}
-              </div>
-            )}
-            {saveError && (
-              <div className="mt-4 p-4 text-sm bg-red-100 text-red-800 border border-red-200 rounded-lg">
-                {saveError}
-              </div>
-            )}
-          </footer>
-        </form>
-      </div>
+        <footer className="mt-6">
+          <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400" disabled={isSaving}>
+            {isSaving ? "Guardando..." : "Guardar Planilla"}
+          </button>
+          {saveSuccess && <div className="mt-3 p-3 text-sm bg-green-100 text-green-800 rounded-lg">{saveSuccess}</div>}
+          {saveError && <div className="mt-3 p-3 text-sm bg-red-100 text-red-800 rounded-lg">{saveError}</div>}
+        </footer>
+      </form>
     </div>
   );
 }
