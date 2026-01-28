@@ -189,7 +189,6 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Ave Personal", cantidad: 1 },
     ],
   },
-
   "2305": {
     codigo: "2305",
     nombre: "HAMBURG LUCO CHAMP P",
@@ -197,6 +196,15 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Hamb. Personal", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 3 },
+    ],
+  },
+  "2316": {
+    codigo: "2316",
+    nombre: "HAMB CLASSIC BURG 2X",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 2 },
+      { nombre: "Hamburg KING K", cantidad: 2 },
+      { nombre: "Cheddar porc", cantidad: 4 },
     ],
   },
   "2801": {
@@ -289,6 +297,42 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Lomo Personal", cantidad: 1 },
     ],
   },
+  "5201": {
+    codigo: "5201",
+    nombre: "WRAP POLLO CLASICO",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
+    ],
+  },
+  "5203": {
+    codigo: "5203",
+    nombre: "WRAP MEXICACO POLLO",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
+    ],
+  },
+  "5205": {
+    codigo: "5205",
+    nombre: "WRAP MEXICANO MIXTO",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne para As Gig.", cantidad: 0.5 },
+    ],
+  },
+  "5208": {
+    codigo: "5208",
+    nombre: "WRAP AMERICANO POLLO",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
+    ],
+  },
+  "5210": {
+    codigo: "5210",
+    nombre: "WRAP AMERICANO MIXTO",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
+    ],
+  },
   //Continuarà...
   
 };
@@ -360,6 +404,15 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
       { nombre: "Queso laminado", cantidad: 2, },      
     ],
   },
+  "3610": {
+    codigo: "3610",
+    nombre: "EMP PINO MARISCO FRI",
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Porcion Pino Carne", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2, },      
+    ],
+  },
   "3611": {
     codigo: "3611",
     nombre: "EMP CARNE CHOCLO FRI",
@@ -394,10 +447,10 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
   },
   "3617": {
     codigo: "3617",
-    nombre: "EMP VEGETARIANA FRIT",
+    nombre: "EMP QUESO FRITA",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },      
-      { nombre: "Queso laminado", cantidad: 2, },      
+      { nombre: "Queso laminado", cantidad: 4, },      
     ],
   },
   "3623": {
@@ -435,6 +488,20 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
       { nombre: "Carne para As Gig.", cantidad: 1 },      
       { nombre: "Champiñones", cantidad: 1, },      
     ],
-  },  
+  },
+  "4029": {
+    codigo: "4029",
+    nombre: "PESCADO/ESCAL/ARROZ",
+    ingredientes: [
+      { nombre: "Pangasius", cantidad: 1 },            
+    ],
+  },
+  "4030": {
+    codigo: "4030",
+    nombre: "PESCA/ESCALO/ENSALAD",
+    ingredientes: [
+      { nombre: "Pangasius", cantidad: 1 },            
+    ],
+  },
   //Continuarà...
 };
