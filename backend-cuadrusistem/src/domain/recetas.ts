@@ -68,6 +68,14 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas personal", quantity: 1 } as any,
     ],
   },
+  "0105": {
+    codigo: "0105",
+    nombre: "COM CHACARERO PERSON",
+    ingredientes: [
+      { nombre: "Pan mesa Personal", cantidad: 1 },
+      { nombre: "Vienesas personal", quantity: 1 } as any,
+    ],
+  },
 
   "0301": {
     codigo: "0301",
