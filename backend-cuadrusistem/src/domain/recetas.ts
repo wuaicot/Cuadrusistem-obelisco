@@ -106,7 +106,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "COM COMPLETO SUPER",
     ingredientes: [
       { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
-      { nombre: "Vienesas personal", cantidad: 2 },
+      { nombre: "Vienesas personal", cantidad: 1 },
     ],
   },
   "0508": {
@@ -114,7 +114,15 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "COM ITALIANO SUPER",
     ingredientes: [
       { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
-      { nombre: "Vienesas personal", cantidad: 2 },
+      { nombre: "Vienesas personal", cantidad: 1 },
+    ],
+  },
+  "0701": {
+    codigo: "0701",
+    nombre: "AS ITALIANO",
+    ingredientes: [
+      { nombre: "Pan mesa Gigante", cantidad: 1 },
+      { nombre: "Carne para As Gig.", cantidad: 1 },
     ],
   },
   "0901": {
@@ -122,7 +130,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR ITA GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 2 },
+      { nombre: "Churrasc Gigante", cantidad: 1 },
     ],
   },
   "0902": {
@@ -130,15 +138,15 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR COMP GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 2 },
+      { nombre: "Churrasc Gigante", cantidad: 1 },
     ],
   },
   "0903": {
     codigo: "0903",
-    nombre: "CHUR COMP GIG",
+    nombre: "CHUR CHACA GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 2 },
+      { nombre: "Churrasc Gigante", cantidad: 1 },
     ],
   },
   "0911": {
@@ -146,7 +154,23 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR MEXICANO GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 2 },
+      { nombre: "Churrasc Gigante", cantidad: 1 },
+    ],
+  },
+  "1314": {
+    codigo: "1314",
+    nombre: "LOMO GRAN OBELISCO",
+    ingredientes: [
+      { nombre: "Pan FRICAS", cantidad: 1 },
+      { nombre: "Lomo Personal", cantidad: 1 },
+    ],
+  },
+  "1501": {
+    codigo: "1501",
+    nombre: "LOMO ITALIANO PER",
+    ingredientes: [
+      { nombre: "Pan FRICAS", cantidad: 1 },
+      { nombre: "Lomo Personal", cantidad: 1 },
     ],
   },
   "1502": {
@@ -154,7 +178,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "LOMO COMPLETO PER",
     ingredientes: [
       { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Lomo Personal", cantidad: 2 },
+      { nombre: "Lomo Personal", cantidad: 1 },
     ],
   },
   "1503": {
@@ -189,6 +213,15 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Ave Personal", cantidad: 1 },
     ],
   },
+  "2109": {
+    codigo: "2109",
+    nombre: "HAMB YORK GIG",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Hamb. Personal", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
   "2305": {
     codigo: "2305",
     nombre: "HAMBURG LUCO CHAMP P",
@@ -215,6 +248,14 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Churrasc Personal", cantidad: 1 },
     ],
   },
+  "2802": {
+    codigo: "2802",
+    nombre: "CHURRASCO COMPLETO PE",
+    ingredientes: [
+      { nombre: "Pan FRICAS", cantidad: 1 },
+      { nombre: "Churrasc Personal", cantidad: 1 },
+    ],
+  },
   "2803": {
     codigo: "2803",
     nombre: "CHURRASCO CHACARRERO",
@@ -229,6 +270,14 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan FRICAS", cantidad: 1 },
       { nombre: "Churrasc Personal", cantidad: 1 },
+    ],
+  },
+  "3703": {
+    codigo: "3703",
+    nombre: "ENSALADA MIX",
+    ingredientes: [
+      { nombre: "Ave Gigante", cantidad: 0.5 },  
+      { nombre: "Carne para As Gig.", cantidad: 0.5 },     
     ],
   },
   "3704": {
@@ -330,7 +379,8 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "5210",
     nombre: "WRAP AMERICANO MIXTO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne para As Gig.", cantidad: 0.5 },
     ],
   },
   //Continuarà...

@@ -103,7 +103,7 @@ router.post('/', async (req: Request, res: Response) => {
       const devolucion = segmentos['DEVOLUC'] || 0;
       const final = segmentos['SALDO_FINAL'] || 0;
       
-      // FÓRMULA CORREGIDA
+      //la formula
       const consumo = (inicial + entrada - devolucion) - final;
       usoReal.set(ingredienteId, consumo);
       const nombreIng = ingredientesMap.get(ingredienteId) || 'Desconocido';

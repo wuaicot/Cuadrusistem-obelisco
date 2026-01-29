@@ -99,8 +99,10 @@ function IngredienteTabla({
     <div className="block bg-black border-l border-t border-black">
       <div className="grid grid-cols-planilla">
         {/* Row 1: Headers */}
-        <div className="border-r border-b border-black bg-white"></div> {/* Top-left spacer */}
-        <div className="border-r border-b border-black bg-white"></div> {/* Segment header spacer */}
+        <div className="border-r border-b border-black bg-white"></div>{" "}
+        {/* Top-left spacer */}
+        <div className="border-r border-b border-black bg-white"></div>{" "}
+        {/* Segment header spacer */}
         {NUMEROS_PLANILLA.map((num) => (
           <div
             key={num}
@@ -113,50 +115,52 @@ function IngredienteTabla({
             )}
           </div>
         ))}
-
         {/* Data Rows */}
         <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-bold text-center text-base sm:text-lg [writing-mode:vertical-lr] rotate-180">
           {nombreVisible}
         </div>
-
         {/* This creates the segment labels and all tablillas in a flat structure */}
         {SEGMENTOS.flatMap((segmento) => {
           const segmentoKey = segmento.replace(" ", "_");
           return [
-          // Segment Label Cell
-          <div
-            key={segmento}
-            className="h-14 sm:h-16 w-28 sm:w-40 flex flex-col items-center justify-center border-r border-b border-black bg-white text-center font-bold text-sm sm:text-base p-1"
-          >
-            <div>
-              {segmento.split(" ").map((line, i) => (
-                <span key={i} className="block">{line}</span>
-              ))}
-            </div>
-            <span className="mt-1 bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
-              {tablaState[segmentoKey]?.total || 0}
-            </span>
-          </div>,
-          // 19 Tablilla cells for the current segment
-          ...NUMEROS_PLANILLA.map((num) => (
-            <div key={`${segmento}-${num}`} className="border-r border-b border-black bg-white">
-              <Tablilla
-                isSelected={
-                  tablaState[segmentoKey]?.selectedNumbers.includes(
-                    num
-                  ) || false
-                }
-                onClick={() => handleNumberToggle(segmento, num)}
-                disabled={isSaving}
-              />
-            </div>
-          )),
-        ]})}
+            // Segment Label Cell
+            <div
+              key={segmento}
+              className="h-14 sm:h-16 w-28 sm:w-40 flex flex-col items-center justify-center border-r border-b border-black bg-white text-center font-bold text-sm sm:text-base p-1"
+            >
+              <div>
+                {segmento.split(" ").map((line, i) => (
+                  <span key={i} className="block">
+                    {line}
+                  </span>
+                ))}
+              </div>
+              <span className="mt-1 bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                {tablaState[segmentoKey]?.total || 0}
+              </span>
+            </div>,
+            // 19 Tablilla cells for the current segment
+            ...NUMEROS_PLANILLA.map((num) => (
+              <div
+                key={`${segmento}-${num}`}
+                className="border-r border-b border-black bg-white"
+              >
+                <Tablilla
+                  isSelected={
+                    tablaState[segmentoKey]?.selectedNumbers.includes(num) ||
+                    false
+                  }
+                  onClick={() => handleNumberToggle(segmento, num)}
+                  disabled={isSaving}
+                />
+              </div>
+            )),
+          ];
+        })}
       </div>
     </div>
   );
 }
-
 
 // ============================================================================
 // // Main Component: PlanillaGrid (The page container)
@@ -228,7 +232,9 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
       return;
     }
     if (!fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      setSaveError("Por favor, complete todos los campos: Fecha, Turno y Local.");
+      setSaveError(
+        "Por favor, complete todos los campos: Fecha, Turno y Local.",
+      );
       return;
     }
     setIsSaving(true);
@@ -269,10 +275,10 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
       setIsSaving(false);
     }
   };
-  
+
   if (isLoading) return <p className="p-4 text-center">Cargando...</p>;
   if (error) return <p className="p-4 text-center text-red-500">{error}</p>;
-  
+
   // Guard against rendering if tipo is not valid (double check)
   if (tipo !== "COCINA" && tipo !== "CAJA") {
     return null; // or a more specific error component
@@ -290,20 +296,73 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         <div className="p-4 mb-4 bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
-                <label className="block font-medium text-gray-700 mb-1" htmlFor="fechaPlanilla">Fecha</label>
-                <input type="date" id="fechaPlanilla" value={fechaOperacion} onChange={(e) => setFechaOperacion(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving} required />
+              <label
+                className="block font-medium text-gray-700 mb-1"
+                htmlFor="fechaPlanilla"
+              >
+                Fecha
+              </label>
+              <input
+                type="date"
+                id="fechaPlanilla"
+                value={fechaOperacion}
+                onChange={(e) => setFechaOperacion(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                disabled={isSaving}
+                required
+              />
             </div>
             <div>
-                <label className="block font-medium text-gray-700 mb-1" htmlFor="turnoPlanilla">Turno</label>
-                <select id="turnoPlanilla" value={selectedTurnoId} onChange={(e) => setSelectedTurnoId(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving || turnos.length === 0} required>
-                    {turnos.length === 0 ? <option>Cargando...</option> : turnos.map(t => <option key={t.id} value={t.id}>{t.tipo} ({t.fecha})</option>)}
-                </select>
+              <label
+                className="block font-medium text-gray-700 mb-1"
+                htmlFor="turnoPlanilla"
+              >
+                Turno
+              </label>
+              <select
+                id="turnoPlanilla"
+                value={selectedTurnoId}
+                onChange={(e) => setSelectedTurnoId(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                disabled={isSaving || turnos.length === 0}
+                required
+              >
+                {turnos.length === 0 ? (
+                  <option>Cargando...</option>
+                ) : (
+                  turnos.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.tipo} ({t.fecha})
+                    </option>
+                  ))
+                )}
+              </select>
             </div>
             <div>
-                <label className="block font-medium text-gray-700 mb-1" htmlFor="localPlanilla">Local</label>
-                <select id="localPlanilla" value={selectedLocalId} onChange={(e) => setSelectedLocalId(e.target.value)} className="w-full p-2 border border-gray-300 rounded-md" disabled={isSaving || locales.length === 0} required>
-                    {locales.length === 0 ? <option>Cargando...</option> : locales.map(l => <option key={l.id} value={l.id}>{l.nombre}</option>)}
-                </select>
+              <label
+                className="block font-medium text-gray-700 mb-1"
+                htmlFor="localPlanilla"
+              >
+                Local
+              </label>
+              <select
+                id="localPlanilla"
+                value={selectedLocalId}
+                onChange={(e) => setSelectedLocalId(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                disabled={isSaving || locales.length === 0}
+                required
+              >
+                {locales.length === 0 ? (
+                  <option>Cargando...</option>
+                ) : (
+                  locales.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.nombre}
+                    </option>
+                  ))
+                )}
+              </select>
             </div>
           </div>
         </div>
@@ -322,11 +381,23 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         </div>
 
         <footer className="mt-6">
-          <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400" disabled={isSaving}>
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+            disabled={isSaving}
+          >
             {isSaving ? "Guardando..." : "Guardar Planilla"}
           </button>
-          {saveSuccess && <div className="mt-3 p-3 text-sm bg-green-100 text-green-800 rounded-lg">{saveSuccess}</div>}
-          {saveError && <div className="mt-3 p-3 text-sm bg-red-100 text-red-800 rounded-lg">{saveError}</div>}
+          {saveSuccess && (
+            <div className="mt-3 p-3 text-sm bg-green-100 text-green-800 rounded-lg">
+              {saveSuccess}
+            </div>
+          )}
+          {saveError && (
+            <div className="mt-3 p-3 text-sm bg-red-100 text-red-800 rounded-lg">
+              {saveError}
+            </div>
+          )}
         </footer>
       </form>
     </div>
