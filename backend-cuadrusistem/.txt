@@ -1,4 +1,46 @@
-TRUNCATE TABLE reporte_z CASCADE;
+nombre de archivo: z cutted
+--- Ventas Extraídas del Reporte Z ---
+  Código: 4207, Cantidad: 1
+  Código: 4224, Cantidad: 1
+  Código: 0101, Cantidad: 3
+  Código: 0102, Cantidad: 1
+  Código: 0110, Cantidad: 31
+  Código: 0205, Cantidad: 1
+  Código: 0301, Cantidad: 4
+  Código: 0508, Cantidad: 1
+  Código: 0703, Cantidad: 1
+  Código: 0901, Cantidad: 1
+  Código: 1019, Cantidad: 1
+  Código: 1901, Cantidad: 1
+  Código: 2302, Cantidad: 1
+  Código: 2303, Cantidad: 1
+  Código: 2316, Cantidad: 2
+  Código: 2801, Cantidad: 2
+  Código: 2803, Cantidad: 3
+  Código: 2811, Cantidad: 1
+  Código: 2812, Cantidad: 1
+  Código: 3901, Cantidad: 2
+  Código: 3903, Cantidad: 1
+  Código: 3904, Cantidad: 1
+  Código: 4024, Cantidad: 4
+  Código: 4029, Cantidad: 2
+  Código: 4031, Cantidad: 3
+  Código: 4033, Cantidad: 2
+  Código: 4037, Cantidad: 1
+  Código: 4874, Cantidad: 1
+  Código: 3508, Cantidad: 1
+  Código: 3505, Cantidad: 2
+  Código: 3611, Cantidad: 1
+  Código: 3615, Cantidad: 2
+  Código: 3617, Cantidad: 4
+  Código: 3623, Cantidad: 2
+  Código: 3625, Cantidad: 1
+  Código: 3628, Cantidad: 2
+------------------------------------
+  
+  
+  
+  TRUNCATE TABLE reporte_z CASCADE;
 TRUNCATE TABLE planillas CASCADE;
 Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST
 tree /F src

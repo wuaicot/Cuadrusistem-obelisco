@@ -64,6 +64,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       ('Carne lomo pers.', 'COCINA', 'unidades'),
       ('Hamburg KING K', 'COCINA', 'unidades'),
       ('Carne para As Gig.', 'COCINA', 'unidades'),
+      ('Colacion Administrad', 'COCINA', 'unidades'),
       ('Champi;ones', 'COCINA', 'unidades'),
       ('Chorizo', 'COCINA', 'unidades'),
       ('Choclo', 'COCINA', 'unidades'),

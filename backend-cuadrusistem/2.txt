@@ -1,0 +1,47 @@
+nombre del archivo: reporteZ-mitad
+--- Ventas Extraídas del Reporte Z ---
+  Código: 4221, Cantidad: 3
+  Código: 4239, Cantidad: 1
+  Código: 4306, Cantidad: 12
+  Código: 4401, Cantidad: 17
+  Código: 4407, Cantidad: 4
+  Código: 4501, Cantidad: 4
+  Código: 4601, Cantidad: 2
+  Código: 4869, Cantidad: 5
+  Código: 9102, Cantidad: 4
+  Código: 0103, Cantidad: 1
+  Código: 0203, Cantidad: 3
+  Código: 0301, Cantidad: 7
+  Código: 0383, Cantidad: 1
+  Código: 0502, Cantidad: 1
+  Código: 0508, Cantidad: 1
+  Código: 1206, Cantidad: 1
+  Código: 1582, Cantidad: 1
+  Código: 1503, Cantidad: 1
+  Código: 1618, Cantidad: 1
+  Código: 1901, Cantidad: 1
+  Código: 1903, Cantidad: 1
+  Código: 1988, Cantidad: 1
+  Código: 2305, Cantidad: 1
+  Código: 2601, Cantidad: 5
+  Código: 2603, Cantidad: 4
+  Código: 2812, Cantidad: 1
+  Código: 3704, Cantidad: 1
+  Código: 3981, Cantidad: 2
+  Código: 3982, Cantidad: 5
+  Código: 3903, Cantidad: 3
+  Código: 4021, Cantidad: 3
+  Código: 4023, Cantidad: 7
+  Código: 4024, Cantidad: 2
+  Código: 4029, Cantidad: 1
+  Código: 4038, Cantidad: 1
+  Código: 4033, Cantidad: 2
+  Código: 4871, Cantidad: 2
+  Código: 4874, Cantidad: 2
+  Código: 3601, Cantidad: 5
+  Código: 3608, Cantidad: 1
+  Código: 3610, Cantidad: 4
+  Código: 3617, Cantidad: 2
+  Código: 3623, Cantidad: 1
+  Código: 3629, Cantidad: 1
+------------------------------------

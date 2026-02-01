@@ -130,7 +130,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR ITA GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
     ],
   },
   "0902": {
@@ -138,7 +138,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR COMP GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
     ],
   },
   "0903": {
@@ -146,71 +146,87 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHUR CHACA GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 1 },
-    ],
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+    ],    
+  },
+  "0904": {
+    codigo: "0904",
+    nombre: "CHUR LUCO GIG",
+    ingredientes: [
+      { nombre: "Pan hallullon", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+    ],    
   },
   "0911": {
     codigo: "0911",
     nombre: "CHUR MEXICANO GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+    ],
+  },
+  "1308": {
+    codigo: "1308",
+    nombre: "LOMO OBELISCO GIG",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo gig.", cantidad: 1 },
     ],
   },
   "1314": {
     codigo: "1314",
     nombre: "LOMO GRAN OBELISCO",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Lomo Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
   "1501": {
     codigo: "1501",
     nombre: "LOMO ITALIANO PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Lomo Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
   "1502": {
     codigo: "1502",
     nombre: "LOMO COMPLETO PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Lomo Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
   "1503": {
     codigo: "1503",
     nombre: "LOMO CHACARE PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Lomo Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
   "1901": {
     codigo: "1901",
     nombre: "POLLO ITALIANO PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Ave Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "1903": {
     codigo: "1903",
     nombre: "POLLO CHACARE PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Ave Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "1908": {
     codigo: "1908",
     nombre: "POLLO OBELISCO PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Ave Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "2109": {
@@ -218,7 +234,25 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "HAMB YORK GIG",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
-      { nombre: "Hamb. Personal", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
+  "2302": {
+    codigo: "2302",
+    nombre: "HAMBURG COMPLETA PER",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },    
+  "2303": {
+    codigo: "2303",
+    nombre: "HAMBURG LUCO PER",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
@@ -227,7 +261,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "HAMBURG LUCO CHAMP P",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
-      { nombre: "Hamb. Personal", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 3 },
     ],
   },
@@ -244,32 +278,56 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "2801",
     nombre: "CHURRASCO ITALIANO PE",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Churrasc Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
     ],
   },
   "2802": {
     codigo: "2802",
     nombre: "CHURRASCO COMPLETO PE",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Churrasc Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
     ],
   },
   "2803": {
     codigo: "2803",
-    nombre: "CHURRASCO CHACARRERO",
+    nombre: "CHURRASCO CHACARERO",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Churrasc Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
+    ],
+  },
+  "2804": {
+    codigo: "2804",
+    nombre: "CHURRASCO LUCO PER",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
+    ],
+  },
+  "2808": {
+    codigo: "2808",
+    nombre: "CHURRASCO OBELISCO P",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
+    ],
+  },
+  "2811": {
+    codigo: "2811",
+    nombre: "CHURRASCO MEXICANO P",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
     ],
   },
   "2812": {
     codigo: "2812",
     nombre: "CHURRASCO AMERICANO PER",
     ingredientes: [
-      { nombre: "Pan FRICAS", cantidad: 1 },
-      { nombre: "Churrasc Personal", cantidad: 1 },
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
     ],
   },
   "3703": {
@@ -302,7 +360,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "CHORRILLANA GRANDE",
     ingredientes: [
       { nombre: "Papas grandes 700gr", cantidad: 1 },
-      { nombre: "Churrasc Gigante", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
       { nombre: "Vienesas doggi", cantidad: 1 },
       { nombre: "Chorizo", cantidad: 2 },
     ],
@@ -310,27 +368,44 @@ export const MENUS: Record<string, MenuDef> = {
   "4023": {
     codigo: "4023",
     nombre: "CARNE MECHADA C ARRO",
-    ingredientes: [{ nombre: "Porcion Mechada", cantidad: 1 }],
+    ingredientes: [{ nombre: "Carne Mechada", cantidad: 1 }      
+    ],
   },
   "4024": {
     codigo: "4024",
     nombre: "CARNE MECHADA C PAPA",
-    ingredientes: [{ nombre: "Porcion Mechada", cantidad: 1 }],
+    ingredientes: [{ nombre: "Carne Mechada", cantidad: 1 }      
+    ],
   },
   "4029": {
     codigo: "4029",
     nombre: "PESCADO/ESCALO/ARROZ",
-    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }],
+    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }      
+    ],
   },
   "4030": {
     codigo: "4030",
     nombre: "PESCA/ESCALO/ENSALAD",
-    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }],
+    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }      
+    ],
   },
   "4031": {
     codigo: "4031",
     nombre: "PESCA/ESCALO/PAPAS",
-    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }],
+    ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }      
+    ],
+  },
+  "4033": {
+    codigo: "4033",
+    nombre: "COLACION ADMINISTRAD",
+    ingredientes: [{ nombre: "Colacion Administrad", cantidad: 1 }      
+    ],
+  },
+  "4037": {
+    codigo: "4037",
+    nombre: "CHULETAS PAPAS FRITAS",
+    ingredientes: [{ nombre: "Chuleta", cantidad: 1 }      
+    ],
   },
   "4871": {
     codigo: "4871",
@@ -339,47 +414,83 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Vienesas personal", cantidad: 1 },
     ],
   },
+  "4872": {
+    codigo: "4872",
+    nombre: "COM GIG+PAPAS",
+    ingredientes: [{ nombre: "Pan mesa Gigante", cantidad: 1 },
+        { nombre: "Vienesas doggi", cantidad: 1 },
+    ],
+  },  
+  "4874": {
+    codigo: "4874",
+    nombre: "HAMB+PPS+BEBIDA",
+    ingredientes: [{ nombre: "Pan Brioche 12", cantidad: 1 },
+        { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+        { nombre: "Papas personal 150gr", cantidad: 1 },
+    ],
+  },
+  "4875": {
+    codigo: "4875",
+    nombre: "LOMOPER+PPS+BEBIDA",
+    ingredientes: [{ nombre: "Pan fricas", cantidad: 1 },
+        { nombre: "Carne lomo pers.", cantidad: 1 },
+    ],
+  },
   "4896": {
     codigo: "4896",
     nombre: "LOMO PERSONAL ITALIA",
     ingredientes: [{ nombre: "Pan mesa Personal", cantidad: 1 },
-        { nombre: "Lomo Personal", cantidad: 1 },
+        { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
   "5201": {
     codigo: "5201",
     nombre: "WRAP POLLO CLASICO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
     ],
   },
   "5203": {
     codigo: "5203",
     nombre: "WRAP MEXICACO POLLO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
     ],
   },
   "5205": {
     codigo: "5205",
     nombre: "WRAP MEXICANO MIXTO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },
         { nombre: "Carne para As Gig.", cantidad: 0.5 },
-    ],
+    ],    
   },
+  "5206": {
+    codigo: "5206",
+    nombre: "WRAP CLASICO CARNE",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne para As Gig.", cantidad: 1 },
+    ],    
+  },  
   "5208": {
     codigo: "5208",
     nombre: "WRAP AMERICANO POLLO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
+    ],
+  },
+  "5209": {
+    codigo: "5209",
+    nombre: "WRAP AMERICANO CARNE",
+    ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
+        { nombre: "Carne para As Gig.", cantidad: 1 },
     ],
   },
   "5210": {
     codigo: "5210",
     nombre: "WRAP AMERICANO MIXTO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },
         { nombre: "Carne para As Gig.", cantidad: 0.5 },
     ],
   },
@@ -526,7 +637,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "EMPANADA POLLO QUESO",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Carne Ave Personal", cantidad: 0.5 },      
+      { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },      
       { nombre: "Queso laminado", cantidad: 2, }      
     ],
   },
@@ -535,7 +646,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "EMP CARNE QUESO",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Carne para As Gig.", cantidad: 1 },      
+      { nombre: "Carne para As Gig.", cantidad: 0.5 },      
       { nombre: "Champiñones", cantidad: 1, },      
     ],
   },
