@@ -188,6 +188,13 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne churrasco gig", cantidad: 1 },
     ],
   },
+  "1019": {
+    codigo: "1019",
+    nombre: "EXTRA CARNE GIGANTE",
+    ingredientes: [      
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+    ],
+  },
   "1308": {
     codigo: "1308",
     nombre: "LOMO OBELISCO GIG",
