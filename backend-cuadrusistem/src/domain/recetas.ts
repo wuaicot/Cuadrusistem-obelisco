@@ -76,13 +76,20 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas personal", quantity: 1 } as any,
     ],
   },
-
+  "0110": {
+    codigo: "0110",
+    nombre: "COM CHACARERO PERSON",
+    ingredientes: [
+      { nombre: "Pan mesa Personal", cantidad: 1 },
+      { nombre: "Vienesas personal", quantity: 1 } as any,
+    ],
+  },
   "0301": {
     codigo: "0301",
-    nombre: "COM ITALIANO GIGANTE",
+    nombre: "DELIVERY      APP",
     ingredientes: [
-      { nombre: "Pan mesa Gigante", cantidad: 1 },
-      { nombre: "Vienesas doggi", cantidad: 1 },
+      { nombre: "DELIVERY      APP", cantidad: 1 },
+      
     ],
   },
   "0302": {
@@ -365,6 +372,16 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Chorizo", cantidad: 2 },
     ],
   },
+  "3904": {
+    codigo: "3904",
+    nombre: "CHORRILLANA PERSONAL",
+    ingredientes: [
+      { nombre: "Papas personal 350gr", cantidad: 1 },
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Vienesas personal", cantidad: 1 },
+      { nombre: "Chorizo", cantidad: 2 },
+    ],
+  },
   "4023": {
     codigo: "4023",
     nombre: "CARNE MECHADA C ARRO",
@@ -541,7 +558,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     ],
   },
   "3605": {
-    codigo: "3805",
+    codigo: "3605",
     nombre: "EMP NAPOLETANA FRITA",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },      
