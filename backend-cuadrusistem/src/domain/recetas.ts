@@ -84,6 +84,14 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas personal", quantity: 1 } as any,
     ],
   },
+  "0205": {
+    codigo: "0205",
+    nombre: "+HUEVO",
+    ingredientes: [
+      { nombre: "+HUEVO", cantidad: 1 },
+      
+    ],
+  },
   "0301": {
     codigo: "0301",
     nombre: "DELIVERY      APP",
@@ -341,7 +349,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "3703",
     nombre: "ENSALADA MIX",
     ingredientes: [
-      { nombre: "Ave Gigante", cantidad: 0.5 },  
+      { nombre: "Carne Ave Personal", cantidad: 0.5 },  
       { nombre: "Carne para As Gig.", cantidad: 0.5 },     
     ],
   },
@@ -349,7 +357,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "3704",
     nombre: "ENSALADA AVE",
     ingredientes: [
-      { nombre: "Ave Gigante", cantidad: 1 },      
+      { nombre: "Carne Ave .Gigante", cantidad: 1 },      
     ],
   },
   "3901": {
@@ -464,21 +472,21 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "5201",
     nombre: "WRAP POLLO CLASICO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "5203": {
     codigo: "5203",
     nombre: "WRAP MEXICACO POLLO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "5205": {
     codigo: "5205",
     nombre: "WRAP MEXICANO MIXTO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne Ave Personal", cantidad: 0.5 },
         { nombre: "Carne para As Gig.", cantidad: 0.5 },
     ],    
   },
@@ -493,7 +501,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "5208",
     nombre: "WRAP AMERICANO POLLO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Carne Ave Personal", cantidad: 1 },
+        { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
   "5209": {
@@ -507,7 +515,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "5210",
     nombre: "WRAP AMERICANO MIXTO",
     ingredientes: [{ nombre: "Tortilla De Wrap", cantidad: 1 },
-        { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },
+        { nombre: "Carne Ave Personal", cantidad: 0.5 },
         { nombre: "Carne para As Gig.", cantidad: 0.5 },
     ],
   },
@@ -654,7 +662,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "EMPANADA POLLO QUESO",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Carne Carne Ave Personal", cantidad: 0.5 },      
+      { nombre: "Carne Ave Personal", cantidad: 0.5 },      
       { nombre: "Queso laminado", cantidad: 2, }      
     ],
   },
