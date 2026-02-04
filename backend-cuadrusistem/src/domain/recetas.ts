@@ -33,7 +33,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
   "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
   "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
-  "4428": { codigo: "4428", nombre: "BEBIDA 1 1/5", unidad: "unidad" },
+  "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
   "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
   "4601": { codigo: "4601", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
   "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
@@ -88,7 +88,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "0205",
     nombre: "+HUEVO",
     ingredientes: [
-      { nombre: "+HUEVO", cantidad: 1 },
+      { nombre: "Huevos", cantidad: 1 },
       
     ],
   },
@@ -115,13 +115,13 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Vienesas doggi", cantidad: 1 },
     ],
-  },
-  "0502": {
-    codigo: "0502",
-    nombre: "COM COMPLETO SUPER",
+  },  
+  "0304": {
+    codigo: "0304",
+    nombre: "COM VEGE GIGANTE",
     ingredientes: [
-      { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
-      { nombre: "Vienesas personal", cantidad: 1 },
+      { nombre: "Pan mesa Gigante", cantidad: 1 },
+      { nombre: "Vienesas doggi", cantidad: 1 },
     ],
   },
   "0508": {
@@ -129,7 +129,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "COM ITALIANO SUPER",
     ingredientes: [
       { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
-      { nombre: "Vienesas personal", cantidad: 1 },
+      { nombre: "Vienesas personal", cantidad: 2 },
     ],
   },
   "0701": {
@@ -193,6 +193,13 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "EXTRA CARNE GIGANTE",
     ingredientes: [      
       { nombre: "Carne churrasco gig", cantidad: 1 },
+    ],
+  },
+  "1201": {
+    codigo: "1201",
+    nombre: "+PALTA",
+    ingredientes: [      
+      { nombre: "Paltas", cantidad: 1 },
     ],
   },
   "1308": {
