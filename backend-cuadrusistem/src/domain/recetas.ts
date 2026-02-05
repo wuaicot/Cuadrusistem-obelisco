@@ -35,7 +35,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
   "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
   "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
-  "4601": { codigo: "4601", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
+  "4601": { codigo: "4601", nombre: "CAFE GRANDE", unidad: "unidad" },
   "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
   "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
   //Continuarà...
