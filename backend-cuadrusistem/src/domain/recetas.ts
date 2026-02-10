@@ -121,7 +121,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "COM VEGE GIGANTE",
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
-      { nombre: "Vienesas doggi", cantidad: 1 },
+            
     ],
   },
   "0508": {
@@ -707,6 +707,13 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
   "4030": {
     codigo: "4030",
     nombre: "PESCA/ESCALO/ENSALAD",
+    ingredientes: [
+      { nombre: "Pangasius", cantidad: 1 },            
+    ],
+  },
+  "4031": {
+    codigo: "4031",
+    nombre: "PESCA/ESCALO/ARROZ",
     ingredientes: [
       { nombre: "Pangasius", cantidad: 1 },            
     ],
