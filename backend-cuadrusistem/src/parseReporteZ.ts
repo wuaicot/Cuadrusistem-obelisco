@@ -7,7 +7,8 @@
  * - Leer línea por línea, de izquierda a derecha
  * - Extraer SOLO:
  *    - código de producto
- *    - cantidad vendida
+ *    - nombre de producto (debe coincidir con el código)
+ *    - cantidad vendida (imprecindible debe ser muy acertado, es la base de todo el proceso)
  *
  * Salida:
  *   Map<codigoProducto, cantidadVendida>

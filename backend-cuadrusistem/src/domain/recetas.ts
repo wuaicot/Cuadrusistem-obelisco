@@ -1,4 +1,5 @@
-export type IngredienteDef = {
+ // recetas.ts
+ export type IngredienteDef = {
   nombre: string;
   cantidad: number;
   unidad?: string;
