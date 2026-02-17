@@ -1,4 +1,3 @@
- // recetas.ts
  export type IngredienteDef = {
   nombre: string;
   cantidad: number;
@@ -698,26 +697,6 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
       { nombre: "Champiñones", cantidad: 1, },      
     ],
   },
-  "4029": {
-    codigo: "4029",
-    nombre: "PESCADO/ESCAL/ARROZ",
-    ingredientes: [
-      { nombre: "Pangasius", cantidad: 1 },            
-    ],
-  },
-  "4030": {
-    codigo: "4030",
-    nombre: "PESCA/ESCALO/ENSALAD",
-    ingredientes: [
-      { nombre: "Pangasius", cantidad: 1 },            
-    ],
-  },
-  "4031": {
-    codigo: "4031",
-    nombre: "PESCA/ESCALO/ARROZ",
-    ingredientes: [
-      { nombre: "Pangasius", cantidad: 1 },            
-    ],
-  },
+  
   //Continuarà...
 };
