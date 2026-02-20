@@ -1,4 +1,4 @@
-import { createWorker, Worker } from 'tesseract.js';
+import { createWorker, Worker, PSM } from 'tesseract.js';
 
 let workerPromise: Promise<Worker> | null = null;
 
@@ -8,7 +8,7 @@ export async function getOCRWorker(): Promise<Worker> {
       const worker = await createWorker('spa');
 
       await worker.setParameters({
-        tessedit_pageseg_mode: '6',
+        tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
         preserve_interword_spaces: '1',
         tessedit_char_whitelist:
           '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,-',
