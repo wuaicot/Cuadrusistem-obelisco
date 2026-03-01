@@ -5,7 +5,7 @@ import fs from 'fs';
 import crypto from 'crypto';
 import chalk from 'chalk';
 
-import { getOCRWorker } from '../ocr/ocrWorker';
+import { runOcr } from '../ocr/ocrWorker';
 import { preprocessTicket } from '../ocr/preprocess';
 import { parseReporteZ } from '../parseReporteZ';
 import db from '../db';
@@ -54,8 +54,8 @@ router.get('/', async (req: Request, res: Response) => {
     query += ` ORDER BY r."fechaOperacion" DESC, r."created_at" DESC;`;
 
     const { rows } = await db.query(query);
-
     res.status(200).json(rows);
+
   } catch (err) {
     console.error(chalk.red('Error fetching Reporte Z'), err);
     res.status(500).json({ message: 'Error fetching Reporte Z' });
@@ -81,17 +81,17 @@ router.post(
       /* =========================
          OCR
       ========================= */
-      const worker = await getOCRWorker();
-
       console.log(chalk.yellow('Preprocessing image...'));
-      const processedPath = await preprocessTicket(req.file.path);
+      const originalBuffer = fs.readFileSync(req.file.path);
+      const processedBuffer = await preprocessTicket(originalBuffer);
 
       console.log(chalk.yellow('Running OCR...'));
-      const {
-        data: { text: textoExtraido }
-      } = await worker.recognize(processedPath);
+      const textoExtraido = await runOcr(processedBuffer);
 
       console.log(chalk.green('OCR OK'));
+      console.log(chalk.gray('--- Texto OCR Bruto ---'));
+      console.log(textoExtraido || '(Texto vacío)');
+      console.log(chalk.gray('-----------------------'));
 
       /* =========================
          PARSE
@@ -99,6 +99,7 @@ router.post(
       console.log(chalk.yellow('Parsing OCR text...'));
 
       const ventasMap = parseReporteZ(textoExtraido);
+
       const ventasArray = Array.from(ventasMap.entries()).map(
         ([codigo, cantidad]) => ({ codigo, cantidad })
       );
@@ -153,6 +154,7 @@ router.post(
         message: `Reporte Z procesado y guardado exitosamente con ID: ${id}.`,
         reporteZId: id
       });
+
     } catch (error: any) {
       if (
         error.code === '23505' &&

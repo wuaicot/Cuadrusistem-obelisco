@@ -1,4 +1,4 @@
- export type IngredienteDef = {
+export type IngredienteDef = {
   nombre: string;
   cantidad: number;
   unidad?: string;
@@ -42,7 +42,6 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
   //Continuarà...
 };
-
 
 
 export const MENUS: Record<string, MenuDef> = {
@@ -879,3 +878,9 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
   
   //Continuarà...
 };
+
+export const recetas: (MenuDef | BebestibleDef)[] = [
+  ...Object.values(BEBESTIBLES),
+  ...Object.values(MENUS),
+  ...Object.values(EMPANADAS),
+];

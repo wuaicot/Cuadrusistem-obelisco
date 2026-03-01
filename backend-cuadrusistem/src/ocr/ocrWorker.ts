@@ -1,24 +1,25 @@
-import { createWorker, Worker, PSM } from 'tesseract.js';
+import { createWorker } from 'tesseract.js';
 
-let workerPromise: Promise<Worker> | null = null;
+/**
+ * Crea y configura un worker de Tesseract para cada proceso de OCR.
+ */
+export async function getOcrWorker() {
+  const worker = await createWorker('spa');
 
-export async function getOCRWorker(): Promise<Worker> {
-  if (!workerPromise) {
-    workerPromise = (async () => {
-      const worker = await createWorker('spa');
+  await worker.setParameters({
+    // @ts-ignore - Tesseract.js acepta números para PSM
+    tessedit_pageseg_mode: 6, // Bloque uniforme: más flexible que el modo 4 para capturar TODAS las líneas.
+    preserve_interword_spaces: '1',
+  });
 
-      await worker.setParameters({
-        tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-        preserve_interword_spaces: '1',
-        tessedit_char_whitelist:
-          '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz .,-',
-      });
-
-      return worker;
-    })();
-  }
-
-  return workerPromise;
+  return worker;
 }
 
-// npm install tesseract.js
+export async function runOcr(buffer: Buffer): Promise<any> {
+  const w = await getOcrWorker();
+  const result = await w.recognize(buffer);
+  
+  await w.terminate();
+  
+  return result.data.text;
+}

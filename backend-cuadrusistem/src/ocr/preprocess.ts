@@ -1,14 +1,16 @@
 import sharp from 'sharp';
 
-export async function preprocessTicket(inputPath: string): Promise<string> {
-  const outputPath = inputPath + '_processed.png';
-
-  await sharp(inputPath)
+/**
+ * Pre-procesa la imagen del reporte Z optimizado para tickets térmicos.
+ */
+export async function preprocessTicket(imageBuffer: Buffer): Promise<Buffer> {
+  const image = sharp(imageBuffer);
+  
+  return await image
     .grayscale()
     .normalize()
-    .threshold(150)
-    .toFile(outputPath);
-
-  return outputPath;
+    .median(3) // Elimina puntos de ruido "sal y pimienta" del papel térmico
+    .linear(1.3, -0.1) // Un poco más de contraste pero controlado
+    .resize({ width: 1400 }) // Tamaño equilibrado
+    .toBuffer();
 }
-// npm install sharp
