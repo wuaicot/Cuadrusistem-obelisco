@@ -1,45 +1,34 @@
-4207 → 1
-4224 → 1
-4306 → 1
-4401 → 2
-4426 → 2
-0101 → 1
-0102 → 1
-0110 → 4
-0205 → 1
-0301 → 4
-0304 → 1
-0508 → 1
-0703 → 1
-0901 → 1
-1019 → 1
-1201 → 1
-1901 → 1
-2302 → 1
-2303 → 1
-2316 → 2
-4601 → 2
-2803 → 3
-2811 → 1
-2812 → 1
-3703 → 1
-3901 → 2
-3903 → 1
-3904 → 1
-4024 → 4
-4029 → 2
-4031 → 3
-4033 → 2
-4037 → 1
-4874 → 1
-3508 → 3
-2801 → 6
-3611 → 1
-3615 → 2
-3617 → 4
-3623 → 2
-3625 → 1
-3628 → 2
+'AUSTRAL LATA 1/2', 
+      'ESCUDO LITRO', 
+      'ROYAL LITRO', 
+      'BOTELLIN CRISTAL', 
+      'BOTELLIN TOROBAYO', 
+      'HEINEKEN LATA',       
+      'ESCUDO LATA 1/2', 
+      'CRISTAL LATA 1/2', 
+      'CRISTAL LITRO',
+      'SCHOP QUILMES 500CC', 
+      'SCHOP CISTAL 500CC',
+      'BOTELLIN HEINEKEN', 
+      'CERVEZA SOL BOTELLIN', 
+      'SHOP CRISTAL 500CC', 
+      'HEINEKEN LATA 1/2', 
+      'BOTELLIN ROYAL', 
+      'ROYAL LATA 1/2', 
+      'STELLA LITRO 1LT', 
+      'PITCHER QUILMES 1.5', 
+      'CORONA BOTELLIN', 
+      'COCA COLA LATA', 
+      'MONSTER BEBIDA ENERG', 
+      'COCA COLA 591CC', 
+      'VITAL SIN GAS', 
+      'VITAL 1 1/2', 
+      'BBIDA 1 1/5', 
+      'NECTAR IND', 
+      'CAFE GRANDE', 
+      'TE GRANDE', 
+      'PROMO SCHOP 2X1',
+      'DELIVERY      APP'
 
   
   TRUNCATE TABLE reporte_z CASCADE;  
