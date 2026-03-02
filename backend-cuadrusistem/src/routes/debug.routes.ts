@@ -1,3 +1,4 @@
+// backend-cuadrusistem/src/routes/debug.routes.ts
 import { Router, Request, Response } from 'express';
 import db from '../db';
 import chalk from 'chalk';
