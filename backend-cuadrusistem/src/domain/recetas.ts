@@ -675,7 +675,7 @@ export const MENUS: Record<string, MenuDef> = {
   },
   "4029": {
     codigo: "4029",
-    nombre: "PESCADO/ESCALO/ARROZ",
+    nombre: "PESCADO/ESCAL/ARROZ",
     ingredientes: [{ nombre: "Pangasiu", cantidad: 1 }      
     ],
   },
