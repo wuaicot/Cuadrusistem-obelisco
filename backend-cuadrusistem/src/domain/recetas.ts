@@ -32,10 +32,12 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4246": { codigo: "4246", nombre: "CORONA BOTELLIN", unidad: "unidad" },
   "4306": { codigo: "4306", nombre: "COCA COLA LATA", unidad: "unidad" },
   "4314": { codigo: "4314", nombre: "MONSTER BEBIDA ENERG", unidad: "unidad" },
+  "4313": { codigo: "4313", nombre: "JUGO NATURAL", unidad: "unidad" },
   "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
   "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
   "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
   "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
+  "4504": { codigo: "4504", nombre: "NECTAR 1 1/2", unidad: "unidad" },
   "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
   "4601": { codigo: "4601", nombre: "CAFE GRANDE", unidad: "unidad" },
   "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
@@ -104,6 +106,14 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "+HUEVO",
     ingredientes: [
       { nombre: "Huevos", cantidad: 2 },
+      
+    ],
+  },
+  "0211": {
+    codigo: "0211",
+    nombre: "+QUESO",
+    ingredientes: [
+      { nombre: "Queso laminado", cantidad: 3 },
       
     ],
   },
@@ -279,6 +289,13 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "+PALTA",
     ingredientes: [      
       { nombre: "Paltas", cantidad: 1 },
+    ],
+  },
+  "1211": {
+    codigo: "1211",
+    nombre: "+QUESO",
+    ingredientes: [      
+      { nombre: "Queso laminado", cantidad: 3 },
     ],
   },
   "1302": {
@@ -588,8 +605,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "3703",
     nombre: "ENSALADA MIX",
     ingredientes: [
-      { nombre: "Carne Ave Personal", cantidad: 0.5 },  
-      { nombre: "Carne churrasco pers.", cantidad: 0.5 },     
+      { nombre: "", cantidad: 0 }   
     ],
   },
   "3704": {
@@ -719,6 +735,13 @@ export const MENUS: Record<string, MenuDef> = {
   "4896": {
     codigo: "4896",
     nombre: "LOMO PERSONAL ITALIA",
+    ingredientes: [{ nombre: "Pan mesa Personal", cantidad: 1 },
+        { nombre: "Carne lomo pers.", cantidad: 1 },
+    ],
+  },
+  "5302": {
+    codigo: "5302",
+    nombre: "TOSTADAS JAMON HUEVO",
     ingredientes: [{ nombre: "Pan mesa Personal", cantidad: 1 },
         { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
@@ -863,7 +886,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     nombre: "EMP PINO MARISCO FRI",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },      
-      { nombre: "Porcion Pino Carne", cantidad: 1 },
+      { nombre: "Porcion Pino Marisco", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 2, },      
     ],
   },

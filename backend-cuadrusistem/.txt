@@ -1,31 +1,35 @@
-"4101": { codigo: "4101", nombre: "AUSTRAL LATA 1/2", unidad: "unidad" },
-  "4202": { codigo: "4202", nombre: "ESCUDO LITRO", unidad: "unidad" },
-  "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
-  "4207": { codigo: "4207", nombre: "BOTELLIN CRISTAL", unidad: "unidad" },
-  "4211": { codigo: "4211", nombre: "BOTELLIN TOROBAYO", unidad: "unidad" },
-  "4217": { codigo: "4217", nombre: "HEINEKEN LATA", unidad: "unidad" },
-  "4219": { codigo: "4219", nombre: "ESCUDO LATA 1/2", unidad: "unidad" },
-  "4220": { codigo: "4220", nombre: "CRISTAL LATA 1/2", unidad: "unidad" },
-  "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500CC", unidad: "unidad" },  
-  "4224": { codigo: "4224", nombre: "BOTELLIN HEINEKEN", unidad: "unidad" },
-  "4228": { codigo: "4228", nombre: "CERVEZA SOL BOTELLIN", unidad: "unidad" },
-  "4230": { codigo: "4230", nombre: "SHOP CRISTAL 500CC", unidad: "unidad" },
-  "4232": { codigo: "4232", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
-  "4233": { codigo: "4233", nombre: "BOTELLIN ROYAL", unidad: "unidad" },  
-  "4239": { codigo: "4239", nombre: "ROYAL LATA 1/2", unidad: "unidad" },
-  "4240": { codigo: "4240", nombre: "STELLA LITRO 1LT", unidad: "unidad" },
-  "4245": { codigo: "4245", nombre: "PITCHER QUILMES 1.5", unidad: "unidad" },
-  "4246": { codigo: "4246", nombre: "CORONA BOTELLIN", unidad: "unidad" },
-  "4306": { codigo: "4306", nombre: "COCA COLA LATA", unidad: "unidad" },
-  "4314": { codigo: "4314", nombre: "MONSTER BEBIDA ENERG", unidad: "unidad" },
-  "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
-  "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
-  "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
-  "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
-  "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
-  "4601": { codigo: "4601", nombre: "CAFE GRANDE", unidad: "unidad" },
-  "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
-  "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
+--- Ventas Z ---
+4224 → 1
+4230 → 1
+4306 → 17
+4313 → 2
+4401 → 7
+4407 → 2
+4426 → 1
+4428 → 1
+4501 → 1
+4504 → 1
+0102 → 2
+0110 → 47
+0201 → 1
+0301 → 6
+2305 → 1
+0508 → 2
+0901 → 1
+0904 → 1
+1901 → 1
+3704 → 1
+3901 → 2
+3902 → 4
+3903 → 1
+4023 → 2
+4871 → 1
+4896 → 1
+2307 → 1
+3602 → 2
+3605 → 2
+3617 → 3
+3628 → 3
 
   
   TRUNCATE TABLE reporte_z CASCADE;  

@@ -86,7 +86,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'Hojarascas', 
       'Porciones de camarones', 
       'Champiñones', 
-      'Porcion Pino Carne'
+      'Porcion Pino Carne',
+      'Porcion Pino Marisco',
+      '+HUEVO',
+      '+QUESO',    
     ];
 
     // CAJA (Bebestibles y Delivery)

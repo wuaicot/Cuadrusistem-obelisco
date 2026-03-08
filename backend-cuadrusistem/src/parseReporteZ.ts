@@ -1,72 +1,61 @@
 /**
- * Parser del Reporte Z con lógica de filtrado de ruido y recuperación de cantidades.
+ * Parser del Reporte Z (robusto para OCR térmico)
  */
 
 import { correctCodeOcr } from './utils/pos-canonical';
-import { recetas } from './domain/recetas';
-import chalk from 'chalk';
+import * as recetasModule from './domain/recetas';
 
 export type VentaZ = {
   codigo: string;
   cantidad: number;
 };
 
-const validCodes = recetas.map(r => r.codigo);
+type Receta = {
+  codigo: string;
+};
 
 /**
- * Convierte caracteres OCR en números, incluyendo casos especiales del restaurante.
+ * Soporta cualquier forma de export de recetas.ts
  */
-function parseCantidadOcr(raw: string): number {
-  const t = raw.trim().toUpperCase();
-  
-  // Caso especial detectado: 'a' suele ser '31' en el reporte de Delivery
-  if (t === 'A') return 31;
-  if (t === 'Q') return 1;
+function getRecetasArray(): Receta[] {
+  const mod: any = recetasModule;
 
-  const clean = t
-    .replace(/O/g, "0")
-    .replace(/I/g, "1")
-    .replace(/L/g, "1")
-    .replace(/Z/g, "2")
-    .replace(/S/g, "5")
-    .replace(/B/g, "8")
-    .replace(/G/g, "6");
-    
-  const num = parseInt(clean, 10);
-  return isNaN(num) ? 1 : num;
+  if (Array.isArray(mod.recetas)) return mod.recetas;
+  if (Array.isArray(mod.RECETAS)) return mod.RECETAS;
+  if (Array.isArray(mod.default)) return mod.default;
+
+  throw new Error('No se encontró export de recetas válido');
 }
+
+const validCodes = getRecetasArray().map((r: Receta) => r.codigo);
+
+const LINEA_PRODUCTO_REGEX = /^(\d{4})\s+(.+?)\s+(\d+)\s*$/;
 
 export function parseReporteZ(textoZ: string): Map<string, number> {
   const ventas = new Map<string, number>();
-  const lineas = textoZ.split('\n').map(l => l.trim()).filter(l => l.length > 5);
+
+  const lineas = textoZ
+    .split('\n')
+    .map(l => l.trim())
+    .filter(Boolean);
+
+  let zonaValida = false;
 
   for (const linea of lineas) {
-    // 1. Tokenización limpia (solo alfanuméricos)
-    const tokens = linea.match(/[0-9A-Z]{1,}/gi) || [];
-    if (tokens.length < 2) continue;
-
-    // 2. Identificar el Código (primer token de 4 dígitos aprox)
-    const codeTokenCandidate = tokens.find(t => t.length >= 3) || tokens[0];
-    if (!codeTokenCandidate) continue;
-    
-    // 3. Identificar la Cantidad (último token numérico-ish antes de ruidos)
-    let cantidad = 1;
-    let foundQuantity = false;
-
-    for (let i = tokens.length - 1; i >= 0; i--) {
-        const t = tokens[i];
-        if (t === codeTokenCandidate) break;
-
-        if (/^\d+$/.test(t) || t.length === 1 || /^[0-9OILSQSB]+$/.test(t)) {
-            cantidad = parseCantidadOcr(t);
-            foundQuantity = true;
-            break;
-        }
+    if (!zonaValida) {
+      if (/^\d{4}\s+/.test(linea)) zonaValida = true;
+      else continue;
     }
 
-    if (!foundQuantity) continue;
+    const match = linea.match(LINEA_PRODUCTO_REGEX);
+    if (!match) continue;
 
-    const codigo = correctCodeOcr(codeTokenCandidate, validCodes);
+    const rawCode = match[1];
+    const cantidad = Number(match[3]);
+    if (Number.isNaN(cantidad)) continue;
+
+    const codigo = correctCodeOcr(rawCode, validCodes);
+
     const actual = ventas.get(codigo) ?? 0;
     ventas.set(codigo, actual + cantidad);
   }
