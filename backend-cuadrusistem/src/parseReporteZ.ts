@@ -1,5 +1,8 @@
 /**
- * Parser del Reporte Z (robusto para OCR térmico)
+ * Parser robusto del Reporte Z
+ *
+ * Diseñado para tickets POS térmicos donde el OCR
+ * frecuentemente corrompe los códigos.
  */
 
 import { correctCodeOcr } from './utils/pos-canonical';
@@ -14,9 +17,6 @@ type Receta = {
   codigo: string;
 };
 
-/**
- * Soporta cualquier forma de export de recetas.ts
- */
 function getRecetasArray(): Receta[] {
   const mod: any = recetasModule;
 
@@ -24,14 +24,13 @@ function getRecetasArray(): Receta[] {
   if (Array.isArray(mod.RECETAS)) return mod.RECETAS;
   if (Array.isArray(mod.default)) return mod.default;
 
-  throw new Error('No se encontró export de recetas válido');
+  throw new Error('No se encontró export válido de recetas');
 }
 
 const validCodes = getRecetasArray().map((r: Receta) => r.codigo);
 
-const LINEA_PRODUCTO_REGEX = /^(\d{4})\s+(.+?)\s+(\d+)\s*$/;
-
 export function parseReporteZ(textoZ: string): Map<string, number> {
+
   const ventas = new Map<string, number>();
 
   const lineas = textoZ
@@ -39,24 +38,58 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
     .map(l => l.trim())
     .filter(Boolean);
 
-  let zonaValida = false;
-
   for (const linea of lineas) {
-    if (!zonaValida) {
-      if (/^\d{4}\s+/.test(linea)) zonaValida = true;
-      else continue;
+
+    /**
+     * Detectar números al inicio de línea
+     */
+    const codigoMatch = linea.match(/^[A-Z0-9]{3,6}/);
+
+    if (!codigoMatch) continue;
+
+    let rawCode = codigoMatch[0];
+
+    /**
+     * limpiar OCR basura
+     */
+    rawCode = rawCode
+      .replace(/J/g, '3')
+      .replace(/O/g, '0')
+      .replace(/I/g, '1')
+      .replace(/\D/g, '');
+
+    /**
+     * si hay más de 4 dígitos
+     * tomar los primeros
+     */
+    if (rawCode.length > 4) {
+      rawCode = rawCode.substring(0,4);
     }
 
-    const match = linea.match(LINEA_PRODUCTO_REGEX);
-    if (!match) continue;
+    /**
+     * si quedan menos de 4
+     * ignorar
+     */
+    if (rawCode.length !== 4) continue;
 
-    const rawCode = match[1];
-    const cantidad = Number(match[3]);
+    /**
+     * buscar cantidad al final
+     */
+    const cantidadMatch = linea.match(/(\d+)\s*$/);
+
+    if (!cantidadMatch) continue;
+
+    const cantidad = Number(cantidadMatch[1]);
+
     if (Number.isNaN(cantidad)) continue;
 
+    /**
+     * corrección contra catálogo
+     */
     const codigo = correctCodeOcr(rawCode, validCodes);
 
     const actual = ventas.get(codigo) ?? 0;
+
     ventas.set(codigo, actual + cantidad);
   }
 
