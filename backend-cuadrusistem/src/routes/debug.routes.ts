@@ -94,6 +94,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
 
     // CAJA (Bebestibles y Delivery)
     const ingredientesCaja = [
+      'ATUN',
       'AUSTRAL LATA 1/2', 
       'ESCUDO LITRO', 
       'ROYAL LITRO', 
