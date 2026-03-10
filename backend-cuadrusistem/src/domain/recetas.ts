@@ -17,6 +17,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
   "4207": { codigo: "4207", nombre: "BOTELLIN CRISTAL", unidad: "unidad" },
   "4211": { codigo: "4211", nombre: "BOTELLIN TOROBAYO", unidad: "unidad" },
+  "4215": { codigo: "4215", nombre: "CRISTAL LATA CH", unidad: "unidad" },
   "4217": { codigo: "4217", nombre: "HEINEKEN LATA", unidad: "unidad" },
   "4219": { codigo: "4219", nombre: "ESCUDO LATA 1/2", unidad: "unidad" },
   "4220": { codigo: "4220", nombre: "CRISTAL LATA 1/2", unidad: "unidad" },

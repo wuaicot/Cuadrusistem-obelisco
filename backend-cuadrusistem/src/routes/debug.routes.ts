@@ -92,12 +92,14 @@ router.post('/seed-database', async (req: Request, res: Response) => {
 
     // CAJA (Bebestibles y Delivery)
     const ingredientesCaja = [
-      'ATUN',
+      
+      'ATUNO',
       'AUSTRAL LATA 1/2', 
       'ESCUDO LITRO', 
       'ROYAL LITRO', 
       'BOTELLIN CRISTAL', 
       'BOTELLIN TOROBAYO', 
+      'CRISTAL LATA CH',
       'HEINEKEN LATA',     
       'JUGO NATURAL',  
       'ESCUDO LATA 1/2', 
@@ -124,8 +126,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'NECTAR 1 1/2',
       'CAFE GRANDE', 
       'TE GRANDE', 
-      'PROMO SCHOP 2X1',
-      'DELIVERY      APP'
+      'PROMO SCHOP 2X1'      
     ];
 
     console.log(chalk.gray(`   - Inserting ${ingredientesCocina.length} items for COCINA...`));
