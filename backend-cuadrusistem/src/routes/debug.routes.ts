@@ -75,10 +75,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'Papas grandes 700gr', 
       'Papas personal 350gr', 
       'Chorizo', 
-      'Carne Mechada', 
-      'Pangasiu', 
+      'Menú 3 Carne Mechada', 
+      'Menú 2 Pangasius', 
       'Colacion Administrad', 
-      'Chuleta', 
+      'Menú 1 Pulpa/Chuleta', 
       'Papas personal 150gr', 
       'Tortilla De Wrap', 
       'Emp. Horno Pino Carne', 
@@ -87,9 +87,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'Porciones de camarones', 
       'Champiñones', 
       'Porcion Pino Carne',
-      'Porcion Pino Marisco',
-      '+HUEVO',
-      '+QUESO',    
+      'Porcion Pino Marisco',              
     ];
 
     // CAJA (Bebestibles y Delivery)
