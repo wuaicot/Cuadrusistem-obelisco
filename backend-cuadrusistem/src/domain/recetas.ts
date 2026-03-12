@@ -103,7 +103,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Paltas", cantidad: 1 },
       
     ],
-  },
+  },  
   "0205": {
     codigo: "0205",
     nombre: "+HUEVO",
@@ -194,7 +194,7 @@ export const MENUS: Record<string, MenuDef> = {
   },
   "0704": {
     codigo: "0704",
-    nombre: "AS CHACARERO",
+    nombre: "AS LUCO",
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
@@ -202,7 +202,7 @@ export const MENUS: Record<string, MenuDef> = {
   },
   "0705": {
     codigo: "0705",
-    nombre: "AS CHACARERO",
+    nombre: "AS LUCO PALTA",
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
@@ -232,6 +232,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne para As Gig.", cantidad: 1 },
     ],
   },
+
   "0901": {
     codigo: "0901",
     nombre: "CHUR ITA GIG",
@@ -396,6 +397,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
+
   "1901": {
     codigo: "1901",
     nombre: "POLLO ITALIANO PER",
@@ -428,6 +430,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
+
   "2103": {
     codigo: "2103",
     nombre: "HAMBU LUCO GIG",
@@ -554,6 +557,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Queso laminado", cantidad: 6 },
     ],
   },
+
   "2416": {
     codigo: "2416",
     nombre: "AGRE HAM PERSONAL",
@@ -561,6 +565,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Hamburg KING K", cantidad: 2 },      
     ],
   },
+
   "2707": {
     codigo: "2707",
     nombre: "HAMBURG LUCO CHAMP P",
@@ -643,6 +648,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne churrasco pers.", cantidad: 1 },
     ],
   },
+  
   "3703": {
     codigo: "3703",
     nombre: "ENSALADA MIX",
@@ -664,6 +670,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne Ave .Gigante", cantidad: 1 },      
     ],
   },
+
   "3901": {
     codigo: "3901",
     nombre: "PAPAS FRITAS GRANDES",
@@ -710,6 +717,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas personal", cantidad: 2 },      
     ],
   },
+
   "4023": {
     codigo: "4023",
     nombre: "CARNE MECHADA C ARRO",
@@ -1018,7 +1026,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 0.5 },      
-      { nombre: "Champiñones", cantidad: 1, },      
+      { nombre: "Queso laminado", cantidad: 2, },      
     ],
   },
   
