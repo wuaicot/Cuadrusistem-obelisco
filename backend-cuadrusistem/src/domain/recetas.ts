@@ -13,15 +13,17 @@ export type EmpanadaDef = MenuDef;
 
 export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4101": { codigo: "4101", nombre: "AUSTRAL LATA 1/2", unidad: "unidad" },
+  "4201": { codigo: "4201", nombre: "CRISTAL LITRO", unidad: "unidad" },
   "4202": { codigo: "4202", nombre: "ESCUDO LITRO", unidad: "unidad" },
   "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
   "4207": { codigo: "4207", nombre: "BOTELLIN CRISTAL", unidad: "unidad" },
+  "4209": { codigo: "4209", nombre: "ROYAL LATA", unidad: "unidad" },
   "4211": { codigo: "4211", nombre: "BOTELLIN TOROBAYO", unidad: "unidad" },
   "4215": { codigo: "4215", nombre: "CRISTAL LATA CH", unidad: "unidad" },
   "4217": { codigo: "4217", nombre: "HEINEKEN LATA", unidad: "unidad" },
   "4219": { codigo: "4219", nombre: "ESCUDO LATA 1/2", unidad: "unidad" },
   "4220": { codigo: "4220", nombre: "CRISTAL LATA 1/2", unidad: "unidad" },
-  "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500CC", unidad: "unidad" },  
+  "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500 CC", unidad: "unidad" },  
   "4224": { codigo: "4224", nombre: "BOTELLIN HEINEKEN", unidad: "unidad" },
   "4228": { codigo: "4228", nombre: "CERVEZA SOL BOTELLIN", unidad: "unidad" },
   "4230": { codigo: "4230", nombre: "SHOP CRISTAL 500CC", unidad: "unidad" },
