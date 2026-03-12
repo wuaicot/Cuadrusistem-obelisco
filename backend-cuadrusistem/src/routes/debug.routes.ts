@@ -95,7 +95,7 @@ const ingredientesCaja = [
   'Aquarius y mineral 500cc',
   'Agua litro',
   'COCA COLA LATA',
-  'Bebidas 1,5 litro',
+  'Bebidas  1,5 litro',
   'Coca Cola 500cc.',
   'Jugo nectar 1 1/2 litros',
   'Jugo nectar individual',
