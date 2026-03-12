@@ -1,85 +1,84 @@
-import levenshtein from 'fast-levenshtein';
+import levenshtein from "fast-levenshtein";
 
 /**
- * Normaliza texto descriptivo extraído por OCR
+ * Normaliza texto proveniente del OCR para hacerlo comparable
+ * con el formato utilizado en el POS.
  */
-export function canonicalPOS(texto: string): string {
-  if (!texto) return "";
+export function canonicalPOS(text: string): string {
 
-  let t = texto;
+  if (!text) return "";
 
-  // Normalización caracteres raros OCR
+  let t = text;
+
+  // limpiar artefactos de OCR
   t = t
-    .replace(/¾/g, "Ó")
-    .replace(/[´`¨]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toUpperCase();
+    .replace(/¾/g, "O")
+    .replace(/´/g, "")
+    .replace(/`/g, "")
+    .replace(/¨/g, "");
 
-  return t;
+  // normalizar espacios
+  t = t.replace(/\s+/g, " ");
+
+  // trim
+  t = t.trim();
+
+  // POS usa mayúsculas
+  return t.toUpperCase();
 }
 
-/**
- * Limpia un código OCR dejándolo solo en dígitos
- */
-function cleanDigits(raw: string): string {
-  return raw.replace(/\D/g, "");
-}
 
 /**
- * Normaliza confusiones típicas OCR térmico en tickets POS
+ * Normaliza códigos detectados por OCR
+ * corrigiendo confusiones típicas entre letras y números.
  */
-function normalizeCommonConfusions(code: string): string {
-  return code
+export function normalizeCodeOCR(raw: string): string {
+
+  if (!raw) return "";
+
+  return raw
+    .toUpperCase()
     .replace(/O/g, "0")
     .replace(/Q/g, "0")
-    .replace(/D/g, "0")
     .replace(/I/g, "1")
     .replace(/L/g, "1")
     .replace(/\|/g, "1")
     .replace(/S/g, "5")
     .replace(/B/g, "8")
-    .replace(/G/g, "6")
-    .replace(/Z/g, "2");
+    .replace(/A/g, "4")
+    .replace(/J/g, "3")
+    .replace(/[^0-9]/g, "");
 }
 
+
 /**
- * Corrige un código OCR comparándolo contra catálogo válido.
- * Solo acepta códigos finales de 4 dígitos.
+ * Corrige un código OCR comparándolo con el catálogo real
+ * de códigos válidos usando distancia de Levenshtein.
  */
-export function correctCodeOcr(rawCode: string, validCodes: string[]): string {
-  if (!rawCode) return rawCode;
+export function correctCodeOcr(
+  rawCode: string,
+  validCodes: string[]
+): string {
 
-  // 1️⃣ Normalizar texto → números
-  let code = normalizeCommonConfusions(rawCode);
+  const code = normalizeCodeOCR(rawCode);
 
-  // 2️⃣ Limpiar caracteres no numéricos
-  code = cleanDigits(code);
+  // coincidencia exacta
+  if (validCodes.includes(code)) {
+    return code;
+  }
 
-  // 3️⃣ Si no tiene 4 dígitos exactos, no es código válido
-  if (code.length !== 4) return rawCode;
-
-  // 4️⃣ Match exacto
-  if (validCodes.includes(code)) return code;
-
-  // 5️⃣ Corrección por distancia mínima (tolerancia 1)
   let bestMatch = code;
-  let minDistance = 99;
+  let minDistance = 3;
 
-  for (const vCode of validCodes) {
-    const distance = levenshtein.get(code, vCode);
+  for (const valid of validCodes) {
+
+    const distance = levenshtein.get(code, valid);
 
     if (distance < minDistance) {
       minDistance = distance;
-      bestMatch = vCode;
+      bestMatch = valid;
     }
   }
 
-  // Solo aceptar corrección si diferencia <= 1
-  if (minDistance <= 1) {
-    return bestMatch;
-  }
-
-  // Si no es confiable, devolver original limpio
-  return code;
+  return bestMatch;
 }
