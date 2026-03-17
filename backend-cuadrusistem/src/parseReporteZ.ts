@@ -1,50 +1,3 @@
-// import { recetas } from "./domain/recetas";
-// import { canonicalPOS, correctCodeOcr } from "./utils/pos-canonical";
-
-// type VentaMap = Map<string, number>;
-
-// const validCodes = recetas.map((r) => r.codigo);
-
-// export function parseReporteZ(text: string): VentaMap {
-
-//   const ventas: VentaMap = new Map();
-
-//   const normalized = canonicalPOS(text);
-
-//   const lines = normalized
-//     .split("\n")
-//     .map((l) => l.trim())
-//     .filter(Boolean);
-
-//   for (const line of lines) {
-
-//     // detectar código de artículo
-//     const codeMatch = line.match(/^\d{3,4}/);
-//     if (!codeMatch) continue;
-
-//     const rawCode = codeMatch[0];
-//     const code = correctCodeOcr(rawCode, validCodes);
-
-//     // buscar número al final de línea
-//     const qtyMatch = line.match(/(\d{1,3})\s*$/);
-//     if (!qtyMatch) continue;
-
-//     const cantidad = parseInt(qtyMatch[1]);
-
-//     // filtrar cantidades absurdas
-//     if (cantidad <= 0 || cantidad > 50) continue;
-
-//     const prev = ventas.get(code) ?? 0;
-
-//     ventas.set(code, prev + cantidad);
-//   }
-
-//   return ventas;
-// }
-
-
-
-
 /**
  * Parser robusto del Reporte Z
  *
@@ -52,93 +5,127 @@
  * frecuentemente corrompe los códigos.
  */
 
-import { correctCodeOcr } from './utils/pos-canonical';
-import * as recetasModule from './domain/recetas';
+import { correctCodeOcr } from './utils/pos-canonical'
+import * as recetasModule from './domain/recetas'
 
 export type VentaZ = {
-  codigo: string;
-  cantidad: number;
-};
-
-type Receta = {
-  codigo: string;
-};
-
-function getRecetasArray(): Receta[] {
-  const mod: any = recetasModule;
-
-  if (Array.isArray(mod.recetas)) return mod.recetas;
-  if (Array.isArray(mod.RECETAS)) return mod.RECETAS;
-  if (Array.isArray(mod.default)) return mod.default;
-
-  throw new Error('No se encontró export válido de recetas');
+  codigo: string
+  cantidad: number
 }
 
-const validCodes = getRecetasArray().map((r: Receta) => r.codigo);
+type Receta = {
+  codigo: string
+}
+
+function getRecetasArray(): Receta[] {
+  const mod: any = recetasModule
+
+  if (Array.isArray(mod.recetas)) return mod.recetas
+  if (Array.isArray(mod.RECETAS)) return mod.RECETAS
+  if (Array.isArray(mod.default)) return mod.default
+
+  throw new Error('No se encontró export válido de recetas')
+}
+
+const validCodes = getRecetasArray().map((r: Receta) => r.codigo)
+
+/**
+ * Limpia ruido típico de OCR
+ */
+function normalizeLine(line: string): string {
+  return line
+    .replace(/[|]/g, '')
+    .replace(/O/g, '0')
+    .replace(/I/g, '1')
+    .replace(/J/g, '3')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/**
+ * Busca un posible código POS dentro de la línea
+ */
+function extractRawCode(line: string): string | null {
+
+  /**
+   * buscar secuencia de 4 dígitos
+   * incluso si hay letras delante
+   *
+   * ejemplos:
+   * N1896
+   * P0785
+   * 0382
+   */
+
+  const match = line.match(/(\d{4})/)
+
+  if (!match) return null
+
+  return match[1]
+}
+
+/**
+ * Extrae cantidad como último número de la línea
+ */
+function extractCantidad(line: string): number | null {
+
+  const nums = line.match(/\d+/g)
+
+  if (!nums || nums.length === 0) return null
+
+  const cantidad = Number(nums[nums.length - 1])
+
+  if (Number.isNaN(cantidad)) return null
+
+  return cantidad
+}
 
 export function parseReporteZ(textoZ: string): Map<string, number> {
 
-  const ventas = new Map<string, number>();
+  const ventas = new Map<string, number>()
 
   const lineas = textoZ
     .split('\n')
-    .map(l => l.trim())
-    .filter(Boolean);
+    .map(normalizeLine)
+    .filter(Boolean)
 
   for (const linea of lineas) {
 
     /**
-     * Detectar números al inicio de línea
+     * ignorar encabezados
      */
-    const codigoMatch = linea.match(/^[A-Z0-9]{3,6}/);
+    if (
+      linea.includes('TOTAL') ||
+      linea.includes('VENTASPORARTICULO') ||
+      linea.includes('CODIGO')
+    ) continue
 
-    if (!codigoMatch) continue;
+    const rawCode = extractRawCode(linea)
 
-    let rawCode = codigoMatch[0];
+    if (!rawCode) continue
+
+    const cantidad = extractCantidad(linea)
+
+    if (!cantidad || cantidad <= 0 || cantidad > 50) continue
 
     /**
-     * limpiar OCR basura
+     * corrección contra catálogo POS
      */
-    rawCode = rawCode
-      .replace(/J/g, '3')
-      .replace(/O/g, '0')
-      .replace(/I/g, '1')
-      .replace(/\D/g, '');
+    const codigo = correctCodeOcr(rawCode, validCodes)
 
-    /**
-     * si hay más de 4 dígitos
-     * tomar los primeros
-     */
-    if (rawCode.length > 4) {
-      rawCode = rawCode.substring(0,4);
-    }
+    const actual = ventas.get(codigo) ?? 0
 
-    /**
-     * si quedan menos de 4
-     * ignorar
-     */
-    if (rawCode.length !== 4) continue;
-
-    /**
-     * buscar cantidad al final
-     */
-    const cantidadMatch = linea.match(/(\d+)\s*$/);
-
-    if (!cantidadMatch) continue;
-
-    const cantidad = Number(cantidadMatch[1]);
-
-    if (Number.isNaN(cantidad)) continue;
-
-    /**
-     * corrección contra catálogo
-     */
-    const codigo = correctCodeOcr(rawCode, validCodes);
-
-    const actual = ventas.get(codigo) ?? 0;
-
-    ventas.set(codigo, actual + cantidad);
+    ventas.set(codigo, actual + cantidad)
   }
 
-  return ventas;
+  /**
+   * Debug útil para desarrollo
+   */
+  console.log('--- Ventas Z ---')
+
+  for (const [codigo, cantidad] of ventas.entries()) {
+    console.log(`${codigo} → ${cantidad}`)
+  }
+
+  return ventas
 }

@@ -13,6 +13,7 @@ export type EmpanadaDef = MenuDef;
 
 export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4101": { codigo: "4101", nombre: "AUSTRAL LATA 1/2", unidad: "unidad" },
+
   "4201": { codigo: "4201", nombre: "CRISTAL LITRO", unidad: "unidad" },
   "4202": { codigo: "4202", nombre: "ESCUDO LITRO", unidad: "unidad" },
   "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
@@ -33,15 +34,19 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   "4240": { codigo: "4240", nombre: "STELLA LITRO 1LT", unidad: "unidad" },
   "4245": { codigo: "4245", nombre: "PITCHER QUILMES 1.5", unidad: "unidad" },
   "4246": { codigo: "4246", nombre: "CORONA BOTELLIN", unidad: "unidad" },
+
   "4306": { codigo: "4306", nombre: "COCA COLA LATA", unidad: "unidad" },
-  "4314": { codigo: "4314", nombre: "MONSTER BEBIDA ENERG", unidad: "unidad" },
   "4313": { codigo: "4313", nombre: "JUGO NATURAL", unidad: "unidad" },
+  "4314": { codigo: "4314", nombre: "MONSTER BEBIDA ENERG", unidad: "unidad" },
+  
   "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
   "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
   "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
   "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
-  "4504": { codigo: "4504", nombre: "NECTAR 1 1/2", unidad: "unidad" },
+
   "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
+  "4504": { codigo: "4504", nombre: "NECTAR 1 1/2", unidad: "unidad" },
+  
   "4601": { codigo: "4601", nombre: "CAFE GRANDE", unidad: "unidad" },
   "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
   "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
@@ -69,6 +74,14 @@ export const MENUS: Record<string, MenuDef> = {
   "0103": {
     codigo: "0103",
     nombre: "COM CATALANA PERSONA",
+    ingredientes: [
+      { nombre: "Pan mesa Personal", cantidad: 1 },
+      { nombre: "Vienesas personal", cantidad: 1 },
+    ],
+  },
+  "0104": {
+    codigo: "0104",
+    nombre: "COM VEGETARIANO PERS",
     ingredientes: [
       { nombre: "Pan mesa Personal", cantidad: 1 },
       { nombre: "Vienesas personal", cantidad: 1 },
@@ -148,16 +161,33 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "0304",
     nombre: "COM VEGE GIGANTE",
     ingredientes: [
-      { nombre: "Pan mesa Gigante", cantidad: 1 },
-            
+      { nombre: "Pan mesa Gigante", cantidad: 1 },            
     ],
   },
+  "0306": {
+    codigo: "0306",
+    nombre: "COM CATALANA ITALIAN",
+    ingredientes: [
+      { nombre: "Pan mesa Gigante", cantidad: 1 },
+      { nombre: "Vienesas doggi", cantidad: 1 },            
+    ],
+  },
+
   "0502": {
     codigo: "0502",
-    nombre: "COM ITALIANO SUPER",
+    nombre: "COM COMPLETO SUPER",
     ingredientes: [
       { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
       { nombre: "Vienesas personal", cantidad: 2 },
+    ],
+  },
+  "0503": {
+    codigo: "0503",
+    nombre: "COM CATALANA SUPER",
+    ingredientes: [
+      { nombre: "Pan mesa súper Gigan.", cantidad: 1 },
+      { nombre: "Vienesas personal", cantidad: 2 },
+      { nombre: "Queso laminado", cantidad: 3 },
     ],
   },
   "0508": {
@@ -168,6 +198,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas personal", cantidad: 2 },
     ],
   },
+
   "0701": {
     codigo: "0701",
     nombre: "AS ITALIANO",
@@ -198,6 +229,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "0705": {
@@ -206,6 +238,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "0708": {
@@ -222,6 +255,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "0712": {
@@ -230,6 +264,8 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan mesa Gigante", cantidad: 1 },
       { nombre: "Carne para As Gig.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Tocino porciones", cantidad: 1 },
     ],
   },
 
@@ -263,6 +299,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 5 },
     ],    
   },
   "0908": {
@@ -279,23 +316,26 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 4 },
     ],
   },
   "0912": {
     codigo: "0912",
-    nombre: "CHUR MEXICANO GIG",
+    nombre: "CHUR AMERICANO GIG",
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 4 },
+      { nombre: "Tocino porciones", cantidad: 2 },
     ],
   },
   "1011": {
     codigo: "1011",
     nombre: "+QUESO",
     ingredientes: [      
-      { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 3 },
     ],
-    },
+    },    
   "1019": {
     codigo: "1019",
     nombre: "EXTRA CARNE GIGANTE",
@@ -303,6 +343,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne churrasco gig", cantidad: 1 },
     ],
   },
+
   "1201": {
     codigo: "1201",
     nombre: "+PALTA",
@@ -316,7 +357,22 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [      
       { nombre: "Queso laminado", cantidad: 3 },
     ],
+  },  
+  "1213": {
+    codigo: "1213",
+    nombre: "+TOCINO",
+    ingredientes: [      
+      { nombre: "Tocino", cantidad: 1 },
+    ],
   },
+  "1219": {
+    codigo: "1219",
+    nombre: "EXTRA CARNE PERSONAL",
+    ingredientes: [      
+      { nombre: "Carne churrasco pers.", cantidad: 1 },
+    ],
+  },
+
   "1301": {
     codigo: "1301",
     nombre: "LOMO ITALIANO GIG",
@@ -347,6 +403,8 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne lomo gig.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 4 },
+      { nombre: "Tocino porciones", cantidad: 2 },
     ],
   },
   "1314": {
@@ -355,16 +413,17 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne lomo pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "1315": {
     codigo: "1315",
     nombre: "AGREGADO LOMO",
-    ingredientes: [
-      { nombre: "Pan fricas", cantidad: 1 },
+    ingredientes: [      
       { nombre: "Carne lomo pers.", cantidad: 1 },
     ],
   },
+  
   "1501": {
     codigo: "1501",
     nombre: "LOMO ITALIANO PER",
@@ -395,6 +454,16 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne lomo pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
+  "1505": {
+    codigo: "1505",
+    nombre: "LOMO LUCO PALTA PER",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne lomo pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
 
@@ -414,6 +483,15 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Carne Ave Personal", cantidad: 1 },
     ],
   },
+  "1905": {
+    codigo: "1905",
+    nombre: "POLLO LUCO PALTA PER",
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
   "1908": {
     codigo: "1908",
     nombre: "POLLO OBELISCO PER",
@@ -431,11 +509,19 @@ export const MENUS: Record<string, MenuDef> = {
     ],
   },
 
+  "2101": {
+    codigo: "2101",
+    nombre: "HAMBU ITALIANA GIG",
+    ingredientes: [
+      { nombre: "Pan hallullon", cantidad: 1 },
+      { nombre: "Carne Hamburg Gigant.", cantidad: 1 },      
+    ],
+  },
   "2103": {
     codigo: "2103",
     nombre: "HAMBU LUCO GIG",
     ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 4 },
     ],
@@ -444,45 +530,46 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "2104",
     nombre: "HAMB LUCO PALTA G",
     ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Queso laminado", cantidad: 4 },
     ],
   },
   "2105": {
     codigo: "2105",
     nombre: "HAMB LUCO CHAMP GIG",
     ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Queso laminado", cantidad: 4 },
     ],
   },
   "2109": {
     codigo: "2109",
     nombre: "HAMB YORK GIG",
     ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Cheddar porc" , cantidad: 3 },
+      { nombre: "Huevos", cantidad: 3 },
     ],
   },
   "2114": {
     codigo: "2114",
     nombre: "HAMBUR GIG GRINGA",
     ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Pan hallullon", cantidad: 1 },
       { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Cheddar porc" , cantidad: 3 },
+      { nombre: "Huevos", cantidad: 3 },
     ],
   },
   "2301": {
     codigo: "2301",
-    nombre: "HAMBURG COMPLETA PER",
+    nombre: "HAMBURG ITALIANA PER",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
-      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },      
     ],
   }, 
   "2302": {
@@ -490,13 +577,21 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "HAMBURG COMPLETA PER",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
-      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },      
     ],
   },    
   "2303": {
     codigo: "2303",
     nombre: "HAMBURG LUCO PER",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
+  "2304": {
+    codigo: "2304",
+    nombre: "HAMBURG LUCO PALTA P",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
@@ -509,7 +604,17 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Queso laminado", cantidad: 2 },
+    ],
+  },
+  "2306": {
+    codigo: "2306",
+    nombre: "HAMBURG KAISER PER",
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Jamón", cantidad: 1 },
     ],
   },
   "2307": {
@@ -518,16 +623,20 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Cheddar porc" , cantidad: 1 },
+      { nombre: "Tocino porciones", cantidad: 1 },
+      { nombre: "Huevos", cantidad: 1 },
     ],
   },
   "2308": {
     codigo: "2308",
-    nombre: "HAMBURG OBELISCO PER",
+    nombre: "HAMBURG AMERICANA PER",
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
       { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Tocino porciones", cantidad: 1 },
     ],
   },
   "2309": {
@@ -536,7 +645,8 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Cheddar porc" , cantidad: 1 },
+      { nombre: "Huevos", cantidad: 3 },
     ],
   },
   "2315": {
@@ -545,7 +655,9 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Cheddar porc" , cantidad: 1 },
+      { nombre: "Huevos", cantidad: 1 },
+      { nombre: "Tocino porciones", cantidad: 1 },
     ],
   },
   "2316": {
@@ -554,7 +666,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 2 },
       { nombre: "Hamburg KING K", cantidad: 2 },
-      { nombre: "Queso laminado", cantidad: 6 },
+      { nombre: "Cheddar porc" , cantidad: 2 },
     ],
   },
 
@@ -562,7 +674,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "2416",
     nombre: "AGRE HAM PERSONAL",
     ingredientes: [      
-      { nombre: "Hamburg KING K", cantidad: 2 },      
+      { nombre: "Hamburg KING K", cantidad: 1 },      
     ],
   },
 
@@ -572,7 +684,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan Brioche 12", cantidad: 1 },
       { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 3 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   
@@ -606,6 +718,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "2805": {
@@ -614,6 +727,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "2807": {
@@ -622,6 +736,8 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Jamón", cantidad: 1 },
     ],
   },
   "2808": {
@@ -638,14 +754,17 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
     ],
   },
   "2812": {
     codigo: "2812",
-    nombre: "CHURRASCO AMERICANO PER",
+    nombre: "CHUR AMERICANO PER",
     ingredientes: [
       { nombre: "Pan fricas", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Tocino porciones", cantidad: 1 },
     ],
   },
   
@@ -667,7 +786,7 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "3705",
     nombre: "ENSALADA ATUN",
     ingredientes: [
-      { nombre: "Carne Ave .Gigante", cantidad: 1 },      
+      { nombre: "Atún", cantidad: 1 },      
     ],
   },
 
@@ -698,7 +817,7 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Papas personal 350gr", cantidad: 1 },
       { nombre: "Carne churrasco pers.", cantidad: 1 },
       { nombre: "Vienesas personal", cantidad: 1 },
-      { nombre: "Chorizo", cantidad: 2 },
+      { nombre: "Chorizo", cantidad: 1 },
     ],
   },
    "3908": {
@@ -706,7 +825,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "SALCHI PAPAS GRANDE",
     ingredientes: [
       { nombre: "Papas grandes 700gr", cantidad: 1 },      
-      { nombre: "Vienesas doggi", cantidad: 2 },      
+      { nombre: "Vienesas doggi", cantidad: 1 },      
     ],
   },
   "3909": {
@@ -714,10 +833,16 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "SALCHI PAPAS PERSONA",
     ingredientes: [
       { nombre: "Papas personal 350gr", cantidad: 1 },      
-      { nombre: "Vienesas personal", cantidad: 2 },      
+      { nombre: "Vienesas personal", cantidad: 1 },      
     ],
   },
-
+  
+  "4021": {
+    codigo: "4021",
+    nombre: "COLACION JUGO+COMPLETO",
+    ingredientes: [{ nombre: "", cantidad: 0 }      
+    ],
+  },
   "4023": {
     codigo: "4023",
     nombre: "CARNE MECHADA C ARRO",
@@ -751,7 +876,7 @@ export const MENUS: Record<string, MenuDef> = {
   "4033": {
     codigo: "4033",
     nombre: "COLACION ADMINISTRAD",
-    ingredientes: [{ nombre: "Colacion Administrad", cantidad: 1 }      
+    ingredientes: [{ nombre: "", cantidad: 1 }      
     ],
   },
   "4036": {
@@ -766,6 +891,7 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [{ nombre: "Chuleta", cantidad: 1 }      
     ],
   },
+
   "4871": {
     codigo: "4871",
     nombre: "COM PER+PAPAS",
@@ -778,6 +904,8 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "COM GIG+PAPAS",
     ingredientes: [{ nombre: "Pan mesa Gigante", cantidad: 1 },
         { nombre: "Vienesas doggi", cantidad: 1 },
+        { nombre: "Papas personal 150gr", cantidad: 1 },
+        
     ],
   },  
   "4874": {
@@ -793,6 +921,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "LOMOPER+PPS+BEBIDA",
     ingredientes: [{ nombre: "Pan fricas", cantidad: 1 },
         { nombre: "Carne lomo pers.", cantidad: 1 },
+        { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
   },
   "4896": {
@@ -800,11 +929,12 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: "LOMO PERSONAL ITALIA",
     ingredientes: [{ nombre: "Pan fricas", cantidad: 1 },
         { nombre: "Carne lomo pers.", cantidad: 1 },
+        { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
   },
   "5302": {
     codigo: "5302",
-    nombre: "TOSTADAS JAMON HUEVO",
+    nombre: "TOSTADAS Jamón HUEVO",
     ingredientes: [{ nombre: "Pan mesa Personal", cantidad: 1 },
         { nombre: "Carne lomo pers.", cantidad: 1 },
     ],

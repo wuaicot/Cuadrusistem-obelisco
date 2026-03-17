@@ -125,7 +125,7 @@ router.post('/', async (req: Request, res: Response) => {
         detalle[nombreIngrediente] = {
           teorico,
           real,
-          diferencia: real - teorico
+          diferencia:  real - teorico   
         };
       }
     }

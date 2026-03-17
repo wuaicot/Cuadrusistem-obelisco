@@ -84,7 +84,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'Porciones de camarones', 
       'Champiñones', 
       'Porcion Pino Carne',
-      'Porcion Pino Marisco',              
+      'Porcion Pino Marisco',  
+      'Jamón', 
+      'Cheddar porc',     
+      'Tocino porciones',
     ];
 
     // CAJA (Bebestibles y Delivery)
@@ -132,6 +135,7 @@ const ingredientesCaja = [
   'Cerveza lata Lemon Stone',
   'Emp. Horno Pino Carne',
   'Emp. Horno marisco'
+  
 ];
 
 

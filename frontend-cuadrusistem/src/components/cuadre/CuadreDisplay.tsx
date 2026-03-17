@@ -224,23 +224,28 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
       {cuadreData && cuadreData.detalle && (
         <table className="min-w-full divide-y divide-gray-200 mt-6">
           <thead className="bg-gray-50">
+
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500   uppercase tracking-wider">
                 Ingrediente
               </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Consumo Z
+                SALDO (planilla)
               </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Consumo Planilla
+                VENTA (Z)
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Diferencia
-              </th>
+
+              
               {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Estado
               </th> */}
+
             </tr>
+
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {Object.entries(cuadreData.detalle).map(
@@ -250,11 +255,12 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
                     {ingrediente}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {detalle.teorico}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {detalle.real}
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {detalle.teorico}
+                  </td>
+
                   <td
                     className={`px-6 py-4 whitespace-nowrap text-sm ${getDiferenciaClass(detalle.diferencia)}`}
                   >
@@ -264,9 +270,9 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
                     className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${getDiferenciaClass(detalle.diferencia)}`}
                   >
                     {detalle.diferencia < 0
-                      ? "FALTANTE"
+                      ? "falta"
                       : detalle.diferencia > 0
-                        ? "SOBRANTE"
+                        ? "sobra"
                         : "OK"}
                   </td>
                 </tr>
