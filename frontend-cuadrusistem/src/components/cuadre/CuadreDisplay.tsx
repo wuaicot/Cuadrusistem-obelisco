@@ -266,15 +266,15 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
                   >
                     {detalle.diferencia}
                   </td>
-                  <td
+                  {/* <td
                     className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${getDiferenciaClass(detalle.diferencia)}`}
                   >
                     {detalle.diferencia < 0
-                      ? "falta"
+                      ? "⇲"
                       : detalle.diferencia > 0
-                        ? "sobra"
-                        : "OK"}
-                  </td>
+                        ? "⇱"
+                        : "✓"}
+                  </td> */}
                 </tr>
               ),
             )}

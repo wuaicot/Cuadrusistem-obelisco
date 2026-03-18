@@ -1,60 +1,29 @@
-- Venta [0101] COM ITALIANO PERSONA: 4 un. -> Uso Teórico: 4 de Pan mesa Personal
-  - Venta [0101] COM ITALIANO PERSONA: 4 un. -> Uso Teórico: 4 de Vienesas personal
-  - Venta [0104] COM VEGETARIANO PERS: 1 un. -> Uso Teórico: 1 de Pan mesa Personal
-  - Venta [0104] COM VEGETARIANO PERS: 1 un. -> Uso Teórico: 1 de Vienesas personal
-  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Pan mesa Gigante
-  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Vienesas doggi
-  - Venta [1310] LOMO AMERICANO GIG: 6 un. -> Uso Teórico: 6 de Pan hallullon
-  - Venta [1310] LOMO AMERICANO GIG: 6 un. -> Uso Teórico: 6 de Carne lomo gig.
-  - Venta [0303] COM CATALANA GIGANTE: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [0303] COM CATALANA GIGANTE: 1 un. -> Uso Teórico: 1 de Vienesas doggi
-  - Venta [4306] COCA COLA LATA: 1 un. -> Uso Teórico: 1 de COCA COLA LATA
-  - Venta [0502] COM ITALIANO SUPER: 1 un. -> Uso Teórico: 1 de Pan mesa súper Gigan.
-  - Venta [0502] COM ITALIANO SUPER: 1 un. -> Uso Teórico: 2 de Vienesas personal
-  - Venta [0508] COM ITALIANO SUPER: 5 un. -> Uso Teórico: 5 de Pan mesa súper Gigan.
-  - Venta [0508] COM ITALIANO SUPER: 5 un. -> Uso Teórico: 10 de Vienesas personal
-  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Pan mesa Gigante
-  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Carne para As Gig.
-  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
-  - Venta [1901] POLLO ITALIANO PER: 1 un. -> Uso Teórico: 1 de Pan fricas
-  - Venta [1901] POLLO ITALIANO PER: 1 un. -> Uso Teórico: 1 de Carne Ave Personal
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Pan Brioche 12
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Carne hamburg. Porc.
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 3 de Queso laminado
-  - Venta [2316] HAMB CLASSIC BURG 2X: 1 un. -> Uso Teórico: 2 de Pan Brioche 12
-  - Venta [2316] HAMB CLASSIC BURG 2X: 1 un. -> Uso Teórico: 2 de Hamburg KING K
-  - Venta [2316] HAMB CLASSIC BURG 2X: 1 un. -> Uso Teórico: 6 de Queso laminado
-  - Venta [2803] CHURRASCO CHACARERO: 2 un. -> Uso Teórico: 2 de Pan fricas
-  - Venta [2803] CHURRASCO CHACARERO: 2 un. -> Uso Teórico: 2 de Carne churrasco pers.
-  - Venta [2808] CHURRASCO OBELISCO P: 1 un. -> Uso Teórico: 1 de Pan fricas
-  - Venta [2808] CHURRASCO OBELISCO P: 1 un. -> Uso Teórico: 1 de Carne churrasco pers.
-  - Venta [3902] PAPAS FRITAS PERSONA: 1 un. -> Uso Teórico: 1 de Papas personal 350gr
-  - Venta [4024] CARNE MECHADA C PAPA: 10 un. -> Uso Teórico: 10 de Menú 3 Carne Mechada
-  - Venta [4029] PESCADO/ESCAL/ARROZ: 3 un. -> Uso Teórico: 3 de Menú 2 Pangasius
-  - Venta [4031] PESCA/ESCALO/PAPAS: 9 un. -> Uso Teórico: 9 de Menú 2 Pangasius
-  - Venta [4872] COM GIG+PAPAS: 5 un. -> Uso Teórico: 5 de Pan mesa Gigante
-  - Venta [4872] COM GIG+PAPAS: 5 un. -> Uso Teórico: 5 de Vienesas doggi
-  - Venta [5205] WRAP MEXICANO MIXTO: 1 un. -> Uso Teórico: 0.5 de Carne Ave Personal
-  - Venta [5205] WRAP MEXICANO MIXTO: 1 un. -> Uso Teórico: 0.5 de Carne para As Gig.
-  - Venta [5208] WRAP AMERICANO POLLO: 1 un. -> Uso Teórico: 1 de Carne Ave Personal
-  - Venta [3601] EMP CAMARON QUESO FR: 11 un. -> Uso Teórico: 11 de Hojarascas
-  - Venta [3601] EMP CAMARON QUESO FR: 11 un. -> Uso Teórico: 11 de Porciones de camarones
-  - Venta [3601] EMP CAMARON QUESO FR: 11 un. -> Uso Teórico: 22 de Queso laminado
-  - Venta [3602] EMP CHAMPIGNON QUESO: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3602] EMP CHAMPIGNON QUESO: 1 un. -> Uso Teórico: 1 de Champiñones
-  - Venta [3602] EMP CHAMPIGNON QUESO: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [3605] EMP NAPOLETANA FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3605] EMP NAPOLETANA FRITA: 1 un. -> Uso Teórico: 1 de Chorizo
-  - Venta [3605] EMP NAPOLETANA FRITA: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [3608] EMP PINO CARNE FRITA: 6 un. -> Uso Teórico: 6 de Hojarascas
-  - Venta [3608] EMP PINO CARNE FRITA: 6 un. -> Uso Teórico: 6 de Porcion Pino Carne
-  - Venta [3614] EMP VEGETARIANA FRIT: 2 un. -> Uso Teórico: 2 de Hojarascas
-  - Venta [3614] EMP VEGETARIANA FRIT: 2 un. -> Uso Teórico: 4 de Queso laminado
-  - Venta [3615] EMP MEXICANA FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3615] EMP MEXICANA FRITA: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [3617] EMP QUESO FRITA: 4 un. -> Uso Teórico: 4 de Hojarascas
-  - Venta [3617] EMP QUESO FRITA: 4 un. -> Uso Teórico: 16 de Queso laminado
-  - Venta [3623] MECHADA QUESO FRITA: 2 un. -> Uso Teórico: 2 de Hojarascas
-  - Venta [3623] MECHADA QUESO FRITA: 2 un. -> Uso Teórico: 1 de Menú 3 Carne Mechada
-  - Venta [3623] MECHADA QUESO FRITA: 2 un. -> Uso Teórico: 4 de Queso laminado
+4224 → 4
+4246 → 2
+4306 → 11
+4401 → 9
+4428 → 1
+4602 → 2
+0101 → 2
+4203 → 1
+0301 → 4
+0302 → 4
+0111 → 1
+0508 → 2
+0701 → 1
+0901 → 1
+1501 → 1
+1504 → 1
+1503 → 1
+2316 → 2
+2801 → 2
+2804 → 2
+3705 → 1
+3901 → 3
+4023 → 4
+4029 → 6
+4230 → 6
+4871 → 1
+3601 → 4
+3608 → 4
+3617 → 2

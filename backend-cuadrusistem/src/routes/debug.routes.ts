@@ -75,11 +75,11 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       'Carne Ave .Gigante', 
       'Papas grandes 700gr', 
       'Papas personal 350gr', 
+      'Papas personal 150gr',
       'Chorizo', 
       'Menú 3 Carne Mechada', 
       'Menú 2 Pangasius', 
-      'Menú 1 Pulpa/Chuleta', 
-      'Papas personal 150gr',        
+      'Menú 1 Pulpa/Chuleta',               
       'Hojarascas', 
       'Porciones de camarones', 
       'Champiñones', 
@@ -134,8 +134,7 @@ const ingredientesCaja = [
   'Cerveza Royal lata pers.',
   'Cerveza lata Lemon Stone',
   'Emp. Horno Pino Carne',
-  'Emp. Horno marisco'
-  
+  'Emp. Horno marisco',  
 ];
 
 
