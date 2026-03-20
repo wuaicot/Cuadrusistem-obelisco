@@ -44,16 +44,16 @@ router.post('/', async (req: Request, res: Response) => {
       planillasItemsResult,
       ingredientesResult
     ] = await Promise.all([
-      db.query('SELECT items FROM "reporte_z" WHERE id = $1', [reporteZId]),
+      db.query('SELECT items FROM "reportes_z" WHERE id = $1', [reporteZId]),
       db.query('SELECT ingrediente_id, segmento, cantidad FROM "planilla_items" WHERE planilla_id = ANY($1::uuid[])', [[planillaCocinaId, planillaCajaId]]),
-      db.query('SELECT id, "nombreVisible" FROM "ingredientes"')
+      db.query('SELECT id, nombre_visible, tipo FROM "ingredientes"')
     ]);
 
     if (reporteZResult.rows.length === 0) throw new Error('No se encontró el Reporte Z.');
     
-    // Mapas para búsqueda rápida de ingredientes por ID y por Nombre
-    const ingredientesMap = new Map(ingredientesResult.rows.map(ing => [ing.id, ing.nombreVisible]));
-    const ingredientesNombreMap = new Map(ingredientesResult.rows.map(ing => [ing.nombreVisible, ing.id]));
+    // Mapas para búsqueda rápida
+    const ingredientesMap = new Map(ingredientesResult.rows.map(ing => [ing.id, { nombre: ing.nombre_visible, tipo: ing.tipo }]));
+    const ingredientesNombreMap = new Map(ingredientesResult.rows.map(ing => [ing.nombre_visible, ing.id]));
 
     // 2. Calcular Uso Teórico (basado en Reporte Z y Recetario)
     const ventas = reporteZResult.rows[0].items as { codigo: string; cantidad: number }[];
@@ -111,27 +111,49 @@ router.post('/', async (req: Request, res: Response) => {
     }
     console.log(chalk.cyan('-------------------------'));
 
-    // 4. Comparar y generar el detalle del resultado
-    const todosIngredientesIds = new Set([...ingredientesMap.keys()]);
+    // 4. Comparar y generar el detalle del resultado ordenado (CAJA primero)
+    const todosIngredientesIds = Array.from(ingredientesMap.keys());
     const detalle: Record<string, { teorico: number, real: number, diferencia: number }> = {};
 
-    for (const ingredienteId of todosIngredientesIds) {
-      const nombreIngrediente = ingredientesMap.get(ingredienteId)!;
-      const teorico = usoTeorico.get(ingredienteId) || 0;
-      const real = usoReal.get(ingredienteId) || 0;
-      
-      // Solo incluir en el reporte si hubo consumo teórico o real
-      if (teorico !== 0 || real !== 0) {
-        detalle[nombreIngrediente] = {
-          teorico,
-          real,
-          diferencia:   teorico - real    
-        };
-      }
+    // Lista de productos para la sección CAJA (estos irán primero)
+    const nombresCaja = new Set([
+      'Ají en salsa 1 Kg', 'Atún', 'Agua mineral 1 1/2', 'Aquarius y mineral 500cc', 'Agua litro', 
+      'COCA COLA LATA', 'Bebidas 1,5 litro', 'Coca Cola 500cc.', 'Jugo nectar 1 1/2 litros', 
+      'Jugo nectar individual', 'Monster', 'RedBull', 'Barril Quilmes (tara 11,00)', 
+      'Barril Cristal (tara 9,54)', 'Cerv Stella ret 1 Lt', 'Cerv Escudo Ret 1 Lt', 
+      'Cerv Heineken ret 1 Lt', 'Cerv Cristal ret 1 Lt', 'Cerv Royal ret 1 Lt', 
+      'Cerveza Sol Ret 710cc', 'Cerveza Bot Cristal 355cc', 'Cerveza Bot Austral', 
+      'Cerveza Bot Escudo 355cc', 'Cerveza Bot Heineken 355cc', 'Cerveza Sol botellín', 
+      'Cerveza botella Royal 355cc', 'Cerveza botella Kunstman', 'Cerveza Botella Corona', 
+      'Cerveza lata Austral 1/2 lt', 'Cerveza lata Cristal 1/2 lt', 'Cerveza lata Escudo 1/2 lt', 
+      'Cerveza Heineken 1/2 lt', 'Cerveza Royal 1/2 lt', 'Cerveza Torobayo 1/2 lt', 
+      'Cerveza Escudo Silver 1/2', 'Cerveza Coors 1/2 lt', 'Cerveza lata pers Escudo', 
+      'Cerveza lata pers Cristal', 'Cerveza Heineken lata pers.', 'Cerveza Royal lata pers.', 
+      'Cerveza lata Lemon Stone', 'Emp. Horno Pino Carne', 'Emp. Horno marisco'
+    ]);
+
+    // Separar IDs por categoría para controlar el orden de inserción
+    const idsCaja = todosIngredientesIds.filter(id => nombresCaja.has(ingredientesMap.get(id)!.nombre));
+    const idsCocina = todosIngredientesIds.filter(id => !nombresCaja.has(ingredientesMap.get(id)!.nombre));
+
+    // Insertar primero los de CAJA
+    for (const id of idsCaja) {
+      const nombre = ingredientesMap.get(id)!.nombre;
+      const teorico = usoTeorico.get(id) || 0;
+      const real = usoReal.get(id) || 0;
+      detalle[nombre] = { teorico, real, diferencia: teorico - real };
+    }
+
+    // Insertar luego los de COCINA
+    for (const id of idsCocina) {
+      const nombre = ingredientesMap.get(id)!.nombre;
+      const teorico = usoTeorico.get(id) || 0;
+      const real = usoReal.get(id) || 0;
+      detalle[nombre] = { teorico, real, diferencia: teorico - real };
     }
 
     // 5. Marcar Reporte Z como procesado
-    await db.query('UPDATE "reporte_z" SET procesado = true WHERE id = $1', [reporteZId]);
+    await db.query('UPDATE "reportes_z" SET procesado = true WHERE id = $1', [reporteZId]);
     console.log(chalk.cyan(`   - Marcado Reporte Z ${reporteZId} como procesado.`));
     
     // 6. Finalizar transacción y devolver resultado

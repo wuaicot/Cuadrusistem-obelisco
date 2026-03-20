@@ -1,34 +1,8 @@
-4224 → 4
-4246 → 2
-4306 → 11
-4401 → 3
-4428 → 1
-4602 → 2
-4101 → 3
-4203 → 1
-1301 → 4
-0302 → 4
-0508 → 2
-0701 → 1
-1901 → 1
-1501 → 1
-1504 → 1
-1213 → 1
-2316 → 2
-2801 → 6
-2804 → 2
-3705 → 1
-3901 → 1
-3902 → 2
-4023 → 4
-4029 → 6
-4230 → 6
-4872 → 4
-3508 → 4
-3617 → 2
 
 
-  TRUNCATE TABLE reporte_z CASCADE;     
+
+
+  TRUNCATE TABLE reportes_z CASCADE;     
   TRUNCATE TABLE planillas CASCADE;
 
 Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST

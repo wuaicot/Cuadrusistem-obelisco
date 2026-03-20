@@ -1,3 +1,4 @@
+// src/domain/recetas.ts
 export type IngredienteDef = {
   nombre: string;
   cantidad: number;
@@ -12,43 +13,43 @@ export type BebestibleDef = { codigo: string; nombre: string; unidad?: string, i
 export type EmpanadaDef = MenuDef;
 
 export const BEBESTIBLES: Record<string, BebestibleDef> = {
-  "4101": { codigo: "4101", nombre: "AUSTRAL LATA 1/2", unidad: "unidad" },
-
-  "4201": { codigo: "4201", nombre: "CRISTAL LITRO", unidad: "unidad" },
-  "4202": { codigo: "4202", nombre: "ESCUDO LITRO", unidad: "unidad" },
-  "4203": { codigo: "4203", nombre: "ROYAL LITRO", unidad: "unidad" },
-  "4207": { codigo: "4207", nombre: "BOTELLIN CRISTAL", unidad: "unidad" },
-  "4209": { codigo: "4209", nombre: "ROYAL LATA", unidad: "unidad" },
-  "4211": { codigo: "4211", nombre: "BOTELLIN TOROBAYO", unidad: "unidad" },
-  "4215": { codigo: "4215", nombre: "CRISTAL LATA CH", unidad: "unidad" },
-  "4217": { codigo: "4217", nombre: "HEINEKEN LATA", unidad: "unidad" },
-  "4219": { codigo: "4219", nombre: "ESCUDO LATA 1/2", unidad: "unidad" },
-  "4220": { codigo: "4220", nombre: "CRISTAL LATA 1/2", unidad: "unidad" },
+  "4101": { codigo: "4101", nombre: "Cerveza lata Austral 1/2 lt", unidad: "unidad" },
+  "4201": { codigo: "4201", nombre: "Cerv Cristal ret 1 Lt", unidad: "unidad" },
+  "4202": { codigo: "4202", nombre: "Cerv Escudo Ret 1 Lt", unidad: "unidad" },
+  "4203": { codigo: "4203", nombre: "Cerv Royal ret 1 Lt", unidad: "unidad" },
+  "4207": { codigo: "4207", nombre: "Cerveza Botella Corona", unidad: "unidad" },
+  "4209": { codigo: "4209", nombre: "Cerveza botella Royal 355cc", unidad: "unidad" },
+  "4211": { codigo: "4211", nombre: "Cerveza Torobayo 1/2 lt", unidad: "unidad" },
+  "4215": { codigo: "4215", nombre: "Cerveza lata pers. Cristal", unidad: "unidad" },
+  "4217": { codigo: "4217", nombre: "Cerveza Heineken 1/2 lt", unidad: "unidad" },
+  "4219": { codigo: "4219", nombre: "Cerveza lata escudo 1/2 lt", unidad: "unidad" },
+  "4220": { codigo: "4220", nombre: "Cerveza lata Cristal 1/2 lt", unidad: "unidad" },
   "4221": { codigo: "4221", nombre: "SCHOP QUILMES 500 CC", unidad: "unidad" },  
-  "4224": { codigo: "4224", nombre: "BOTELLIN HEINEKEN", unidad: "unidad" },
-  "4228": { codigo: "4228", nombre: "CERVEZA SOL BOTELLIN", unidad: "unidad" },
+  "4224": { codigo: "4224", nombre: "Cerveza Bot Heineken 355cc", unidad: "unidad" },
+  "4228": { codigo: "4228", nombre: "Cerveza Sol botellín", unidad: "unidad" },
   "4230": { codigo: "4230", nombre: "SHOP CRISTAL 500CC", unidad: "unidad" },
-  "4232": { codigo: "4232", nombre: "HEINEKEN LATA 1/2", unidad: "unidad" },
-  "4233": { codigo: "4233", nombre: "BOTELLIN ROYAL", unidad: "unidad" },  
-  "4239": { codigo: "4239", nombre: "ROYAL LATA 1/2", unidad: "unidad" },
-  "4240": { codigo: "4240", nombre: "STELLA LITRO 1LT", unidad: "unidad" },
-  "4245": { codigo: "4245", nombre: "PITCHER QUILMES 1.5", unidad: "unidad" },
-  "4246": { codigo: "4246", nombre: "CORONA BOTELLIN", unidad: "unidad" },
+  "4232": { codigo: "4232", nombre: "Cerveza Heineken 1/2 lt", unidad: "unidad" },
+  "4233": { codigo: "4233", nombre: "Cerveza botella Royal 355cc", unidad: "unidad" },  
+  "4239": { codigo: "4239", nombre: "Cerveza Royal 1/2 lt", unidad: "unidad" },
+  "4240": { codigo: "4240", nombre: "Cerv Stella ret 1 Lt", unidad: "unidad" },
+  "4245": { codigo: "4245", nombre: "Barril Quilmes (tara 11.00)", unidad: "unidad" },
+  "4246": { codigo: "4246", nombre: "Cerveza Botella Corona", unidad: "unidad" },
 
-  "4306": { codigo: "4306", nombre: "COCA COLA LATA", unidad: "unidad" },
-  "4313": { codigo: "4313", nombre: "JUGO NATURAL", unidad: "unidad" },
-  "4314": { codigo: "4314", nombre: "MONSTER BEBIDA ENERG", unidad: "unidad" },
+  "4306": { codigo: "4306", nombre: "Bebida lata", unidad: "unidad" },
+  "4313": { codigo: "4313", nombre: "Juao nectar individual", unidad: "unidad" },
+  "4314": { codigo: "4314", nombre: "Monster", unidad: "unidad" },
+  "4315": { codigo: "4315", nombre: "RedBull", unidad: "unidad" },
   
-  "4401": { codigo: "4401", nombre: "COCA COLA 591CC", unidad: "unidad" },
-  "4407": { codigo: "4407", nombre: "VITAL SIN GAS", unidad: "unidad" },
-  "4426": { codigo: "4426", nombre: "VITAL 1 1/2", unidad: "unidad" },
-  "4428": { codigo: "4428", nombre: "BBIDA 1 1/5", unidad: "unidad" },
+  "4401": { codigo: "4401", nombre: "Coca Cola 500cc.", unidad: "unidad" },
+  "4407": { codigo: "4407", nombre: "Agua mineral 1 1/2", unidad: "unidad" },
+  "4426": { codigo: "4426", nombre: "Agua mineral 1 1/2", unidad: "unidad" },
+  "4428": { codigo: "4428", nombre: "Bebidas 1.5 litro", unidad: "unidad" },
 
-  "4501": { codigo: "4501", nombre: "NECTAR IND", unidad: "unidad" },
-  "4504": { codigo: "4504", nombre: "NECTAR 1 1/2", unidad: "unidad" },
+  "4501": { codigo: "4501", nombre: "Juao nectar individual", unidad: "unidad" },
+  "4504": { codigo: "4504", nombre: "Juao nectar 11/2 litros", unidad: "unidad" },
   
-  "4601": { codigo: "4601", nombre: "CAFE GRANDE", unidad: "unidad" },
-  "4602": { codigo: "4602", nombre: "TE GRANDE", unidad: "unidad" },
+  "4601": { codigo: "4601", nombre: "Sobres de café", unidad: "unidad" },
+  "4602": { codigo: "4602", nombre: "Sobres de te", unidad: "unidad" },
   "4869": { codigo: "4869", nombre: "PROMO SCHOP 2X1", unidad: "unidad" },
   //Continuarà...
 };

@@ -39,10 +39,10 @@ router.get('/', async (req: Request, res: Response) => {
 
   try {
     let query = `
-      SELECT r.id, r."fechaOperacion", r."archivoOriginal", r.checksum, r.procesado,
+      SELECT r.id, r.fecha_operacion AS "fechaOperacion", r.archivo_original AS "archivoOriginal", r.checksum, r.procesado,
              l.nombre as local_nombre,
              t.tipo as turno_tipo
-      FROM "reporte_z" r
+      FROM "reportes_z" r
       LEFT JOIN "locales" l ON r.local_id = l.id
       LEFT JOIN "turnos" t ON r.turno_id = t.id
     `;
@@ -51,7 +51,7 @@ router.get('/', async (req: Request, res: Response) => {
       query += ` WHERE r.procesado = FALSE`;
     }
 
-    query += ` ORDER BY r."fechaOperacion" DESC, r."created_at" DESC;`;
+    query += ` ORDER BY r.fecha_operacion DESC, r.created_at DESC;`;
 
     const { rows } = await db.query(query);
     res.status(200).json(rows);
@@ -73,6 +73,11 @@ router.post(
 
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded.' });
+    }
+
+    const { fechaOperacion, localId, turnoId } = req.body;
+    if (!fechaOperacion || !localId || !turnoId) {
+       return res.status(400).json({ message: 'Missing required fields: fechaOperacion, localId, or turnoId.' });
     }
 
     console.log(chalk.green('File uploaded:'), req.file.filename);
@@ -121,19 +126,12 @@ router.post(
       const archivoOriginal = req.file.path;
       const itemsJsonb = JSON.stringify(ventasArray);
 
-      // TODO: luego vendrán del frontend
-      const fechaOperacion = new Date();
-      const local_id = 'a1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7b';
-      const turno_id = 'b1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7c';
-      const admin_id = 'd3f8e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d';
-      const procesado = false;
-
       const insertQuery = `
-        INSERT INTO "reporte_z" (
-          "archivoOriginal","checksum","items","fechaOperacion",
-          "local_id","turno_id","admin_id","procesado"
+        INSERT INTO "reportes_z" (
+          "archivo_original", "checksum", "items", "fecha_operacion",
+          "local_id", "turno_id", "procesado"
         )
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING id;
       `;
 
@@ -142,10 +140,9 @@ router.post(
         checksum,
         itemsJsonb,
         fechaOperacion,
-        local_id,
-        turno_id,
-        admin_id,
-        procesado
+        localId,
+        turnoId,
+        false
       ]);
 
       const id = result.rows[0].id;
@@ -158,7 +155,7 @@ router.post(
     } catch (error: any) {
       if (
         error.code === '23505' &&
-        error.constraint === 'reporte_z_checksum_key'
+        error.constraint === 'reportes_z_checksum_key'
       ) {
         return res
           .status(409)

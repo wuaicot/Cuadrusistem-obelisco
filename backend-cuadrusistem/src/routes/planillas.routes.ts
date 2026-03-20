@@ -33,8 +33,8 @@ router.get('/', async (req: Request, res: Response) => {
     let queryText = `
       SELECT p.id, p.fecha, p.tipo, t.tipo as turno_tipo, l.nombre as local_nombre
       FROM "planillas" p
-      LEFT JOIN "turnos" t ON p."turnoId" = t.id
-      LEFT JOIN "locales" l ON p."localId" = l.id
+      LEFT JOIN "turnos" t ON p.turno_id = t.id
+      LEFT JOIN "locales" l ON p.local_id = l.id
     `;
 
     if (tipo && (tipo.toUpperCase() === 'COCINA' || tipo.toUpperCase() === 'CAJA')) {
@@ -79,7 +79,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     // 1. Insertar en la tabla 'planillas'
     const planillaInsertQuery = `
-      INSERT INTO "planillas" (fecha, tipo, "turnoId", "localId")
+      INSERT INTO "planillas" (fecha, tipo, turno_id, local_id)
       VALUES ($1, $2, $3, $4)
       RETURNING id;
     `;

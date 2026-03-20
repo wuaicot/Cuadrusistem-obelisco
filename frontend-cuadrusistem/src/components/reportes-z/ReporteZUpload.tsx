@@ -3,44 +3,54 @@ import { useState, useEffect } from 'react';
 import api from '../../services/api';
 import type { Local } from '../../services/locales.service';
 import { fetchLocales } from '../../services/locales.service';
+import type { Turno } from '../../services/turnos.service';
+import { fetchTurnos } from '../../services/turnos.service';
 
 interface ReporteZUploadProps {
   onUploadSuccess: () => void;
 }
 
-const turnoTipos = ['TURNO_I', 'TURNO_II'];
-
 export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
   const [file, setFile] = useState<File | null>(null);
   const [fechaOperacion, setFechaOperacion] = useState('');
-  const [turno, setTurno] = useState(turnoTipos[0]);
+  const [turnos, setTurnos] = useState<Turno[]>([]);
+  const [selectedTurnoId, setSelectedTurnoId] = useState('');
   const [locales, setLocales] = useState<Local[]>([]);
   const [selectedLocalId, setSelectedLocalId] = useState('');
   
   // State for UI feedback
-  const [loadingLocales, setLoadingLocales] = useState(true);
-  const [errorLocales, setErrorLocales] = useState<string | null>(null);
+  const [loadingInitial, setLoadingInitial] = useState(true);
+  const [errorInitial, setErrorInitial] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
 
   useEffect(() => {
-    const getLocales = async () => {
+    const loadData = async () => {
       try {
-        setLoadingLocales(true);
-        const data = await fetchLocales();
-        setLocales(data);
-        if (data.length > 0) {
-          setSelectedLocalId(data[0].id); // Select the first locale by default
+        setLoadingInitial(true);
+        const [localesData, turnosData] = await Promise.all([
+          fetchLocales(),
+          fetchTurnos()
+        ]);
+        
+        setLocales(localesData);
+        setTurnos(turnosData);
+
+        if (localesData.length > 0) {
+          setSelectedLocalId(localesData[0].id);
+        }
+        if (turnosData.length > 0) {
+          setSelectedTurnoId(turnosData[0].id);
         }
       } catch (error) {
-        console.error('Error fetching locales:', error);
-        setErrorLocales('No se pudieron cargar los locales.');
+        console.error('Error fetching initial data:', error);
+        setErrorInitial('No se pudieron cargar los datos iniciales (locales/turnos).');
       } finally {
-        setLoadingLocales(false);
+        setLoadingInitial(false);
       }
     };
-    getLocales();
+    loadData();
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +64,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || !fechaOperacion || !turno || !selectedLocalId) {
+    if (!file || !fechaOperacion || !selectedTurnoId || !selectedLocalId) {
       alert('Por favor, complete todos los campos.');
       return;
     }
@@ -66,7 +76,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
     const formData = new FormData();
     formData.append('reporteZFile', file);
     formData.append('fechaOperacion', fechaOperacion);
-    formData.append('turno', turno);
+    formData.append('turnoId', selectedTurnoId);
     formData.append('localId', selectedLocalId);
 
     try {
@@ -77,16 +87,12 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
       });
 
       if (response.status === 201) {
-        // Use the success message directly from the new API response
         setUploadSuccess(response.data.message || '¡Reporte Z cargado y procesado exitosamente!');
-        
-        // Reset file input for clarity
         setFile(null); 
         if (e.target instanceof HTMLFormElement) {
           e.target.reset();
         }
-
-        onUploadSuccess(); // Notify parent component
+        onUploadSuccess();
       }
     } catch (error: any) {
       console.error('Error uploading file:', error);
@@ -98,6 +104,9 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
     }
   };
 
+  if (loadingInitial) return <p className="text-center p-4">Cargando datos iniciales...</p>;
+  if (errorInitial) return <p className="text-center p-4 text-red-500">{errorInitial}</p>;
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
       <h3 className="text-2xl font-bold mb-4 text-center">Cargar Reporte Z</h3>
@@ -107,7 +116,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
             Archivo PNG/JPG del Reporte Z
           </label>
           <input
-            key={file ? 'file-selected' : 'file-empty'} // Force re-render on reset
+            key={file ? 'file-selected' : 'file-empty'} 
             type="file"
             id="file"
             accept="image/png, image/jpeg"
@@ -138,15 +147,15 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
           </label>
           <select
             id="turno"
-            value={turno}
-            onChange={(e) => setTurno(e.target.value)}
+            value={selectedTurnoId}
+            onChange={(e) => setSelectedTurnoId(e.target.value)}
             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             disabled={isUploading}
             required
           >
-            {turnoTipos.map((t) => (
-              <option key={t} value={t}>
-                {t}
+            {turnos.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.tipo} ({t.fecha})
               </option>
             ))}
           </select>
@@ -156,32 +165,26 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="local">
             Local
           </label>
-          {loadingLocales ? (
-            <p>Cargando locales...</p>
-          ) : errorLocales ? (
-            <p className="text-red-500">{errorLocales}</p>
-          ) : (
-            <select
-              id="local"
-              value={selectedLocalId}
-              onChange={(e) => setSelectedLocalId(e.target.value)}
-              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              disabled={isUploading}
-              required
-            >
-              {locales.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.nombre}
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            id="local"
+            value={selectedLocalId}
+            onChange={(e) => setSelectedLocalId(e.target.value)}
+            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            disabled={isUploading}
+            required
+          >
+            {locales.map((l) => (
+              <option key={l.id} value={l.id}>
+                {l.nombre}
+              </option>
+            ))}
+          </select>
         </div>
 
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:bg-gray-400"
-          disabled={isUploading || !file || !fechaOperacion || !selectedLocalId}
+          disabled={isUploading || !file || !fechaOperacion || !selectedLocalId || !selectedTurnoId}
         >
           {isUploading ? 'Cargando...' : 'Cargar y Procesar Reporte'}
         </button>
@@ -200,4 +203,5 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
     </div>
   );
 }
+
 

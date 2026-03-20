@@ -54,7 +54,6 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
       setIsLoading(true);
       setError(null);
       try {
-        // Fetch all data in parallel
         const [reportesData, planillasCocinaData, planillasCajaData] =
           await Promise.all([
             fetchUnprocessedReportesZ(),
@@ -67,9 +66,7 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
         setPlanillasCaja(planillasCajaData);
       } catch (err) {
         console.error("Error loading initial data for cuadre:", err);
-        setError(
-          "Error al cargar los datos necesarios para el cuadre. Revise la consola y el estado del backend.",
-        );
+        setError("Error al cargar los datos necesarios para el cuadre.");
       } finally {
         setIsLoading(false);
       }
@@ -117,82 +114,70 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mt-6 ">
+    <div className="bg-white p-6 rounded-lg shadow-md mt-6">
       <h3 className="text-2xl font-bold mb-4">Procesar y Visualizar Cuadre</h3>
       <form
         onSubmit={handleProcessCuadre}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 items-end"
       >
         <div>
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="reporteZ-select"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="reporteZ-select">
             Reporte Z
           </label>
           <select
             id="reporteZ-select"
             value={selectedReporteZId}
             onChange={(e) => setSelectedReporteZId(e.target.value)}
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-orange-500/10"
+            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             disabled={isProcessing}
             required
           >
             <option value="">Seleccione Reporte Z</option>
             {reportesZ.map((reporte) => (
               <option key={reporte.id} value={reporte.id}>
-                {new Date(reporte.fechaOperacion).toLocaleDateString()} -{" "}
-                {reporte.turno_tipo} - {reporte.local_nombre}
+                {new Date(reporte.fechaOperacion).toLocaleDateString()} - {reporte.turno_tipo} - {reporte.local_nombre}
               </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2 "
-            htmlFor="planillaCocina-select"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="planillaCocina-select">
             Planilla Cocina
           </label>
           <select
             id="planillaCocina-select"
             value={selectedPlanillaCocinaId}
             onChange={(e) => setSelectedPlanillaCocinaId(e.target.value)}
-            className="shadow border rounded w-full py-2 px-3 bg-blue-500/10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             disabled={isProcessing}
             required
           >
             <option value="">Seleccione Planilla Cocina</option>
             {planillasCocina.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {new Date(planilla.fecha).toLocaleDateString()} -{" "}
-                {planilla.turno_tipo} - {planilla.local_nombre}
+                {new Date(planilla.fecha).toLocaleDateString()} - {planilla.turno_tipo} - {planilla.local_nombre}
               </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="planillaCaja-select"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="planillaCaja-select">
             Planilla Caja
           </label>
           <select
             id="planillaCaja-select"
             value={selectedPlanillaCajaId}
             onChange={(e) => setSelectedPlanillaCajaId(e.target.value)}
-            className="shadow border rounded w-full py-2 px-3 bg-green-500/10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             disabled={isProcessing}
             required
           >
             <option value="">Seleccione Planilla Caja</option>
             {planillasCaja.map((planilla) => (
               <option key={planilla.id} value={planilla.id}>
-                {new Date(planilla.fecha).toLocaleDateString()} -{" "}
-                {planilla.turno_tipo} - {planilla.local_nombre}
+                {new Date(planilla.fecha).toLocaleDateString()} - {planilla.turno_tipo} - {planilla.local_nombre}
               </option>
             ))}
           </select>
@@ -201,7 +186,7 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 w-full"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 w-full"
             disabled={isProcessing}
           >
             {isProcessing ? "Procesando..." : "Procesar Cuadre"}
@@ -210,76 +195,55 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
       </form>
 
       {error && (
-        <div className="my-4 text-red-600  bg-red-100 border border-red-300 p-3 rounded">
+        <div className="my-4 text-red-600 bg-red-100 border border-red-300 p-3 rounded">
           {error}
         </div>
       )}
 
-      {isProcessing && (
-        <p className="text-center p-4">
-          Procesando cuadre, por favor espere...
-        </p>
-      )}
-
       {cuadreData && cuadreData.detalle && (
-        <table className="min-w-full divide-y divide-gray-200 mt-6">
-          <thead className="bg-gray-50">
-
-            <tr>
-
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500   uppercase tracking-wider">
-                Ingrediente
-              </th>
-
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                SALDO (planilla)
-              </th>
-
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                VENTA (Z)
-              </th>
-
-              
-              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Estado
-              </th> */}
-
-            </tr>
-
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {Object.entries(cuadreData.detalle).map(
-              ([ingrediente, detalle]: [string, CuadreDetalle]) => (
-                <tr key={ingrediente}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {ingrediente}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {detalle.real}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {detalle.teorico}
-                  </td>
-
-                  <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm ${getDiferenciaClass(detalle.diferencia)}`}
-                  >
-                    {detalle.diferencia}
-                  </td>
-                  {/* <td
-                    className={`px-6 py-4 whitespace-nowrap text-sm font-bold ${getDiferenciaClass(detalle.diferencia)}`}
-                  >
-                    {detalle.diferencia < 0
-                      ? "⇲"
-                      : detalle.diferencia > 0
-                        ? "⇱"
-                        : "✓"}
-                  </td> */}
-                </tr>
-              ),
-            )}
-          </tbody>
-        </table>
+        <div className="mt-6 overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Ingrediente
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  SALDO (planilla)
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  VENTA (Z)
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  DIFERENCIA
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {Object.entries(cuadreData.detalle).map(([ingrediente, datos]) => {
+                const d = datos as CuadreDetalle;
+                return (
+                  <tr key={ingrediente} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {ingrediente}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {d.real}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      {d.teorico}
+                    </td>
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap text-sm text-center ${getDiferenciaClass(d.diferencia)}`}
+                    >
+                      {d.diferencia}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

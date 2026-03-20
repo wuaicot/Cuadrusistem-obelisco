@@ -50,4 +50,4 @@ NestJS
 - Prefiere el uso de DTOs para la validación de entrada.
 - Comentarios en español.
 - lenguage a usar: español.
-- asegurate de que sea 100% adaptativo para dispositivos compactos, especialmente en dispositivos Appel´s, Androids y Tablet´s en posición vertical.
+- asegurate de que sea 100% adaptativo para dispositivos compactos, especialmente en dispositivos Appel´s, Androids y Tablet´s en posición vertical. Las planillas deben adaptarse a la pantantalla tanto en vertical como en horizontal. No se permite el scroll horizontal.

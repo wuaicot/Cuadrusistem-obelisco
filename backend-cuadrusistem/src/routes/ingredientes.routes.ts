@@ -12,12 +12,12 @@ router.get('/', async (req: Request, res: Response) => {
     const params = [];
 
     if (tipo && (String(tipo).toUpperCase() === 'COCINA' || String(tipo).toUpperCase() === 'CAJA')) {
-      console.log(chalk.blue(`GET /api/ingredientes?tipo=${tipo} -> Fetching '${tipo}' ingredientes.`));
-      query = 'SELECT id, "nombreVisible", tipo, unidad, created_at FROM "ingredientes" WHERE tipo = $1 ORDER BY "nombreVisible" ASC;';
+      console.log(chalk.blue(`GET /api/ingredientes?tipo=${tipo} -> Fetching '${tipo}' ingredientes sorted by order.`));
+      query = 'SELECT id, nombre_visible AS "nombreVisible", tipo, unidad, orden, created_at FROM "ingredientes" WHERE tipo = $1 ORDER BY orden ASC;';
       params.push(String(tipo).toUpperCase());
     } else {
-      console.log(chalk.blue('GET /api/ingredientes -> Fetching all ingredientes.'));
-      query = 'SELECT id, "nombreVisible", tipo, unidad, created_at FROM "ingredientes" ORDER BY "nombreVisible" ASC;';
+      console.log(chalk.blue('GET /api/ingredientes -> Fetching all ingredientes sorted by type and order.'));
+      query = 'SELECT id, nombre_visible AS "nombreVisible", tipo, unidad, orden, created_at FROM "ingredientes" ORDER BY tipo DESC, orden ASC;';
     }
     
     // The frontend expects the column `nombreVisible`, so we will alias it here.

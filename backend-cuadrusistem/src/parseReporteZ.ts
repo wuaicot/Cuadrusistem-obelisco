@@ -35,9 +35,13 @@ const validCodes = getRecetasArray().map((r: Receta) => r.codigo)
 function normalizeLine(line: string): string {
   return line
     .replace(/[|]/g, '')
+    // Reemplazar ceros que el OCR leyó como O mayúscula
     .replace(/O/g, '0')
+    // Reemplazar unos que el OCR leyó como I mayúscula
     .replace(/I/g, '1')
-    .replace(/J/g, '3')
+    // Eliminar fracciones comunes en nombres de bebestibles (ej: 1/2 -> "") 
+    // para que no confunda al extractor de cantidad numérica.
+    .replace(/\d+\/\d+/g, '')
     .replace(/\s+/g, ' ')
     .trim()
 }
@@ -46,21 +50,9 @@ function normalizeLine(line: string): string {
  * Busca un posible código POS dentro de la línea
  */
 function extractRawCode(line: string): string | null {
-
-  /**
-   * buscar secuencia de 4 dígitos
-   * incluso si hay letras delante
-   *
-   * ejemplos:
-   * N1896
-   * P0785
-   * 0382
-   */
-
+  // Buscar secuencia de 4 dígitos (códigos POS típicos)
   const match = line.match(/(\d{4})/)
-
   if (!match) return null
-
   return match[1]
 }
 
@@ -68,16 +60,21 @@ function extractRawCode(line: string): string | null {
  * Extrae cantidad como último número de la línea
  */
 function extractCantidad(line: string): number | null {
+  // Buscamos números al final de la línea después de un espacio
+  // Ejemplo: "4203 ROYAL LITRO 1" -> "1"
+  const match = line.match(/\s(\d+)$/);
+  if (match) {
+    return parseInt(match[1], 10);
+  }
 
-  const nums = line.match(/\d+/g)
+  // Fallback: buscar el último número si la línea no tiene el formato ideal
+  const nums = line.match(/\d+/g);
+  if (!nums || nums.length === 0) return null;
+  
+  const lastNum = parseInt(nums[nums.length - 1], 10);
+  if (isNaN(lastNum)) return null;
 
-  if (!nums || nums.length === 0) return null
-
-  const cantidad = Number(nums[nums.length - 1])
-
-  if (Number.isNaN(cantidad)) return null
-
-  return cantidad
+  return lastNum;
 }
 
 export function parseReporteZ(textoZ: string): Map<string, number> {

@@ -1,17 +1,25 @@
 -- Archivo: schema.sql
--- Este archivo contiene el esquema de la base de datos para la aplicación CuadriSistem.
--- Ejecute estas sentencias en su base de datos PostgreSQL para crear las tablas necesarias.
+-- Este archivo contiene el esquema actualizado de la base de datos para CuadriSistem.
 
--- Eliminar tablas existentes en orden inverso para evitar problemas de dependencias
-DROP TABLE IF EXISTS "reporte_z_ventas";
-DROP TABLE IF EXISTS "reportes_z";
-DROP TABLE IF EXISTS "planilla_items";
-DROP TABLE IF EXISTS "planillas";
-DROP TABLE IF EXISTS "ingredientes";
-DROP TABLE IF EXISTS "turnos";
-DROP TABLE IF EXISTS "locales";
+-- Eliminar tablas existentes en orden inverso
+DROP TABLE IF EXISTS "reportes_z" CASCADE;
+DROP TABLE IF EXISTS "reporte_z" CASCADE; -- Por si existe la versión singular
+DROP TABLE IF EXISTS "planilla_items" CASCADE;
+DROP TABLE IF EXISTS "planillas" CASCADE;
+DROP TABLE IF EXISTS "ingredientes" CASCADE;
+DROP TABLE IF EXISTS "turnos" CASCADE;
+DROP TABLE IF EXISTS "locales" CASCADE;
+DROP TABLE IF EXISTS "cuadres" CASCADE;
+DROP TABLE IF EXISTS "users" CASCADE;
 
--- Tabla para almacenar los locales o sucursales del restaurante
+-- Tabla: users
+CREATE TABLE "users" (
+  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  "nombre" VARCHAR(100) NOT NULL,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Tabla: locales
 CREATE TABLE "locales" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "nombre" VARCHAR(100) NOT NULL UNIQUE,
@@ -19,75 +27,72 @@ CREATE TABLE "locales" (
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Tabla para almacenar los turnos de trabajo
+-- Tabla: turnos
 CREATE TABLE "turnos" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "tipo" VARCHAR(50) NOT NULL, -- Por ejemplo: 'MAÑANA', 'TARDE', 'NOCHE'
+  "tipo" VARCHAR(50) NOT NULL,
   "fecha" DATE NOT NULL,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Tabla para almacenar los ingredientes y bebestibles
+-- Tabla: ingredientes
 CREATE TABLE "ingredientes" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "nombreVisible" VARCHAR(100) NOT NULL,
-  "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')), -- 'COCINA' para ingredientes, 'CAJA' para bebestibles
-  "unidad" VARCHAR(50), -- Por ejemplo: 'unidades', 'gramos', 'litros'
+  "nombre_visible" VARCHAR(100) NOT NULL,
+  "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')),
+  "unidad" VARCHAR(50),
+  "orden" INTEGER NOT NULL DEFAULT 0, -- Nueva columna para el orden exacto
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Tabla principal para las planillas
+-- Tabla: planillas
 CREATE TABLE "planillas" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "fecha" DATE NOT NULL,
   "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')),
-  "turnoId" UUID NOT NULL REFERENCES "turnos"("id"),
-  "localId" UUID NOT NULL REFERENCES "locales"("id"),
+  "turno_id" UUID NOT NULL REFERENCES "turnos"("id"),
+  "local_id" UUID NOT NULL REFERENCES "locales"("id"),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Tabla de detalles para cada planilla, almacenando los valores de los segmentos
+-- Tabla: planilla_items
 CREATE TABLE "planilla_items" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   "planilla_id" UUID NOT NULL REFERENCES "planillas"("id") ON DELETE CASCADE,
   "ingrediente_id" UUID NOT NULL REFERENCES "ingredientes"("id"),
   "segmento" VARCHAR(50) NOT NULL, -- 'SALDO_INICIAL', 'ENTRADA', 'DEVOLUC', 'SALDO_FINAL'
   "cantidad" INTEGER NOT NULL,
-  UNIQUE("planilla_id", "ingrediente_id", "segmento") -- Un ingrediente solo puede tener un valor por segmento en una planilla
+  UNIQUE("planilla_id", "ingrediente_id", "segmento")
 );
 
--- Tabla para almacenar información sobre los archivos de Reporte Z subidos
+-- Tabla: reportes_z
 CREATE TABLE "reportes_z" (
   "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "file_path" VARCHAR(255) NOT NULL,
-  "raw_text" TEXT,
-  "processed_at" TIMESTAMPTZ,
+  "archivo_original" VARCHAR(255) NOT NULL,
+  "checksum" VARCHAR(64) UNIQUE NOT NULL,
+  "items" JSONB, -- Lista estructurada de ventas extraídas por OCR
+  "fecha_operacion" DATE NOT NULL,
+  "local_id" UUID REFERENCES "locales"("id"),
+  "turno_id" UUID REFERENCES "turnos"("id"),
+  "admin_id" UUID, -- Para trazabilidad futura
+  "procesado" BOOLEAN DEFAULT FALSE,
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Tabla para almacenar los datos de ventas extraídos de un Reporte Z
-CREATE TABLE "reporte_z_ventas" (
-  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  "reporte_z_id" UUID NOT NULL REFERENCES "reportes_z"("id") ON DELETE CASCADE,
-  "codigo_producto" VARCHAR(100) NOT NULL,
-  "cantidad" INTEGER NOT NULL
-);
+-- --- DATOS INICIALES DE EJEMPLO ---
 
--- --- INSERCIONES DE DATOS DE EJEMPLO ---
--- Puede descomentar estas líneas para poblar la base de datos con datos de prueba.
+INSERT INTO "locales" ("nombre", "direccion") VALUES
+('Obelisco', 'Av. Principal, El Obelisco');
 
--- INSERT INTO "locales" ("nombre", "direccion") VALUES
--- ('Obelisco', 'Av. Principal, El Obelisco');
+-- Turnos de ejemplo (se crearán dinámicamente en producción, pero útil para tests)
+INSERT INTO "turnos" ("tipo", "fecha") VALUES
+('MAÑANA', '2026-03-17'),
+('TARDE', '2026-03-17');
 
--- INSERT INTO "turnos" ("tipo", "fecha") VALUES
--- ('DIURNO', '2026-01-10'),
--- ('NOCTURNO', '2026-01-10');
-
--- INSERT INTO "ingredientes" ("nombreVisible", "tipo", "unidad") VALUES
--- ('Vienesas personal', 'COCINA', 'unidades'),
--- ('Pan de completo', 'COCINA', 'unidades'),
--- ('Carne de hamburguesa', 'COCINA', 'unidades'),
--- ('Coca-Cola 500ml', 'CAJA', 'unidades');
-
--- Mensaje de confirmación
--- \echo "Esquema de base de datos 'cuadrusistem' creado exitosamente."
+-- Ingredientes de ejemplo
+INSERT INTO "ingredientes" ("nombre_visible", "tipo", "unidad") VALUES
+('Vienesas personal', 'COCINA', 'unidades'),
+('Pan mesa Personal', 'COCINA', 'unidades'),
+('Carne para As Gig.', 'COCINA', 'unidades'),
+('Coca Cola 591CC', 'CAJA', 'unidades'),
+('CORONA BOTELLIN', 'CAJA', 'unidades');

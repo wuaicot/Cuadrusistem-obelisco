@@ -46,7 +46,7 @@ function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
     <div
       onClick={disabled ? undefined : onClick}
       className={`h-full w-full cursor-pointer transition-colors duration-150 ${
-        isSelected ? "bg-black" : "bg-white"
+        isSelected ? "bg-[#000033]" : "bg-white"
       } ${
         !disabled && !isSelected ? "hover:bg-blue-100" : ""
       } ${disabled ? "opacity-50 cursor-not-allowed bg-gray-200" : ""}`}
