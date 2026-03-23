@@ -173,6 +173,11 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Vienesas doggi", cantidad: 1 },            
     ],
   },
+  
+  // --- AGREGADOS / EXTRAS ---
+  "0405": { codigo: "0405", nombre: "+HUEVO", ingredientes: [{ nombre: "Huevos", cantidad: 1 }] },
+  "0411": { codigo: "0411", nombre: "+QUESO", ingredientes: [{ nombre: "Queso laminado", cantidad: 2 }] },
+  "1005": { codigo: "1005", nombre: "+HUEVO", ingredientes: [{ nombre: "Huevos", cantidad: 1 }] },
 
   "0502": {
     codigo: "0502",
@@ -972,6 +977,16 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
   },
+  "4895": {
+    codigo: "4895",
+    nombre: "CHORRILLA GIGANTE + P",
+    ingredientes: [
+      { nombre: "Papas grandes 700gr", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Vienesas doggi", cantidad: 1 },
+      { nombre: "Chorizo", cantidad: 2 },
+    ],
+  },
   "4896": {
     codigo: "4896",
     nombre: "LOMO PERSONAL ITALIA",
@@ -980,6 +995,7 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
   },
+
   "5302": {
     codigo: "5302",
     nombre: "TOSTADAS Jamón HUEVO",
@@ -1055,6 +1071,31 @@ export const MENUS: Record<string, MenuDef> = {
         { nombre: "Carne para As Gig.", cantidad: 0.5 },
         { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
+  },
+  
+  // --- OTROS FALTANTES ---
+  "1701": {
+    codigo: "1701",
+    nombre: "POLLO ITALIANO GIG",
+    ingredientes: [
+      { nombre: "Pan hallullon", cantidad: 1 },
+      { nombre: "Carne Ave .Gigante", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },
+    ],
+  },
+  "2107": {
+    codigo: "2107",
+    nombre: "HAMBU OBE GIG",
+    ingredientes: [
+      { nombre: "Pan hallullon", cantidad: 1 },
+      { nombre: "Carne Hamburg Gigant.", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },
+    ],
+  },
+  "4032": {
+    codigo: "4032",
+    nombre: "COLACION TOMAS HERBI",
+    ingredientes: [{ nombre: "Pan mesa Personal", cantidad: 1 }], // Estimado
   },
   //Continuarà...
   
@@ -1147,8 +1188,8 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
       { nombre: "Carne para As Gig.", cantidad: 0.5 },            
     ],
   },
-  "6313": {
-    codigo: "6313",
+  "3613": {
+    codigo: "3613",
     nombre: "EMP QUESO CHOCLO FRI",
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },      

@@ -106,8 +106,10 @@ router.post('/', async (req: Request, res: Response) => {
       //la formula
       const consumo = (inicial + entrada - devolucion) - final;
       usoReal.set(ingredienteId, consumo);
-      const nombreIng = ingredientesMap.get(ingredienteId) || 'Desconocido';
+      const ingData = ingredientesMap.get(ingredienteId);
+      const nombreIng = ingData ? ingData.nombre : 'Desconocido';
       console.log(`  - [${nombreIng}]: (Inicial ${inicial} + Entrada ${entrada} - Devolución ${devolucion}) - Final ${final} = Consumo Real ${consumo}`);
+
     }
     console.log(chalk.cyan('-------------------------'));
 

@@ -9,6 +9,7 @@ import { runOcr } from '../ocr/ocrWorker';
 import { preprocessTicket } from '../ocr/preprocess';
 import { parseReporteZ } from '../parseReporteZ';
 import db from '../db';
+import { recetas as catalog } from '../domain/recetas';
 
 const router = Router();
 
@@ -109,10 +110,12 @@ router.post(
         ([codigo, cantidad]) => ({ codigo, cantidad })
       );
 
-      console.log(chalk.cyan('--- Ventas Z ---'));
-      ventasArray.forEach(v =>
-        console.log(chalk.cyan(`${v.codigo} → ${v.cantidad}`))
-      );
+      console.log(chalk.cyan('--- Resumen Final Ventas Z ---'));
+      ventasArray.forEach(v => {
+        const prod = catalog.find(p => p.codigo === v.codigo);
+        console.log(chalk.cyan(`   ${v.codigo} [${prod?.nombre || '?'}] → ${v.cantidad}`));
+      });
+      console.log(chalk.cyan('------------------------------'));
 
       /* =========================
          CHECKSUM

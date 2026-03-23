@@ -5,7 +5,7 @@
  * frecuentemente corrompe los códigos.
  */
 
-import { correctCodeOcr } from './utils/pos-canonical'
+import { matchProductHybrid, extractCantidadRobust } from './utils/pos-canonical'
 import * as recetasModule from './domain/recetas'
 
 export type VentaZ = {
@@ -14,7 +14,8 @@ export type VentaZ = {
 }
 
 type Receta = {
-  codigo: string
+  codigo: string;
+  nombre: string;
 }
 
 function getRecetasArray(): Receta[] {
@@ -27,54 +28,17 @@ function getRecetasArray(): Receta[] {
   throw new Error('No se encontró export válido de recetas')
 }
 
-const validCodes = getRecetasArray().map((r: Receta) => r.codigo)
+const catalog = getRecetasArray();
 
 /**
- * Limpia ruido típico de OCR
+ * Limpia ruido básico de OCR sin corromper nombres.
  */
 function normalizeLine(line: string): string {
   return line
     .replace(/[|]/g, '')
-    // Reemplazar ceros que el OCR leyó como O mayúscula
-    .replace(/O/g, '0')
-    // Reemplazar unos que el OCR leyó como I mayúscula
-    .replace(/I/g, '1')
-    // Eliminar fracciones comunes en nombres de bebestibles (ej: 1/2 -> "") 
-    // para que no confunda al extractor de cantidad numérica.
-    .replace(/\d+\/\d+/g, '')
+    // NO eliminamos fracciones aquí, lo hará extractCantidadRobust de forma más selectiva
     .replace(/\s+/g, ' ')
     .trim()
-}
-
-/**
- * Busca un posible código POS dentro de la línea
- */
-function extractRawCode(line: string): string | null {
-  // Buscar secuencia de 4 dígitos (códigos POS típicos)
-  const match = line.match(/(\d{4})/)
-  if (!match) return null
-  return match[1]
-}
-
-/**
- * Extrae cantidad como último número de la línea
- */
-function extractCantidad(line: string): number | null {
-  // Buscamos números al final de la línea después de un espacio
-  // Ejemplo: "4203 ROYAL LITRO 1" -> "1"
-  const match = line.match(/\s(\d+)$/);
-  if (match) {
-    return parseInt(match[1], 10);
-  }
-
-  // Fallback: buscar el último número si la línea no tiene el formato ideal
-  const nums = line.match(/\d+/g);
-  if (!nums || nums.length === 0) return null;
-  
-  const lastNum = parseInt(nums[nums.length - 1], 10);
-  if (isNaN(lastNum)) return null;
-
-  return lastNum;
 }
 
 export function parseReporteZ(textoZ: string): Map<string, number> {
@@ -84,44 +48,41 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
   const lineas = textoZ
     .split('\n')
     .map(normalizeLine)
-    .filter(Boolean)
+    .filter(line => line.length > 4) // Ignorar líneas muy cortas
 
   for (const linea of lineas) {
 
     /**
-     * ignorar encabezados
+     * ignorar encabezados y totales
      */
     if (
       linea.includes('TOTAL') ||
       linea.includes('VENTASPORARTICULO') ||
-      linea.includes('CODIGO')
+      linea.includes('CODIGO') ||
+      linea.includes('LOCAL') ||
+      linea.includes('FECHA')
     ) continue
 
-    const rawCode = extractRawCode(linea)
+    // 1. Identificar Producto (Híbrido)
+    const codigo = matchProductHybrid(linea, catalog)
+    if (!codigo) continue
 
-    if (!rawCode) continue
-
-    const cantidad = extractCantidad(linea)
-
-    if (!cantidad || cantidad <= 0 || cantidad > 50) continue
-
-    /**
-     * corrección contra catálogo POS
-     */
-    const codigo = correctCodeOcr(rawCode, validCodes)
+    // 2. Extraer Cantidad (Robust) - Pasamos el código para ignorar sus números
+    const cantidad = extractCantidadRobust(linea, codigo)
+    
+    // Si no hay cantidad, intentamos un valor por defecto solo si la línea es muy clara
+    // Pero para evitar errores, mejor ignorar si no hay cantidad numérica detectable.
+    if (cantidad === null || cantidad <= 0 || cantidad > 100) {
+      console.log(`[Parser] Ítem identificado (${codigo}) pero sin cantidad válida en: "${linea}"`)
+      continue
+    }
 
     const actual = ventas.get(codigo) ?? 0
-
     ventas.set(codigo, actual + cantidad)
-  }
 
-  /**
-   * Debug útil para desarrollo
-   */
-  console.log('--- Ventas Z ---')
-
-  for (const [codigo, cantidad] of ventas.entries()) {
-    console.log(`${codigo} → ${cantidad}`)
+    // Log detallado para depuración
+    const prod = catalog.find(p => p.codigo === codigo)
+    console.log(`[Parser] Match: "${linea}" -> ${codigo} [${prod?.nombre || '?'}] (Cant: ${cantidad})`)
   }
 
   return ventas

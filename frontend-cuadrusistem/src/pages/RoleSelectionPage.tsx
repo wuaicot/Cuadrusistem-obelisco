@@ -30,13 +30,13 @@ export function RoleSelectionPage() {
             onClick={() => handleRoleSelection('COCINA')}
             className="bg-green-800 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-2xl border-2"
           >
-            Cocina🍴
+            Cocina 🍽️
           </button>
           <button
             onClick={() => handleRoleSelection('CAJA')}
             className="bg-blue-800 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-2xl border-2"
           >
-            Caja🥛
+            Caja 💵
           </button>
           <button
             onClick={() => handleRoleSelection('ADMIN')}
