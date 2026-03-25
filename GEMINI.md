@@ -23,14 +23,41 @@ Hagamos un consenso en cuanto a la definición de lo que es una planilla,
 
 -   **Objetivos del proyecto:** calcular el consumo de los ingredientes usados en la elaboración de diversos menús de comida rápida en un restaurante. Actualmente estos cálculos se hacen de forma manual, basándose en un reporte de productos "reporte Z" emitido por el sistema de ventas e impreso en papel térmico de 80mm. Este reporte es el que contiene la información de los códigos, nombres y cantidades de cada MENUS, BEBESTIBLES y EMPANADAS que fueron vendidos ese día, por ejemplo, "4246, CORONA BOTELLIN, 1" | "0911, CHUR MEXICANO GIG, 1" | "3601, EMP CAMARON QUESO FR". Tambien son usados para este cálculo, dos planillas llamadas, "Planilla Cocina" y "Planilla Caja". En la Planilla cocina (Planilla Cocina) se muestran las tablas de los diversos ingredientes que son usados para la elaboración de "MENUS" y "EMPANADAS". En la planilla de Caja (Planilla Caja) se muestran las tablas de los diversos "BEBESTIBLES" que se comercializan en el restaurante. Tanto el área de cocina, como el de caja son totalmente distintos e independientes el uno del otro, pero a la vez son simbioticas.
 -   **Preferencias de estilo/código:** se usaran las mejores practicas de desarrollo segun EMC6. Debes garantizar que funcione de forma optima en dispositivos móviles compactos.
--   **Ignorar archivos/carpetas:** Listado de archivos o carpetas que Gemini debería ignorar al analizar el código.
+-   **Ignorar archivos/carpetas:**# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+ 
+# Environment variables
+.env
+
 -   **Preguntas frecuentes:** Respuestas a preguntas comunes sobre el proyecto.
 
 ---
 
 **Ejemplo de contenido:**
 
-este es un desarrollado con NestJS, ReactJS y TypeScript. Usa taildwing para los estilos.
+este es un desarrollado con NestJS, ReactJS y TypeScript. Usa TaildWindcss para los estilos.
 El objetivo principal es gestionar la lógica de negocio y la interfaz de usuario para la aplicación de cuadre y reportes Z.
 
 **Tecnologías:**
@@ -51,3 +78,7 @@ NestJS
 - Comentarios en español.
 - lenguage a usar: español.
 - asegurate de que sea 100% adaptativo para dispositivos compactos, especialmente en dispositivos Appel´s, Androids y Tablet´s en posición vertical. Las planillas deben adaptarse a la pantantalla tanto en vertical como en horizontal. No se permite el scroll horizontal.
+
+**estado actual:**
+Hemos logrado consolidar un motor de análisis que no solo lee texto, sino que entiende el contexto de las secciones y el catálogo de productos, lo cual es fundamental para garantizar que el cálculo de inventario
+  sea exacto en cada uno de los dos reportes diarios.
