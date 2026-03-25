@@ -1,10 +1,10 @@
 // frontend-cuadrusistem/src/components/reportes-z/ReporteZUpload.tsx
-import { useState, useEffect } from 'react';
-import api from '../../services/api';
-import type { Local } from '../../services/locales.service';
-import { fetchLocales } from '../../services/locales.service';
-import type { Turno } from '../../services/turnos.service';
-import { fetchTurnos } from '../../services/turnos.service';
+import { useState, useEffect } from "react";
+import api from "../../services/api";
+import type { Local } from "../../services/locales.service";
+import { fetchLocales } from "../../services/locales.service";
+import type { Turno } from "../../services/turnos.service";
+import { fetchTurnos } from "../../services/turnos.service";
 
 interface ReporteZUploadProps {
   onUploadSuccess: () => void;
@@ -12,12 +12,12 @@ interface ReporteZUploadProps {
 
 export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [fechaOperacion, setFechaOperacion] = useState('');
+  const [fechaOperacion, setFechaOperacion] = useState("");
   const [turnos, setTurnos] = useState<Turno[]>([]);
-  const [selectedTurnoId, setSelectedTurnoId] = useState('');
+  const [selectedTurnoId, setSelectedTurnoId] = useState("");
   const [locales, setLocales] = useState<Local[]>([]);
-  const [selectedLocalId, setSelectedLocalId] = useState('');
-  
+  const [selectedLocalId, setSelectedLocalId] = useState("");
+
   // State for UI feedback
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [errorInitial, setErrorInitial] = useState<string | null>(null);
@@ -31,9 +31,9 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         setLoadingInitial(true);
         const [localesData, turnosData] = await Promise.all([
           fetchLocales(),
-          fetchTurnos()
+          fetchTurnos(),
         ]);
-        
+
         setLocales(localesData);
         setTurnos(turnosData);
 
@@ -44,8 +44,10 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
           setSelectedTurnoId(turnosData[0].id);
         }
       } catch (error) {
-        console.error('Error fetching initial data:', error);
-        setErrorInitial('No se pudieron cargar los datos iniciales (locales/turnos).');
+        console.error("Error fetching initial data:", error);
+        setErrorInitial(
+          "No se pudieron cargar los datos iniciales (locales/turnos).",
+        );
       } finally {
         setLoadingInitial(false);
       }
@@ -65,7 +67,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      alert('Por favor, complete todos los campos.');
+      alert("Por favor, complete todos los campos.");
       return;
     }
 
@@ -74,49 +76,62 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
     setUploadSuccess(null);
 
     const formData = new FormData();
-    formData.append('reporteZFile', file);
-    formData.append('fechaOperacion', fechaOperacion);
-    formData.append('turnoId', selectedTurnoId);
-    formData.append('localId', selectedLocalId);
+    formData.append("reporteZFile", file);
+    formData.append("fechaOperacion", fechaOperacion);
+    formData.append("turnoId", selectedTurnoId);
+    formData.append("localId", selectedLocalId);
 
     try {
-      const response = await api.post('/reporte-z', formData, {
+      const response = await api.post("/reporte-z", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
       if (response.status === 201) {
-        setUploadSuccess(response.data.message || '¡Reporte Z cargado y procesado exitosamente!');
-        setFile(null); 
+        setUploadSuccess(
+          response.data.message ||
+            "¡Reporte Z cargado y procesado exitosamente!",
+        );
+        setFile(null);
         if (e.target instanceof HTMLFormElement) {
           e.target.reset();
         }
         onUploadSuccess();
       }
-    } catch (error: any) {
-      console.error('Error uploading file:', error);
-      const message =
-        error.response?.data?.message || 'Error desconocido al cargar el archivo.';
+    } catch (error: unknown) {
+      console.error("Falló cargando el archivo:", error);
+      let message = "Error desconocido al cargar el archivo.";
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        message = axiosError.response?.data?.message || message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
       setUploadError(`Error: ${message}`);
     } finally {
       setIsUploading(false);
     }
   };
 
-  if (loadingInitial) return <p className="text-center p-4">Cargando datos iniciales...</p>;
-  if (errorInitial) return <p className="text-center p-4 text-red-500">{errorInitial}</p>;
+  if (loadingInitial)
+    return <p className="text-center p-4">Cargando datos iniciales...</p>;
+  if (errorInitial)
+    return <p className="text-center p-4 text-red-500">{errorInitial}</p>;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
       <h3 className="text-2xl font-bold mb-4 text-center">Cargar Reporte Z</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="file"
+          >
             Archivo PNG/JPG del Reporte Z
           </label>
           <input
-            key={file ? 'file-selected' : 'file-empty'} 
+            key={file ? "file-selected" : "file-empty"}
             type="file"
             id="file"
             accept="image/png, image/jpeg"
@@ -127,7 +142,10 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fecha">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="fecha"
+          >
             Fecha de Operación
           </label>
           <input
@@ -142,7 +160,10 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="turno">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="turno"
+          >
             Turno
           </label>
           <select
@@ -162,7 +183,10 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="local">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="local"
+          >
             Local
           </label>
           <select
@@ -184,9 +208,15 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:bg-gray-400"
-          disabled={isUploading || !file || !fechaOperacion || !selectedLocalId || !selectedTurnoId}
+          disabled={
+            isUploading ||
+            !file ||
+            !fechaOperacion ||
+            !selectedLocalId ||
+            !selectedTurnoId
+          }
         >
-          {isUploading ? 'Cargando...' : 'Cargar y Procesar Reporte'}
+          {isUploading ? "Cargando..." : "Cargar y Procesar Reporte"}
         </button>
 
         {uploadSuccess && (
@@ -203,5 +233,3 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
     </div>
   );
 }
-
-

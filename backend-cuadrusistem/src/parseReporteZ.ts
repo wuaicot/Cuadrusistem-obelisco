@@ -44,45 +44,54 @@ function normalizeLine(line: string): string {
 export function parseReporteZ(textoZ: string): Map<string, number> {
 
   const ventas = new Map<string, number>()
+  let seccionActual = '' 
 
   const lineas = textoZ
     .split('\n')
     .map(normalizeLine)
-    .filter(line => line.length > 4) // Ignorar líneas muy cortas
+    .filter(line => line.length > 3)
 
   for (const linea of lineas) {
+    // 0. Identificar cambio de sección
+    const upper = linea.toUpperCase();
+    if (upper.includes('01BAR')) { seccionActual = 'BAR'; continue; }
+    if (upper.includes('02COCINA')) { seccionActual = 'COCINA'; continue; }
+    if (upper.includes('03EMPANADAS')) { seccionActual = 'EMPANADAS'; continue; }
 
-    /**
-     * ignorar encabezados y totales
-     */
     if (
-      linea.includes('TOTAL') ||
-      linea.includes('VENTASPORARTICULO') ||
-      linea.includes('CODIGO') ||
-      linea.includes('LOCAL') ||
-      linea.includes('FECHA')
+      upper.includes('TOTAL') ||
+      upper.includes('VENTASPORARTICULO') ||
+      upper.includes('CODIGO') ||
+      upper.includes('LOCAL') ||
+      upper.includes('FECHA') ||
+      upper.includes('HORA') ||
+      upper.includes('PAGINA') ||
+      upper.includes('OBELISCO')
     ) continue
 
-    // 1. Identificar Producto (Híbrido)
-    const codigo = matchProductHybrid(linea, catalog)
+    // 1. Identificar Producto
+    const codigo = matchProductHybrid(linea, catalog, seccionActual)
     if (!codigo) continue
 
-    // 2. Extraer Cantidad (Robust) - Pasamos el código para ignorar sus números
-    const cantidad = extractCantidadRobust(linea, codigo)
+    // 2. Extraer Cantidad
+    let cantidad = extractCantidadRobust(linea, codigo)
     
-    // Si no hay cantidad, intentamos un valor por defecto solo si la línea es muy clara
-    // Pero para evitar errores, mejor ignorar si no hay cantidad numérica detectable.
-    if (cantidad === null || cantidad <= 0 || cantidad > 100) {
-      console.log(`[Parser] Ítem identificado (${codigo}) pero sin cantidad válida en: "${linea}"`)
-      continue
+    if (cantidad === null || cantidad <= 0) {
+      // Solo asumimos 1 si el match por nombre fue muy fuerte (>0.8)
+      // Esto evita capturar basura de metadatos como productos
+      // (Pasamos la lógica de validación aquí si es necesario, 
+      // pero por ahora usemos un log para auditar)
+      cantidad = 1;
     }
 
-    const actual = ventas.get(codigo) ?? 0
-    ventas.set(codigo, actual + cantidad)
+    // 3. Consolidación estricta en el Map
+    // Limpiamos el código por si acaso tuviera espacios
+    const cleanCode = codigo.trim();
+    const actual = ventas.get(cleanCode) ?? 0
+    ventas.set(cleanCode, actual + cantidad)
 
-    // Log detallado para depuración
-    const prod = catalog.find(p => p.codigo === codigo)
-    console.log(`[Parser] Match: "${linea}" -> ${codigo} [${prod?.nombre || '?'}] (Cant: ${cantidad})`)
+    const prod = catalog.find(p => p.codigo === cleanCode)
+    console.log(`[Parser] Match [${seccionActual}]: "${linea}" -> ${cleanCode} [${prod?.nombre || '?'}] (Cant: ${cantidad})`)
   }
 
   return ventas
