@@ -25,6 +25,8 @@ export const CATEGORIAS_COCINA = [
   { id: 'embutidos', nombre: 'Embutidos', icon: '🌭', color: 'bg-orange-100 text-orange-600' },
   { id: 'panaderia', nombre: 'Panadería', icon: '🥖', color: 'bg-amber-100 text-amber-600' },
   { id: 'bebestibles', nombre: 'Bebestibles', icon: '🥤', color: 'bg-purple-100 text-purple-600' },
+  { id: 'mariscos', nombre: 'Mariscos', icon: '🦞', color: 'bg-cyan-100 text-cyan-600' },
+  { id: 'aseo', nombre: 'Aseo', icon: '🧹', color: 'bg-slate-100 text-slate-600' },
   { id: 'otros', nombre: 'Otros', icon: '📦', color: 'bg-gray-100 text-gray-600' },
 ];
 
@@ -32,58 +34,148 @@ export const PROVEEDORES: Proveedor[] = [
   {
     id: 'sanjorge',
     nombre: 'San Jorge',
-    categorias: ['lacteos'],
+    categorias: ['embutidos'],
     productos: [
-      {
-        id: 'leche-entera-colun',
-        nombre: 'LECHE ENTERA COLUN',
-        presentacion: 'CJA/12 LT CAJA',
-        unidadesPorEnvase: 12,
-        precioNetoUnidad: 961.12,
-        ivaPorcentaje: 19,
-        categoria: 'lacteos'
-      },
-      {
-        id: 'crema-leche-colun',
-        nombre: 'CREMA DE LECHE',
-        presentacion: 'Bolsa 1 LT',
-        unidadesPorEnvase: 1,
-        precioNetoUnidad: 3500,
-        ivaPorcentaje: 19,
-        categoria: 'lacteos'
-      }
+      { id: 'sj-vienesa-personal', nombre: 'Vienesa Personal', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-vienesa-gigante', nombre: 'Vienesa Gigante', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-jamon', nombre: 'Jamón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-chorizo', nombre: 'Chorizo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' }
     ]
   },
   {
-    id: 'soprole',
-    nombre: 'SOPROLE',
-    categorias: ['lacteos'],
+    id: 'gag',
+    nombre: 'GAG',
+    categorias: ['mariscos', 'otros'],
     productos: [
-      {
-        id: 'leche-entera-soprole',
-        nombre: 'LECHE ENTERA SOPROLE',
-        presentacion: 'CJA/12 LT CAJA',
-        unidadesPorEnvase: 12,
-        precioNetoUnidad: 980.50,
-        ivaPorcentaje: 19,
-        categoria: 'lacteos'
-      }
+      { id: 'gag-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-palmito', nombre: 'Palmito', presentacion: 'Tarro', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'gag-champinon', nombre: 'Champiñon', presentacion: 'Bandeja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'gag-pulpa-jugos', nombre: 'Pulpa de jugos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'gag-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-camaron-36-40', nombre: 'Camarón 36/40', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-camaron-100-200', nombre: 'Camarón 100/200', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-pangasius', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
     ]
   },
   {
-    id: 'agropur',
-    nombre: 'AGROPUR',
-    categorias: ['carnes', 'embutidos'],
+    id: 'ccu',
+    nombre: 'CCU',
+    categorias: ['bebestibles'],
     productos: [
-      {
-        id: 'vienesas-personal',
-        nombre: 'Vienesas Personal',
-        presentacion: 'Paquete 20 unidades',
-        unidadesPorEnvase: 20,
-        precioNetoUnidad: 150.25,
-        ivaPorcentaje: 19,
-        categoria: 'embutidos'
-      }
+      { id: 'ccu-cervezas', nombre: 'Cervezas', presentacion: 'Pack', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'bebestibles' }
+    ]
+  },
+  {
+    id: 'cocacola',
+    nombre: 'Coca Cola',
+    categorias: ['bebestibles'],
+    productos: [
+      { id: 'cc-bebidas', nombre: 'Bebidas', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'bebestibles' }
+    ]
+  },
+  {
+    id: 'pf',
+    nombre: 'PF',
+    categorias: ['embutidos', 'carnes'],
+    productos: [
+      { id: 'pf-jamon', nombre: 'Jamón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-chorizo', nombre: 'Chorizo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-tocino', nombre: 'Tocino', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-vienesa-grande', nombre: 'Vienesa Grande', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-vienesa-pequena', nombre: 'Vienesa Pequeña', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-tapapecho', nombre: 'Tapapecho', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'pf-asiento', nombre: 'Asiento', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
+    ]
+  },
+  {
+    id: 'olivo',
+    nombre: 'Olivo',
+    categorias: ['abarrotes', 'aseo', 'lacteos', 'otros'],
+    productos: [
+      { id: 'ol-nova', nombre: 'Nova', presentacion: 'Pack', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
+      { id: 'ol-productos-aseo', nombre: 'Productos de aseo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
+      { id: 'ol-productos-peruanos', nombre: 'Productos peruanos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'ol-aceite-freidora', nombre: 'Aceite freidora', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-aceite-litro', nombre: 'Aceite de litro', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-aceite-bidon', nombre: 'Aceite de bidón', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+
+      { id: 'ol-leche-evaporada', nombre: 'LECHE EVAPORADA IDEAL-LTA/390 (DSP/24 LTA LATA)', presentacion: 'lata', unidadesPorEnvase: 1, precioNetoUnidad: 1402.50, ivaPorcentaje: 19, categoria: 'lacteos' },
+      { id: 'ol-leche-entera', nombre: 'LECHE ENTERA COLUN - CJA/12 LT CAJA', presentacion: 'lata', unidadesPorEnvase: 1, precioNetoUnidad: 961.12, ivaPorcentaje: 19, categoria: 'lacteos' },       
+      { id: 'ol-crema-leche', nombre: 'CREMA DE LECHE COLUN - CJA/12 LT CAJA', presentacion: 'Litro', unidadesPorEnvase: 1, precioNetoUnidad: 3050.41, ivaPorcentaje: 19, categoria: 'lacteos' },
+
+      { id: 'ol-ketchup', nombre: 'Ketchup', presentacion: 'Pote/Sachet', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-cafe', nombre: 'Café', presentacion: 'Frasco', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-panko', nombre: 'Panko', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-arroz', nombre: 'Arroz', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-fetuccini', nombre: 'Fetuccini', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' }
+    ]
+  },
+  {
+    id: 'dcarnes',
+    nombre: "D' carnes",
+    categorias: ['carnes'],
+    productos: [
+      { id: 'dc-carne', nombre: 'Carne', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
+    ]
+  },
+  {
+    id: 'hojarasca',
+    nombre: 'Hojarasca',
+    categorias: ['panaderia'],
+    productos: [
+      { id: 'hj-hojarasca', nombre: 'Hojarasca', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'panaderia' }
+    ]
+  },
+  {
+    id: 'sanandres',
+    nombre: 'San Andres',
+    categorias: ['abarrotes', 'otros'],
+    productos: [
+      { id: 'sa-arroz', nombre: 'Arroz', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-fetuccine', nombre: 'Fetuccine', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-azucar', nombre: 'Azúcar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-sal', nombre: 'Sal', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-azucar-flor', nombre: 'Azúcar flor', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-sachet-cafe', nombre: 'Sachet Café', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-te', nombre: 'Té', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-salsa-tomate', nombre: 'Salsa de tomate', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'sa-sucedaneo-limon', nombre: 'Sucedáneo de limón', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' }
+    ]
+  },
+  {
+    id: 'mancilla',
+    nombre: 'Mancilla',
+    categorias: ['mariscos'],
+    productos: [
+      { id: 'mn-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-camaron', nombre: 'Camarón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-pangasuis', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-surtido-marisco', nombre: 'Surtido de marisco', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-navajuela', nombre: 'Navajuela', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-congrio', nombre: 'Congrio', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mn-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
+    ]
+  },
+  {
+    id: 'marinefood',
+    nombre: 'MARINE FOOD',
+    categorias: ['mariscos', 'otros'],
+    productos: [
+      { id: 'mf-papas-fritas', nombre: 'Papas Fritas', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'mf-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-camaron', nombre: 'Camarón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-pangasuis', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-surtido-marisco', nombre: 'Surtido de marisco', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-navajuela', nombre: 'Navajuela', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-congrio', nombre: 'Congrio', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'mf-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
     ]
   }
 ];
+
