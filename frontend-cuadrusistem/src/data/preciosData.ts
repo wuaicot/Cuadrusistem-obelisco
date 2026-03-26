@@ -86,7 +86,7 @@ export const PROVEEDORES: Proveedor[] = [
       { id: 'pf-vienesa-grande', nombre: 'Vienesa Grande', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
       { id: 'pf-vienesa-pequena', nombre: 'Vienesa Pequeña', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
       { id: 'pf-tapapecho', nombre: 'Tapapecho', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' },
-      { id: 'pf-asiento', nombre: 'Asiento', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
+      { id: 'pf-lomo-vetado', nombre: 'Lomo Vetado', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
     ]
   },
   {
@@ -96,7 +96,9 @@ export const PROVEEDORES: Proveedor[] = [
     productos: [
       { id: 'ol-nova', nombre: 'Nova', presentacion: 'Pack', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
       { id: 'ol-productos-aseo', nombre: 'Productos de aseo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
+
       { id: 'ol-productos-peruanos', nombre: 'Productos peruanos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      
       { id: 'ol-aceite-freidora', nombre: 'Aceite freidora', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
       { id: 'ol-aceite-litro', nombre: 'Aceite de litro', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
       { id: 'ol-aceite-bidon', nombre: 'Aceite de bidón', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
@@ -105,11 +107,7 @@ export const PROVEEDORES: Proveedor[] = [
       { id: 'ol-leche-entera', nombre: 'LECHE ENTERA COLUN - CJA/12 LT CAJA', presentacion: 'lata', unidadesPorEnvase: 1, precioNetoUnidad: 961.12, ivaPorcentaje: 19, categoria: 'lacteos' },       
       { id: 'ol-crema-leche', nombre: 'CREMA DE LECHE COLUN - CJA/12 LT CAJA', presentacion: 'Litro', unidadesPorEnvase: 1, precioNetoUnidad: 3050.41, ivaPorcentaje: 19, categoria: 'lacteos' },
 
-      { id: 'ol-ketchup', nombre: 'Ketchup', presentacion: 'Pote/Sachet', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-cafe', nombre: 'Café', presentacion: 'Frasco', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-panko', nombre: 'Panko', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-arroz', nombre: 'Arroz', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-fetuccini', nombre: 'Fetuccini', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' }
+      
     ]
   },
   {
@@ -117,9 +115,13 @@ export const PROVEEDORES: Proveedor[] = [
     nombre: "D' carnes",
     categorias: ['carnes'],
     productos: [
-      { id: 'dc-carne', nombre: 'Carne', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
+      { id: 'dc-carne', nombre: 'CARNE PARA AS', presentacion: '$ 8.566.10 x kg   IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 1092.88, ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'dc-carne', nombre: 'CHURRASCO 150 r (personal)', presentacion: '$ 8.566.10 x kg  IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 1091.08, ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'dc-carne', nombre: 'CHURRASCO 300  (gigante)', presentacion: '$ 8.566.10 x kg   IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 2187.56, ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'dc-carne', nombre: 'MOLIDA', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 4280, ivaPorcentaje: 19, categoria: 'carnes' }
     ]
   },
+  
   {
     id: 'hojarasca',
     nombre: 'Hojarasca',

@@ -84,7 +84,7 @@ function AppLayout() {
             onClick={handleLogout}
             className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-bold text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
           >
-            Cerrar Sesión
+           SALIR 
           </button>
         </header>
 
