@@ -1,81 +1,90 @@
- 4203 [ROYAL LITRO] → 1
-   4230 [SHOP CRISTAL 500CC] → 3
-   4233 [BOTELLIN ROYAL] → 1
-   4246 [CORONA BOTELLIN] → 2
-   4306 [COCA COLA LATA] → 4
-   4401 [COCA COLA 591CC] → 8
-   4407 [VITAL SIN GAS] → 1
-   4428 [BBIDA 1 1/5] → 1
-   4602 [TE GRANDE] → 2
-   4869 [PROMO SCHOP 2X1] → 4
-   0101 [COM ITALIANO PERSONA] → 2
-   0102 [COM COMPLETO PERSONA] → 1
-   0103 [COM CATALANA PERSONA] → 1
-   0110 [DELIVERY      APP] → 22
-   0301 [COM ITALIANO GIGANTE] → 6
-   0302 [COM COMPLETO GIGANTE] → 2
-   0303 [COM CATALANA GIGANTE] → 1
-   1701 [POLLO ITALIANO GIG] → 1
-   1907 [POLLO KAISER PER] → 1
-   2301 [HAMBURG ITALIANA PER] → 1
-   2801 [CHURRASO ITALIANO PE] → 2
-   2803 [CHURRASCO CHACARERO] → 4
-   2804 [CHURRASCO LUCO PER] → 1
-   2803 [CHURRASCO CHACARERO] → 4
-   2804 [CHURRASCO LUCO PER] → 1
-   2810 [CHURRASCO YORK PER] → 1
-   3902 [PAPAS FRITAS PERSONA] → 3
-   3904 [CHORRILLANA PERSONAL] → 1
-   4021 [COLACION JUGO+COMPLETO] → 2
-   4023 [CARNE MECHADA C ARRO] → 3
-   4029 [PESCADO/ESCAL/ARROZ] → 10
-   4030 [PESCA/ESCALO/ENSALAD] → 1
-   4031 [PESCA/ESCALO/PAPAS] → 1
-   4032 [COLACION TOMAS HERBI] → 1
-   4033 [COLACION ADMINISTRAD] → 2
-   4036 [CHULETAS ARROZ] → 2
-   4871 [COM PER+PAPAS] → 1
-   2803 [CHURRASCO CHACARERO] → 4
-   2804 [CHURRASCO LUCO PER] → 1
-   2810 [CHURRASCO YORK PER] → 1
-   3902 [PAPAS FRITAS PERSONA] → 3
-   3904 [CHORRILLANA PERSONAL] → 1
-   4021 [COLACION JUGO+COMPLETO] → 2
-   4023 [CARNE MECHADA C ARRO] → 3
-   4029 [PESCADO/ESCAL/ARROZ] → 10
-   2803 [CHURRASCO CHACARERO] → 4
-   2804 [CHURRASCO LUCO PER] → 1
-   2810 [CHURRASCO YORK PER] → 1
-   2810 [CHURRASCO YORK PER] → 1
-   3902 [PAPAS FRITAS PERSONA] → 3
-   2810 [CHURRASCO YORK PER] → 1
-   3902 [PAPAS FRITAS PERSONA] → 3
-   3904 [CHORRILLANA PERSONAL] → 1
-   4021 [COLACION JUGO+COMPLETO] → 2
-   3904 [CHORRILLANA PERSONAL] → 1
-   4021 [COLACION JUGO+COMPLETO] → 2
-   4023 [CARNE MECHADA C ARRO] → 3
-   4029 [PESCADO/ESCAL/ARROZ] → 10
-   4030 [PESCA/ESCALO/ENSALAD] → 1
-   4031 [PESCA/ESCALO/PAPAS] → 1
-   4032 [COLACION TOMAS HERBI] → 1
-   4033 [COLACION ADMINISTRAD] → 2
-   4036 [CHULETAS ARROZ] → 2
-   4871 [COM PER+PAPAS] → 1
-   4872 [COM GIG+PAPAS] → 2
-   4875 [LOMOPER+PPS+BEBIDA] → 2
-   4896 [LOMO PERSONAL ITALIA] → 2
-   3601 [EMP CAMARON QUESO FR] → 4
-   4032 [COLACION TOMAS HERBI] → 1
-   4033 [COLACION ADMINISTRAD] → 2
-   4036 [CHULETAS ARROZ] → 2
-   4871 [COM PER+PAPAS] → 1
-   4872 [COM GIG+PAPAS] → 2
-   4875 [LOMOPER+PPS+BEBIDA] → 2
-   4896 [LOMO PERSONAL ITALIA] → 2
-   3601 [EMP CAMARON QUESO FR] → 4
-   3608 [EMP PINO CARNE FRITA] → 4
-   3610 [EMP PINO MARISCO FRI] → 6
-   3613 [EMP QUESO CHOCLO FRI] → 1
-   3617 [EMP QUESO FRITA] → 5
-   3623 [MECHADA QUESO FRITA] → 1
+ - Venta [0101] COM ITALIANO PERSONA: 11 un. -> Uso Teórico: 11 de Pan mesa Personal
+  - Venta [0101] COM ITALIANO PERSONA: 11 un. -> Uso Teórico: 11 de Vienesas personal
+  - Venta [0102] COM COMPLETO PERSONA: 3 un. -> Uso Teórico: 3 de Pan mesa Personal
+  - Venta [0102] COM COMPLETO PERSONA: 3 un. -> Uso Teórico: 3 de Vienesas personal
+  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Pan mesa Gigante
+  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Vienesas doggi
+  - Venta [0302] COM COMPLETO GIGANTE: 3 un. -> Uso Teórico: 3 de Pan mesa Gigante
+  - Venta [0302] COM COMPLETO GIGANTE: 3 un. -> Uso Teórico: 3 de Vienesas doggi
+  - Venta [0411] +QUESO: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [0508] COM ITALIANO SUPER: 3 un. -> Uso Teórico: 6 de Vienesas personal
+  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Pan mesa Gigante
+  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Carne para As Gig.
+  - Venta [0702] AS COMPLETO: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
+  - Venta [0702] AS COMPLETO: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
+  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
+  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
+  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
+  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
+  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Pan hallullon
+  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Carne churrasco gig
+  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Papas personal 150gr
+  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Pan hallullon
+  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Carne churrasco gig
+  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [1019] EXTRA CARNE GIGANTE: 1 un. -> Uso Teórico: 1 de Carne churrasco gig
+  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Pan hallullon
+  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Carne lomo gig.
+  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [1011] +QUESO: 1 un. -> Uso Teórico: 3 de Queso laminado
+  - Venta [1501] LOMO ITALIANO PER: 2 un. -> Uso Teórico: 2 de Pan fricas
+  - Venta [1501] LOMO ITALIANO PER: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
+  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Pan hallullon
+  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Carne Hamburg Gigant.
+  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Pan Brioche 12
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Carne hamburg. Porc.
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Cheddar porc
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Huevos
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Tocino porciones
+  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Pan Brioche 12
+  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Hamburg KING K
+  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Cheddar porc
+  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 3 de Papas personal 150gr
+  - Venta [2801] CHURRASO ITALIANO PE: 4 un. -> Uso Teórico: 4 de Pan fricas
+  - Venta [2801] CHURRASO ITALIANO PE: 4 un. -> Uso Teórico: 4 de Papas personal 150gr
+  - Venta [2803] CHURRASCO CHACARERO: 1 un. -> Uso Teórico: 1 de Pan fricas
+  - Venta [2803] CHURRASCO CHACARERO: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 1 de Pan fricas
+  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Pan fricas
+  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 4 de Queso laminado
+  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Tocino porciones
+  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
+  - Venta [3901] PAPAS FRITAS GRANDES: 2 un. -> Uso Teórico: 2 de Papas grandes 700gr
+  - Venta [3902] PAPAS FRITAS PERSONA: 7 un. -> Uso Teórico: 7 de Papas personal 350gr
+  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Papas grandes 700gr
+  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Carne churrasco gig
+  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Vienesas doggi
+  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 4 de Chorizo
+  - Venta [4871] COM PER+PAPAS: 3 un. -> Uso Teórico: 3 de Pan mesa Personal
+  - Venta [4871] COM PER+PAPAS: 3 un. -> Uso Teórico: 3 de Vienesas personal
+  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
+  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Vienesas doggi
+  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
+  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 7 de Hojarascas
+  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 7 de Porciones de camarones
+  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 14 de Queso laminado
+  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 2 de Hojarascas
+  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 2 de Chorizo
+  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 4 de Queso laminado
+  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 3 de Hojarascas
+  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 3 de Porcion Pino Marisco
+  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 6 de Queso laminado
+  - Venta [3613] EMP QUESO CHOCLO FRI: 1 un. -> Uso Teórico: 1 de Hojarascas
+  - Venta [3613] EMP QUESO CHOCLO FRI: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [3617] EMP QUESO FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
+  - Venta [3617] EMP QUESO FRITA: 1 un. -> Uso Teórico: 4 de Queso laminado
+  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
+  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 0.5 de Menú 3 Carne Mechada
+  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 2 de Queso laminado
+  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 3 de Hojarascas
+  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 1.5 de Carne para As Gig.
+  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 3 de Champiñones
+  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 1 de Hojarascas
+  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 0.5 de Carne para As Gig.
+  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 2 de Queso laminado

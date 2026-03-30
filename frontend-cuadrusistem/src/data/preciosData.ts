@@ -47,10 +47,10 @@ export const PROVEEDORES: Proveedor[] = [
     nombre: 'GAG',
     categorias: ['mariscos', 'otros'],
     productos: [
-      { id: 'gag-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
       { id: 'gag-palmito', nombre: 'Palmito', presentacion: 'Tarro', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
       { id: 'gag-champinon', nombre: 'Champiñon', presentacion: 'Bandeja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
       { id: 'gag-pulpa-jugos', nombre: 'Pulpa de jugos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
+      
       { id: 'gag-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
       { id: 'gag-camaron-36-40', nombre: 'Camarón 36/40', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
       { id: 'gag-camaron-100-200', nombre: 'Camarón 100/200', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },

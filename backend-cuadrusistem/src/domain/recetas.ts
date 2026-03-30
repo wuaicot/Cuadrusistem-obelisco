@@ -339,6 +339,16 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Papas personal 150gr", cantidad: 1 },
     ],    
   },
+  "0905": {
+    codigo: "0905",
+    nombre: "CHUR LUCO PAL GIG",
+    categoria: 'COCINA',
+    ingredientes: [
+      { nombre: "Pan hallullon", cantidad: 1 },
+      { nombre: "Carne churrasco gig", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },
+    ],    
+  },
   "0904": {
     codigo: "0904",
     nombre: "CHUR LUCO GIG",
