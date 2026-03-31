@@ -1,90 +1,58 @@
- - Venta [0101] COM ITALIANO PERSONA: 11 un. -> Uso Teórico: 11 de Pan mesa Personal
-  - Venta [0101] COM ITALIANO PERSONA: 11 un. -> Uso Teórico: 11 de Vienesas personal
-  - Venta [0102] COM COMPLETO PERSONA: 3 un. -> Uso Teórico: 3 de Pan mesa Personal
-  - Venta [0102] COM COMPLETO PERSONA: 3 un. -> Uso Teórico: 3 de Vienesas personal
-  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Pan mesa Gigante
-  - Venta [0301] COM ITALIANO GIGANTE: 7 un. -> Uso Teórico: 7 de Vienesas doggi
-  - Venta [0302] COM COMPLETO GIGANTE: 3 un. -> Uso Teórico: 3 de Pan mesa Gigante
-  - Venta [0302] COM COMPLETO GIGANTE: 3 un. -> Uso Teórico: 3 de Vienesas doggi
-  - Venta [0411] +QUESO: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [0508] COM ITALIANO SUPER: 3 un. -> Uso Teórico: 6 de Vienesas personal
-  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Pan mesa Gigante
-  - Venta [0701] AS ITALIANO: 2 un. -> Uso Teórico: 2 de Carne para As Gig.
-  - Venta [0702] AS COMPLETO: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [0702] AS COMPLETO: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
-  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
-  - Venta [0704] AS LUCO: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 1 de Carne para As Gig.
-  - Venta [0705] AS LUCO PALTA: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Pan hallullon
-  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Carne churrasco gig
-  - Venta [0901] CHUR ITA GIG: 3 un. -> Uso Teórico: 3 de Papas personal 150gr
-  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Pan hallullon
-  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Carne churrasco gig
-  - Venta [0902] CHUR COMP GIG: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [1019] EXTRA CARNE GIGANTE: 1 un. -> Uso Teórico: 1 de Carne churrasco gig
-  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Pan hallullon
-  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Carne lomo gig.
-  - Venta [1301] LOMO ITALIANO GIG: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [1011] +QUESO: 1 un. -> Uso Teórico: 3 de Queso laminado
-  - Venta [1501] LOMO ITALIANO PER: 2 un. -> Uso Teórico: 2 de Pan fricas
-  - Venta [1501] LOMO ITALIANO PER: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
-  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Pan hallullon
-  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Carne Hamburg Gigant.
-  - Venta [2107] HAMBU OBE GIG: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Pan Brioche 12
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Carne hamburg. Porc.
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Cheddar porc
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Huevos
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Tocino porciones
-  - Venta [2315] HAMBUR PER GINGA: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Pan Brioche 12
-  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Hamburg KING K
-  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 6 de Cheddar porc
-  - Venta [2316] HAMB CLASSIC BURG 2X: 3 un. -> Uso Teórico: 3 de Papas personal 150gr
-  - Venta [2801] CHURRASO ITALIANO PE: 4 un. -> Uso Teórico: 4 de Pan fricas
-  - Venta [2801] CHURRASO ITALIANO PE: 4 un. -> Uso Teórico: 4 de Papas personal 150gr
-  - Venta [2803] CHURRASCO CHACARERO: 1 un. -> Uso Teórico: 1 de Pan fricas
-  - Venta [2803] CHURRASCO CHACARERO: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 1 de Pan fricas
-  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [2804] CHURRASCO LUCO PER: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Pan fricas
-  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 4 de Queso laminado
-  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Tocino porciones
-  - Venta [2812] CHUR AMERICANO PER: 2 un. -> Uso Teórico: 2 de Papas personal 150gr
-  - Venta [3901] PAPAS FRITAS GRANDES: 2 un. -> Uso Teórico: 2 de Papas grandes 700gr
-  - Venta [3902] PAPAS FRITAS PERSONA: 7 un. -> Uso Teórico: 7 de Papas personal 350gr
-  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Papas grandes 700gr
-  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Carne churrasco gig
-  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 2 de Vienesas doggi
-  - Venta [3903] CHORRILLANA GRANDE: 2 un. -> Uso Teórico: 4 de Chorizo
-  - Venta [4871] COM PER+PAPAS: 3 un. -> Uso Teórico: 3 de Pan mesa Personal
-  - Venta [4871] COM PER+PAPAS: 3 un. -> Uso Teórico: 3 de Vienesas personal
-  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Pan mesa Gigante
-  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Vienesas doggi
-  - Venta [4872] COM GIG+PAPAS: 1 un. -> Uso Teórico: 1 de Papas personal 150gr
-  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 7 de Hojarascas
-  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 7 de Porciones de camarones
-  - Venta [3601] EMP CAMARON QUESO FR: 7 un. -> Uso Teórico: 14 de Queso laminado
-  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 2 de Hojarascas
-  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 2 de Chorizo
-  - Venta [3605] EMP NAPOLETANA FRITA: 2 un. -> Uso Teórico: 4 de Queso laminado
-  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 3 de Hojarascas
-  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 3 de Porcion Pino Marisco
-  - Venta [3610] EMP PINO MARISCO FRI: 3 un. -> Uso Teórico: 6 de Queso laminado
-  - Venta [3613] EMP QUESO CHOCLO FRI: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3613] EMP QUESO CHOCLO FRI: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [3617] EMP QUESO FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3617] EMP QUESO FRITA: 1 un. -> Uso Teórico: 4 de Queso laminado
-  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 0.5 de Menú 3 Carne Mechada
-  - Venta [3623] MECHADA QUESO FRITA: 1 un. -> Uso Teórico: 2 de Queso laminado
-  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 3 de Hojarascas
-  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 1.5 de Carne para As Gig.
-  - Venta [3625] CARNE CHAMPIñON: 3 un. -> Uso Teórico: 3 de Champiñones
-  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 1 de Hojarascas
-  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 0.5 de Carne para As Gig.
-  - Venta [3629] EMP CARNE QUESO: 1 un. -> Uso Teórico: 2 de Queso laminado
+- [Aceite Lt.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Aceitunas]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Aji verde]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Carne Ave Persona]: (Inicial 4 + Entrada 10 - Devolución 0) - Final 14 = Consumo Real 0
+  - [Carne Ave.Gigante]: (Inicial 8 + Entrada 0 - Devolución 0) - Final 8 = Consumo Real 0
+  - [Carne churrasco gig]: (Inicial 17 + Entrada 0 - Devolución 0) - Final 12 = Consumo Real 5
+  - [Carne churrasco pers]: (Inicial 3 + Entrada 20 - Devolución 0) - Final 19 = Consumo Real 4
+  - [Carne Hamburg Gigant.]: (Inicial 6 + Entrada 0 - Devolución 0) - Final 5 = Consumo Real 1
+  - [Carne hamburg. Porc.]: (Inicial 5 + Entrada 10 - Devolución 0) - Final 13 = Consumo Real 2
+  - [Carne lomo gig.]: (Inicial 7 + Entrada 0 - Devolución 0) - Final 7 = Consumo Real 0
+  - [Carne lomo pers]: (Inicial 4 + Entrada 10 - Devolución 0) - Final 12 = Consumo Real 2
+  - [Hamburg KING K]: (Inicial 12 + Entrada 10 - Devolución 0) - Final 14 = Consumo Real 8
+  - [Carne para As Gig.]: (Inicial 17 + Entrada 10 - Devolución 0) - Final 26 = Consumo Real 1
+  - [Champiñones]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Chorizo]: (Inicial 15 + Entrada 16 - Devolución 13) - Final 11 = Consumo Real 7
+  - [Choclo]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Lechuga]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Cebolla cruda]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Cebolla Cocida]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Hojarascas]: (Inicial 37 + Entrada 50 - Devolución 0) - Final 54 = Consumo Real 33
+  - [Huevos]: (Inicial 53 + Entrada 0 - Devolución 0) - Final 12 = Consumo Real 41
+  - [Jamón]: (Inicial 12 + Entrada 0 - Devolución 0) - Final 10 = Consumo Real 2
+  - [Menu 1 Pulpa/ Chuleta]: (Inicial 5 + Entrada 10 - Devolución 0) - Final 10 = Consumo Real 5
+  - [Menú 2 Pangasius]: (Inicial 21 + Entrada 20 - Devolución 0) - Final 29 = Consumo Real 12
+  - [Menú 3 Carne Mechada]: (Inicial 16 + Entrada 12 - Devolución 0) - Final 19 = Consumo Real 9
+  - [Tortilla De Wrap]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 13 = Consumo Real 0
+  - [Papas personal 350gr]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
+  - [Porcion Pino Marisco]: (Inicial 4 + Entrada 22 - Devolución 0) - Final 12 = Consumo Real 14
+  - [Porcion Pino Carne]: (Inicial 11 + Entrada 10 - Devolución 0) - Final 12 = Consumo Real 9
+  - [Porciones de camarones]: (Inicial 32 + Entrada 40 - Devolución 0) - Final 66 = Consumo Real 6
+  - [Crema]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Palmitos]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Paltas]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Pan fricas]: (Inicial 67 + Entrada 30 - Devolución 0) - Final 83 = Consumo Real 14
+  - [Pan hallullon]: (Inicial 30 + Entrada 30 - Devolución 0) - Final 54 = Consumo Real 6
+  - [Pan Brioche 12]: (Inicial 19 + Entrada 0 - Devolución 0) - Final 20 = Consumo Real -1
+  - [Pan mesa Gigante]: (Inicial 109 + Entrada 50 - Devolución 3) - Final 150 = Consumo Real 6
+  - [Pan mesa Personal]: (Inicial 43 + Entrada 50 - Devolución 0) - Final 81 = Consumo Real 12
+  - [Pan mesa super Gigan]: (Inicial 23 + Entrada 0 - Devolución 0) - Final 23 = Consumo Real 0
+  - [Pepinillos]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Porotos verdes Kg.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Queso laminado]: (Inicial 74 + Entrada 60 - Devolución 0) - Final 87 = Consumo Real 47
+  - [Tocino porciones]: (Inicial 18 + Entrada 0 - Devolución 0) - Final 16 = Consumo Real 2
+  - [Tomates Kg.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Vienesas doggi]: (Inicial 21 + Entrada 34 - Devolución 0) - Final 48 = Consumo Real 7
+  - [Vienesas personal]: (Inicial 27 + Entrada 48 - Devolución 0) - Final 61 = Consumo Real 14
+  - [Arroz]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Cheddar porc]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 11
+  - [Cheddar porc]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 11
+  - [Sopaipillas]: (Inicial 93 + Entrada 0 - Devolución 0) - Final 93 = Consumo Real 0
+  - [Sopaipillas]: (Inicial 93 + Entrada 0 - Devolución 0) - Final 93 = Consumo Real 0
+  - [Ají en salsa 1 Kg]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Atún]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
+  - [Agua mineral 1 1/2]: (Inicial 11 + Entrada 0 - Devolución 0) - Final 11 = Consumo Real 0
+0) - Final 93 = Consumo Real 0
+  - [Ají en salsa 1 Kg]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
+  - [Atún]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
+  - [Agua mineral 1 1/2]: (Inicial 11 + Entrada 0 - Devolución 0) - Final 11 = Consumo Real 0

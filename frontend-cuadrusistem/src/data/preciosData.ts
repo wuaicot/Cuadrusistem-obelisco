@@ -30,33 +30,83 @@ export const CATEGORIAS_COCINA = [
   { id: 'otros', nombre: 'Otros', icon: '📦', color: 'bg-gray-100 text-gray-600' },
 ];
 
+// Función auxiliar para calcular neto desde precio con IVA (19%)
+const calcularNeto = (precioConIva: number) => Number((precioConIva / 1.19).toFixed(2));
+
 export const PROVEEDORES: Proveedor[] = [
   {
     id: 'sanjorge',
     nombre: 'San Jorge',
-    categorias: ['embutidos'],
+    categorias: ['embutidos', 'lacteos'],
     productos: [
-      { id: 'sj-vienesa-personal', nombre: 'Vienesa Personal', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'sj-vienesa-gigante', nombre: 'Vienesa Gigante', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'sj-jamon', nombre: 'Jamón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'sj-chorizo', nombre: 'Chorizo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' }
+      { id: 'sj-vienesa-personal', nombre: 'Vienesa Personal', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(306.93), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-vienesa-gigante', nombre: 'Vienesa Gigante', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(395.11), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-jamon', nombre: 'Jamón', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1000.04), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-chorizo', nombre: 'Chorizo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(264.40), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-tocino', nombre: 'Tocino', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(163.45), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'sj-queso-gouda', nombre: 'Queso Gouda', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(252.80), ivaPorcentaje: 19, categoria: 'lacteos' }
     ]
   },
   {
     id: 'gag',
     nombre: 'GAG',
-    categorias: ['mariscos', 'otros'],
+    categorias: ['mariscos', 'otros', 'carnes'],
     productos: [
-      { id: 'gag-palmito', nombre: 'Palmito', presentacion: 'Tarro', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
-      { id: 'gag-champinon', nombre: 'Champiñon', presentacion: 'Bandeja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
-      { id: 'gag-pulpa-jugos', nombre: 'Pulpa de jugos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
-      
-      { id: 'gag-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'gag-camaron-36-40', nombre: 'Camarón 36/40', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'gag-camaron-100-200', nombre: 'Camarón 100/200', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'gag-pangasius', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'gag-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'gag-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
+      { id: 'gag-anillos-calamar', nombre: 'Anillos de Calamar', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(5343.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-camaron-36-40', nombre: 'Camarón 36/40', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(5819.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-camaron-100-200', nombre: 'Camarón 100/200', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(3558.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-pangasius', nombre: 'Pangasius', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(3320.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-merluza', nombre: 'Merluza (congelada)', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(3558.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-mariscos-surtidos', nombre: 'Mariscos surtidos', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(3558.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-pechuga-desh', nombre: 'Pechuga DESH.', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(4034.10), ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'gag-tapa-pecho', nombre: 'Tapa pecho', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(8199.10), ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'gag-jaiba', nombre: 'Jaiba', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(14149.10), ivaPorcentaje: 19, categoria: 'mariscos' },
+      { id: 'gag-lomo-liso', nombre: 'Lomo liso', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(11531.10), ivaPorcentaje: 19, categoria: 'carnes' }
+    ]
+  },
+  {
+    id: 'pf',
+    nombre: 'PF',
+    categorias: ['embutidos'],
+    productos: [
+      { id: 'pf-salchicha-g', nombre: 'Salchicha G', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(132.71), ivaPorcentaje: 19, categoria: 'embutidos' },
+      { id: 'pf-salchicha-p', nombre: 'Salchicha P', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(157.87), ivaPorcentaje: 19, categoria: 'embutidos' }
+    ]
+  },
+  {
+    id: 'olivo',
+    nombre: 'Olivo',
+    categorias: ['abarrotes', 'aseo', 'lacteos'],
+    productos: [
+      { id: 'ol-aceite-freidora', nombre: 'Aceite freidora', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(2082.50), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-aceite-litro', nombre: 'Aceite de litro', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1507.33), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-papas-fritas', nombre: 'Papas pre-fritas', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1546.97), ivaPorcentaje: 19, categoria: 'otros' },
+      { id: 'ol-lava-loza', nombre: 'Lava loza', presentacion: 'Litro', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1248.79), ivaPorcentaje: 19, categoria: 'aseo' },
+      { id: 'ol-arroz-miraflores', nombre: 'Arroz Miraflores', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(6177.53), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-queso-parmesano', nombre: 'Queso parmesano Colum', presentacion: 'Pieza', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(94931.06), ivaPorcentaje: 19, categoria: 'lacteos' },
+      { id: 'ol-leche-evaporada', nombre: 'Leche evaporada Ideal', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1668.98), ivaPorcentaje: 19, categoria: 'lacteos' },
+      { id: 'ol-leche-entera', nombre: 'Leche entera Colum', presentacion: 'Litro', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1143.74), ivaPorcentaje: 19, categoria: 'lacteos' },
+      { id: 'ol-ketchup-carozzi', nombre: 'Ketchup Carozzi', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1903.64), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'ol-azucar-dorazol', nombre: 'Azúcar Dorazol 900GR', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1051.96), ivaPorcentaje: 19, categoria: 'abarrotes' }
+    ]
+  },
+  {
+    id: 'dcarnes',
+    nombre: "D' Carnes",
+    categorias: ['carnes'],
+    productos: [
+      { id: 'dc-carne-as', nombre: 'Carne para AS', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1282.50), ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'dc-churrasco-150', nombre: 'Churrasco x 150gr', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1282.50), ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'dc-churrasco-300', nombre: 'Churrasco x 300gr', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(2565.10), ivaPorcentaje: 19, categoria: 'carnes' }
+    ]
+  },
+  {
+    id: 'bidfood',
+    nombre: 'Bidfood',
+    categorias: ['carnes'],
+    productos: [
+      { id: 'bf-pulpa-cerdo', nombre: 'Pulpa pierna Cerdo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(4510.10), ivaPorcentaje: 19, categoria: 'carnes' },
+      { id: 'bf-tapa-pecho', nombre: 'Tapa pecho', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(7604.10), ivaPorcentaje: 19, categoria: 'carnes' }
     ]
   },
   {
@@ -64,120 +114,65 @@ export const PROVEEDORES: Proveedor[] = [
     nombre: 'CCU',
     categorias: ['bebestibles'],
     productos: [
-      { id: 'ccu-cervezas', nombre: 'Cervezas', presentacion: 'Pack', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'bebestibles' }
+      { id: 'ccu-bilz-lata', nombre: 'Bilz lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.70), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-kem-lata', nombre: 'Kem lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.82), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-pepsi-lata', nombre: 'Pepsi lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.82), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-limon-soda-lata', nombre: 'Limón Soda lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.82), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-pepsi-zero-lata', nombre: 'Pepsi Zero lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.82), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-pap-lata', nombre: 'Pap lata', presentacion: '350cc', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(749.70), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-ginger-ale-1-5', nombre: 'Ginger Ale 1 1/2', presentacion: '1.5 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1956.36), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-bilz-1-5', nombre: 'Bilz 1 1/2', presentacion: '1.5 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1956.12), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-limon-soda-1-5', nombre: 'Limón Soda 1 1/2', presentacion: '1.5 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1956.12), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-kem-1-5', nombre: 'Kem 1 1/2', presentacion: '1.5 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1956.12), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-heineken-1lt', nombre: 'Heineken 1 LT', presentacion: '1 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1734.66), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-escudo-1lt', nombre: 'Escudo 1 LT', presentacion: '1 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1657.31), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-cristal-1lt', nombre: 'Cristal 1 LT', presentacion: '1 LT', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1657.31), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-kunstman-torobayo', nombre: 'Kunstman Torobayo bot.', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1804.28), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-heineken-0', nombre: 'Heineken 0° bot.', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1115.86), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-royal-guard', nombre: 'Royal Guard bot.', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1137.05), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-kunstman-0', nombre: 'Kunstman 0° bot.', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1804.28), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'ccu-heineken-bot', nombre: 'Heineken bot.', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1115.86), ivaPorcentaje: 19, categoria: 'bebestibles' }
     ]
   },
   {
-    id: 'cocacola',
+    id: 'polo',
+    nombre: 'Polo',
+    categorias: ['abarrotes'],
+    productos: [
+      { id: 'polo-mostaza', nombre: 'Mostaza 1 Kg', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1213.80), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-chucrut', nombre: 'Chucrut 1 kg', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1892.10), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-mayonesa', nombre: 'Mayonesa 1 kg', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1773.10), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-pulpa-aji', nombre: 'Pulpa de Ají 1 kg', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(1535.10), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-pepinillos', nombre: 'Pepinillos 1 kg', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(4272.10), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-sachet-ketchup', nombre: 'Sachet Ketchup x caja', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(14744.10), ivaPorcentaje: 19, categoria: 'abarrotes' },
+      { id: 'polo-sal-sachet', nombre: 'Sal Sachet x caja', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(7735.00), ivaPorcentaje: 19, categoria: 'abarrotes' }
+    ]
+  },
+  {
+    id: 'coca',
     nombre: 'Coca Cola',
     categorias: ['bebestibles'],
     productos: [
-      { id: 'cc-bebidas', nombre: 'Bebidas', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'bebestibles' }
+      { id: 'cc-lata-350', nombre: 'Coca Cola lata 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(772.04), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-zero-lata-350', nombre: 'Coca zero lata 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(738.88), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-sprite-lata-350', nombre: 'Sprite lata 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(738.88), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-sprite-zero-lata-350', nombre: 'Sprite Lata Zero 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(738.88), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-fanta-lata-350', nombre: 'Fanta lata 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(739.10), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-fanta-zero-lata-350', nombre: 'Fanta lata Zero 350cc', presentacion: 'Lata', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(738.87), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-500', nombre: 'Coca Cola 500 cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(912.53), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-zero-500', nombre: 'Coca zero 500cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(912.53), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-sprite-500', nombre: 'Sprite 500cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(912.41), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-sprite-zero-500', nombre: 'Sprite Zero 500cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(912.41), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-fanta-500', nombre: 'fanta 500cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(912.54), ivaPorcentaje: 19, categoria: 'bebestibles' },
+      { id: 'cc-fanta-zero-500', nombre: 'Fanta Zero 500cc', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(739.10), ivaPorcentaje: 19, categoria: 'bebestibles' }
     ]
   },
   {
-    id: 'pf',
-    nombre: 'PF',
-    categorias: ['embutidos', 'carnes'],
-    productos: [
-      { id: 'pf-jamon', nombre: 'Jamón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'pf-chorizo', nombre: 'Chorizo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'pf-tocino', nombre: 'Tocino', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'pf-vienesa-grande', nombre: 'Vienesa Grande', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'pf-vienesa-pequena', nombre: 'Vienesa Pequeña', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'embutidos' },
-      { id: 'pf-tapapecho', nombre: 'Tapapecho', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' },
-      { id: 'pf-lomo-vetado', nombre: 'Lomo Vetado', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'carnes' }
-    ]
-  },
-  {
-    id: 'olivo',
-    nombre: 'Olivo',
-    categorias: ['abarrotes', 'aseo', 'lacteos', 'otros'],
-    productos: [
-      { id: 'ol-nova', nombre: 'Nova', presentacion: 'Pack', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
-      { id: 'ol-productos-aseo', nombre: 'Productos de aseo', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'aseo' },
-
-      { id: 'ol-productos-peruanos', nombre: 'Productos peruanos', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
-      
-      { id: 'ol-aceite-freidora', nombre: 'Aceite freidora', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-aceite-litro', nombre: 'Aceite de litro', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'ol-aceite-bidon', nombre: 'Aceite de bidón', presentacion: 'Bidón', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-
-      { id: 'ol-leche-evaporada', nombre: 'LECHE EVAPORADA IDEAL-LTA/390 (DSP/24 LTA LATA)', presentacion: 'lata', unidadesPorEnvase: 1, precioNetoUnidad: 1402.50, ivaPorcentaje: 19, categoria: 'lacteos' },
-      { id: 'ol-leche-entera', nombre: 'LECHE ENTERA COLUN - CJA/12 LT CAJA', presentacion: 'lata', unidadesPorEnvase: 1, precioNetoUnidad: 961.12, ivaPorcentaje: 19, categoria: 'lacteos' },       
-      { id: 'ol-crema-leche', nombre: 'CREMA DE LECHE COLUN - CJA/12 LT CAJA', presentacion: 'Litro', unidadesPorEnvase: 1, precioNetoUnidad: 3050.41, ivaPorcentaje: 19, categoria: 'lacteos' },
-
-      
-    ]
-  },
-  {
-    id: 'dcarnes',
-    nombre: "D' carnes",
-    categorias: ['carnes'],
-    productos: [
-      { id: 'dc-carne', nombre: 'CARNE PARA AS', presentacion: '$ 8.566.10 x kg   IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 1092.88, ivaPorcentaje: 19, categoria: 'carnes' },
-      { id: 'dc-carne', nombre: 'CHURRASCO 150 r (personal)', presentacion: '$ 8.566.10 x kg  IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 1091.08, ivaPorcentaje: 19, categoria: 'carnes' },
-      { id: 'dc-carne', nombre: 'CHURRASCO 300  (gigante)', presentacion: '$ 8.566.10 x kg   IVA Incl.', unidadesPorEnvase: 1, precioNetoUnidad: 2187.56, ivaPorcentaje: 19, categoria: 'carnes' },
-      { id: 'dc-carne', nombre: 'MOLIDA', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 4280, ivaPorcentaje: 19, categoria: 'carnes' }
-    ]
-  },
-  
-  {
-    id: 'hojarasca',
-    nombre: 'Hojarasca',
+    id: 'hojarascas',
+    nombre: 'Hojarascas',
     categorias: ['panaderia'],
     productos: [
-      { id: 'hj-hojarasca', nombre: 'Hojarasca', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'panaderia' }
-    ]
-  },
-  {
-    id: 'sanandres',
-    nombre: 'San Andres',
-    categorias: ['abarrotes', 'otros'],
-    productos: [
-      { id: 'sa-arroz', nombre: 'Arroz', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-fetuccine', nombre: 'Fetuccine', presentacion: 'Paquete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-azucar', nombre: 'Azúcar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-sal', nombre: 'Sal', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-azucar-flor', nombre: 'Azúcar flor', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-sachet-cafe', nombre: 'Sachet Café', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-te', nombre: 'Té', presentacion: 'Caja', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-salsa-tomate', nombre: 'Salsa de tomate', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' },
-      { id: 'sa-sucedaneo-limon', nombre: 'Sucedáneo de limón', presentacion: 'Botella', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'abarrotes' }
-    ]
-  },
-  {
-    id: 'mancilla',
-    nombre: 'Mancilla',
-    categorias: ['mariscos'],
-    productos: [
-      { id: 'mn-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-camaron', nombre: 'Camarón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-pangasuis', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-surtido-marisco', nombre: 'Surtido de marisco', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-navajuela', nombre: 'Navajuela', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-congrio', nombre: 'Congrio', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mn-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
-    ]
-  },
-  {
-    id: 'marinefood',
-    nombre: 'MARINE FOOD',
-    categorias: ['mariscos', 'otros'],
-    productos: [
-      { id: 'mf-papas-fritas', nombre: 'Papas Fritas', presentacion: 'Bolsa', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'otros' },
-      { id: 'mf-pulpo', nombre: 'Pulpo', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-camaron', nombre: 'Camarón', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-anillo-calamar', nombre: 'Anillo de calamar', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-pangasuis', nombre: 'Pangasius', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-surtido-marisco', nombre: 'Surtido de marisco', presentacion: 'KG', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-navajuela', nombre: 'Navajuela', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-congrio', nombre: 'Congrio', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-reineta', nombre: 'Reineta', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' },
-      { id: 'mf-merluza', nombre: 'Merluza', presentacion: 'Filete', unidadesPorEnvase: 1, precioNetoUnidad: 0, ivaPorcentaje: 19, categoria: 'mariscos' }
+      { id: 'hj-masa', nombre: 'Masa de hojarasca', presentacion: 'Unidad', unidadesPorEnvase: 1, precioNetoUnidad: calcularNeto(320.00), ivaPorcentaje: 19, categoria: 'panaderia' }
     ]
   }
 ];
-

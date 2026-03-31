@@ -1047,14 +1047,21 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: "4023",
     nombre: "CARNE MECHADA C ARRO",
     categoria: 'COCINA',
-    ingredientes: [{ nombre: "Menú 3 Carne Mechada", cantidad: 1 }      
+    ingredientes: [{ nombre: "Carne Mechada", cantidad: 1 }      
     ],
   },
   "4024": {
     codigo: "4024",
     nombre: "CARNE MECHADA C PAPA",
     categoria: 'COCINA',
-    ingredientes: [{ nombre: "Menú 3 Carne Mechada", cantidad: 1 }      
+    ingredientes: [{ nombre: "Carne Mechada", cantidad: 1 }      
+    ],
+  },
+  "4025": {
+    codigo: "4025",
+    nombre: "CARNE MECHADA C/ENSA",
+    categoria: 'COCINA',
+    ingredientes: [{ nombre: "Carne Mechada", cantidad: 1 }      
     ],
   },
   "4029": {
@@ -1411,7 +1418,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     categoria: 'EMPANADAS',
     ingredientes: [
       { nombre: "Hojarascas", cantidad: 1 },
-      { nombre: "Menú 3 Carne Mechada", cantidad: 0.5 },      
+      { nombre: "Carne Mechada", cantidad: 0.5 },      
       { nombre: "Queso laminado", cantidad: 2, },      
     ],
   },
