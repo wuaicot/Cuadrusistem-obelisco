@@ -52,11 +52,12 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
     .filter(line => line.length > 3)
 
   for (const linea of lineas) {
-    // 0. Identificar cambio de sección
+    // 0. Identificar cambio de sección con Regex flexible
     const upper = linea.toUpperCase();
-    if (upper.includes('01BAR')) { seccionActual = 'BAR'; continue; }
-    if (upper.includes('02COCINA')) { seccionActual = 'COCINA'; continue; }
-    if (upper.includes('03EMPANADAS')) { seccionActual = 'EMPANADAS'; continue; }
+    
+    if (/[0O]1\s*BAR/.test(upper)) { seccionActual = 'BAR'; continue; }
+    if (/[0O]2\s*COCINA/.test(upper)) { seccionActual = 'COCINA'; continue; }
+    if (/[0O]3\s*EMPANADAS/.test(upper)) { seccionActual = 'EMPANADAS'; continue; }
 
     if (
       upper.includes('TOTAL') ||

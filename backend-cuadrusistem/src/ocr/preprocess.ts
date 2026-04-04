@@ -8,20 +8,18 @@ export async function preprocessTicket(imageBuffer: Buffer): Promise<Buffer> {
   const image = sharp(imageBuffer);
   
   return await image
-    .resize({ width: 1600, withoutEnlargement: false }) // Un poco más grande para mayor detalle
+    .resize({ width: 2200, withoutEnlargement: false }) 
     .grayscale()
-    .normalize()
-    .sharpen({
-      sigma: 1.5,
-      m1: 0.5,
-      m2: 1.0
-    }) // Mejora agresiva de bordes para texto pequeño
+    .normalize() // Ajusta el contraste dinámicamente
+    .linear(1.2, -0.1) // Un poco de contraste manual pero más suave
+    .sharpen()
+    .threshold(165) // Umbral un poco más bajo para no deformar caracteres delgados como '1'
     .extend({
-      top: 40,
-      bottom: 40,
-      left: 40,
-      right: 40,
+      top: 60,
+      bottom: 60,
+      left: 60,
+      right: 60,
       background: { r: 255, g: 255, b: 255, alpha: 1 }
-    }) // Añade margen blanco para que Tesseract no pierda bordes
+    })
     .toBuffer();
 }

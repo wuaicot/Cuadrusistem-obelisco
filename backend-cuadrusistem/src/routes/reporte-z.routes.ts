@@ -16,20 +16,7 @@ const router = Router();
 /* =========================
    MULTER CONFIG
 ========================= */
-const uploadDir = path.join(__dirname, '../../public/uploads/reportes-z');
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + '-' + unique + path.extname(file.originalname));
-  }
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 /* =========================
@@ -56,7 +43,6 @@ router.get('/', async (req: Request, res: Response) => {
 
     const { rows } = await db.query(query);
     res.status(200).json(rows);
-
   } catch (err) {
     console.error(chalk.red('Error fetching Reporte Z'), err);
     res.status(500).json({ message: 'Error fetching Reporte Z' });
@@ -70,7 +56,7 @@ router.post(
   '/',
   upload.single('reporteZFile'),
   async (req: Request, res: Response) => {
-    console.log(chalk.blue('POST /api/reporte-z'));
+    console.log(chalk.bgBlue.white(' POST /api/reporte-z '));
 
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded.' });
@@ -78,56 +64,32 @@ router.post(
 
     const { fechaOperacion, localId, turnoId } = req.body;
     if (!fechaOperacion || !localId || !turnoId) {
-       return res.status(400).json({ message: 'Missing required fields: fechaOperacion, localId, or turnoId.' });
+      return res.status(400).json({ message: 'Missing required fields.' });
     }
 
-    console.log(chalk.green('File uploaded:'), req.file.filename);
-
     try {
-      /* =========================
-         OCR
-      ========================= */
-      console.log(chalk.yellow('Preprocessing image...'));
-      const originalBuffer = fs.readFileSync(req.file.path);
+      console.log(chalk.yellow('1. Pre-procesando imagen...'));
+      const originalBuffer = req.file.buffer;
       const processedBuffer = await preprocessTicket(originalBuffer);
 
-      console.log(chalk.yellow('Running OCR...'));
+      console.log(chalk.yellow('2. Ejecutando Tesseract OCR...'));
       const textoExtraido = await runOcr(processedBuffer);
 
-      console.log(chalk.green('OCR OK'));
-      console.log(chalk.gray('--- Texto OCR Bruto ---'));
-      console.log(textoExtraido || '(Texto vacío)');
-      console.log(chalk.gray('-----------------------'));
+      console.log(chalk.green('✓ OCR Finalizado.'));
+      console.log(chalk.magenta('\n=== TEXTO BRUTO DEL OCR (INICIO) ==='));
+      console.log(textoExtraido);
+      console.log(chalk.magenta('=== TEXTO BRUTO DEL OCR (FIN) ===\n'));
 
-      /* =========================
-         PARSE
-      ========================= */
-      console.log(chalk.yellow('Parsing OCR text...'));
-
+      console.log(chalk.yellow('3. Parseando texto...'));
       const ventasMap = parseReporteZ(textoExtraido);
 
       const ventasArray = Array.from(ventasMap.entries()).map(
-        ([codigo, cantidad]) => ({ codigo, cantidad })
+        ([codigo, cantidad]) => ({ codigo, cantidad }),
       );
 
-      console.log(chalk.cyan('--- Resumen Final Ventas Z ---'));
-      ventasArray.forEach(v => {
-        const prod = catalog.find(p => p.codigo === v.codigo);
-        console.log(chalk.cyan(`   ${v.codigo} [${prod?.nombre || '?'}] → ${v.cantidad}`));
-      });
-      console.log(chalk.cyan('------------------------------'));
-
-      /* =========================
-         CHECKSUM
-      ========================= */
-      const buffer = fs.readFileSync(req.file.path);
-      const checksum = crypto.createHash('md5').update(buffer).digest('hex');
-
-      /* =========================
-         INSERT
-      ========================= */
-      const archivoOriginal = req.file.path;
+      const checksum = crypto.createHash('md5').update(originalBuffer).digest('hex');
       const itemsJsonb = JSON.stringify(ventasArray);
+      const archivoOriginal = '[PROCESADO EN MEMORIA]';
 
       const insertQuery = `
         INSERT INTO "reportes_z" (
@@ -139,36 +101,21 @@ router.post(
       `;
 
       const result = await db.query(insertQuery, [
-        archivoOriginal,
-        checksum,
-        itemsJsonb,
-        fechaOperacion,
-        localId,
-        turnoId,
-        false
+        archivoOriginal, checksum, itemsJsonb, fechaOperacion, localId, turnoId, false
       ]);
 
-      const id = result.rows[0].id;
+      console.log(chalk.green(`✓ Reporte Z ID: ${result.rows[0].id} guardado.`));
 
       res.status(201).json({
-        message: `Reporte Z procesado y guardado exitosamente con ID: ${id}.`,
-        reporteZId: id
+        message: 'Reporte Z procesado.',
+        reporteZId: result.rows[0].id
       });
 
     } catch (error: any) {
-      if (
-        error.code === '23505' &&
-        error.constraint === 'reportes_z_checksum_key'
-      ) {
-        return res
-          .status(409)
-          .json({ message: 'Este reporte-Z ya fue cargado.' });
-      }
-
-      console.error(chalk.red('Reporte Z error'), error);
-      res.status(500).json({ message: 'Failed to process Reporte Z' });
+      console.error(chalk.red('Error en POST /api/reporte-z:'), error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-  }
+  },
 );
 
 export default router;

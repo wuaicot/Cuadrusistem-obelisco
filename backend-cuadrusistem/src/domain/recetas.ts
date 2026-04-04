@@ -623,6 +623,16 @@ export const MENUS: Record<string, MenuDef> = {
       { nombre: "Papas personal 150gr", cantidad: 1 },
     ],
   },
+  "1910": {
+    codigo: "1910",
+    nombre: "POLLO AMERICANO PER",
+    categoria: 'COCINA',
+    ingredientes: [
+      { nombre: "Pan fricas", cantidad: 1 },
+      { nombre: "Carne Ave Personal", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },
+    ],
+  },
   "1915": {
     codigo: "1915",
     nombre: "POLLO CRISPY ITALIAN",
@@ -1369,6 +1379,15 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
   },
   "3611": {
     codigo: "3611",
+    nombre: "EMP CARNE CHOCLO FRI",
+    categoria: 'EMPANADAS',
+    ingredientes: [
+      { nombre: "Hojarascas", cantidad: 1 },      
+      { nombre: "Carne para As Gig.", cantidad: 0.5 },            
+    ],
+  },
+  "3612": {
+    codigo: "3612",
     nombre: "EMP CARNE CHOCLO FRI",
     categoria: 'EMPANADAS',
     ingredientes: [

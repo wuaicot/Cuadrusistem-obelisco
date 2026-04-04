@@ -53,5 +53,5 @@ Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POS
 
 tree /F src
 
-backend-cuadrusistem/public/uploads/reportes-z/
+backend-cuadrusistem/public/reportes-z/
 ygd2730

@@ -1,58 +1,57 @@
-- [Aceite Lt.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Aceitunas]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Aji verde]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Carne Ave Persona]: (Inicial 4 + Entrada 10 - Devolución 0) - Final 14 = Consumo Real 0
-  - [Carne Ave.Gigante]: (Inicial 8 + Entrada 0 - Devolución 0) - Final 8 = Consumo Real 0
-  - [Carne churrasco gig]: (Inicial 17 + Entrada 0 - Devolución 0) - Final 12 = Consumo Real 5
-  - [Carne churrasco pers]: (Inicial 3 + Entrada 20 - Devolución 0) - Final 19 = Consumo Real 4
-  - [Carne Hamburg Gigant.]: (Inicial 6 + Entrada 0 - Devolución 0) - Final 5 = Consumo Real 1
-  - [Carne hamburg. Porc.]: (Inicial 5 + Entrada 10 - Devolución 0) - Final 13 = Consumo Real 2
-  - [Carne lomo gig.]: (Inicial 7 + Entrada 0 - Devolución 0) - Final 7 = Consumo Real 0
-  - [Carne lomo pers]: (Inicial 4 + Entrada 10 - Devolución 0) - Final 12 = Consumo Real 2
-  - [Hamburg KING K]: (Inicial 12 + Entrada 10 - Devolución 0) - Final 14 = Consumo Real 8
-  - [Carne para As Gig.]: (Inicial 17 + Entrada 10 - Devolución 0) - Final 26 = Consumo Real 1
-  - [Champiñones]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Chorizo]: (Inicial 15 + Entrada 16 - Devolución 13) - Final 11 = Consumo Real 7
-  - [Choclo]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Lechuga]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Cebolla cruda]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Cebolla Cocida]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Hojarascas]: (Inicial 37 + Entrada 50 - Devolución 0) - Final 54 = Consumo Real 33
-  - [Huevos]: (Inicial 53 + Entrada 0 - Devolución 0) - Final 12 = Consumo Real 41
-  - [Jamón]: (Inicial 12 + Entrada 0 - Devolución 0) - Final 10 = Consumo Real 2
-  - [Menu 1 Pulpa/ Chuleta]: (Inicial 5 + Entrada 10 - Devolución 0) - Final 10 = Consumo Real 5
-  - [Menú 2 Pangasius]: (Inicial 21 + Entrada 20 - Devolución 0) - Final 29 = Consumo Real 12
-  - [Menú 3 Carne Mechada]: (Inicial 16 + Entrada 12 - Devolución 0) - Final 19 = Consumo Real 9
-  - [Tortilla De Wrap]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 13 = Consumo Real 0
-  - [Papas personal 350gr]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
-  - [Porcion Pino Marisco]: (Inicial 4 + Entrada 22 - Devolución 0) - Final 12 = Consumo Real 14
-  - [Porcion Pino Carne]: (Inicial 11 + Entrada 10 - Devolución 0) - Final 12 = Consumo Real 9
-  - [Porciones de camarones]: (Inicial 32 + Entrada 40 - Devolución 0) - Final 66 = Consumo Real 6
-  - [Crema]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Palmitos]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Paltas]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Pan fricas]: (Inicial 67 + Entrada 30 - Devolución 0) - Final 83 = Consumo Real 14
-  - [Pan hallullon]: (Inicial 30 + Entrada 30 - Devolución 0) - Final 54 = Consumo Real 6
-  - [Pan Brioche 12]: (Inicial 19 + Entrada 0 - Devolución 0) - Final 20 = Consumo Real -1
-  - [Pan mesa Gigante]: (Inicial 109 + Entrada 50 - Devolución 3) - Final 150 = Consumo Real 6
-  - [Pan mesa Personal]: (Inicial 43 + Entrada 50 - Devolución 0) - Final 81 = Consumo Real 12
-  - [Pan mesa super Gigan]: (Inicial 23 + Entrada 0 - Devolución 0) - Final 23 = Consumo Real 0
-  - [Pepinillos]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Porotos verdes Kg.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Queso laminado]: (Inicial 74 + Entrada 60 - Devolución 0) - Final 87 = Consumo Real 47
-  - [Tocino porciones]: (Inicial 18 + Entrada 0 - Devolución 0) - Final 16 = Consumo Real 2
-  - [Tomates Kg.]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Vienesas doggi]: (Inicial 21 + Entrada 34 - Devolución 0) - Final 48 = Consumo Real 7
-  - [Vienesas personal]: (Inicial 27 + Entrada 48 - Devolución 0) - Final 61 = Consumo Real 14
-  - [Arroz]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Cheddar porc]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 11
-  - [Cheddar porc]: (Inicial 13 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 11
-  - [Sopaipillas]: (Inicial 93 + Entrada 0 - Devolución 0) - Final 93 = Consumo Real 0
-  - [Sopaipillas]: (Inicial 93 + Entrada 0 - Devolución 0) - Final 93 = Consumo Real 0
-  - [Ají en salsa 1 Kg]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Atún]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
-  - [Agua mineral 1 1/2]: (Inicial 11 + Entrada 0 - Devolución 0) - Final 11 = Consumo Real 0
-0) - Final 93 = Consumo Real 0
-  - [Ají en salsa 1 Kg]: (Inicial 1 + Entrada 0 - Devolución 0) - Final 1 = Consumo Real 0
-  - [Atún]: (Inicial 2 + Entrada 0 - Devolución 0) - Final 2 = Consumo Real 0
-  - [Agua mineral 1 1/2]: (Inicial 11 + Entrada 0 - Devolución 0) - Final 11 = Consumo Real 0
+[Parser] Match []: "FECIA0370472026" -> 3704 [ENSALADA AVE] (Cant: 1)
+[Parser] Match []: "4101 AUSTRALLATA172" -> 4101 [Cerveza lata Austral 1/2 lt] (Cant: 1)
+[Parser] Match []: "4701 CRISTALLLTRO" -> 4201 [Cerv Cristal ret 1 Lt] (Cant: 1)
+[Parser] Match []: "1707 SCUNEITAO" -> 4202 [Cerv Escudo Ret 1 Lt] (Cant: 1)
+[Parser] Match []: "4713 ROYALLITRO" -> 4203 [ROYAL LITRO] (Cant: 1)
+[Parser] Match []: "4704 NCINCKENLITRO 4" -> 4204 [HEINEKEN LITRO] (Cant: 4)
+[Parser] Match []: "4709 ROYALLATA I" -> 4209 [Cerveza botella Royal 355cc] (Cant: 1)
+[Parser] Match []: "4711 NOTELLINTOROBAVO" -> 4211 [Cerveza Torobayo 1/2 lt] (Cant: 1)
+[Parser] Match []: "4715 CRISTALLATACH 2" -> 4215 [Cerveza lata pers. Cristal] (Cant: 2)
+[Parser] Match []: "4717 NETNEKENLATA 3" -> 4217 [HEINEKEN LATA] (Cant: 3)
+[Parser] Match []: "4719 ESCUDOLATA172" -> 4219 [Cerveza lata escudo 1/2 lt] (Cant: 1)
+[Parser] Match []: "4774 BOTELLINHEINEKEN" -> 4224 [BOTELLIN HEINEKEN] (Cant: 1)
+[Parser] Match []: "4230 SIOPCRISTAL500CC 3" -> 4230 [SHOP CRISTAL 500CC] (Cant: 3)
+[Parser] Match []: "4746 CORONABOTELLIN" -> 4246 [CORONA BOTELLIN] (Cant: 1)
+[Parser] Match []: "4206 COCACOLALATA 16" -> 4306 [COCA COLA LATA] (Cant: 16)
+[Parser] Match []: "4401 COCACOLAS91CC 5" -> 4401 [COCA COLA 591CC] (Cant: 5)
+[Parser] Match []: "4607 VITALSINGAS" -> 4407 [VITAL SIN GAS] (Cant: 1)
+[Parser] Match []: "4476 VITAL1172 2" -> 4426 [VITAL 1 1/2] (Cant: 2)
+[Parser] Match []: "4478 DBINA1175 2" -> 4428 [BBIDA 1 1/5] (Cant: 2)
+[Parser] Match []: "4501 NECTAR1ND 7" -> 4501 [Juao nectar individual] (Cant: 7)
+[Parser] Match []: "4504 NECTAR1172 1" -> 4504 [Juao nectar 11/2 litros] (Cant: 1)
+[Parser] Match []: "4601 CAFEGRANDE 1" -> 4601 [CAFE GRANDE] (Cant: 1)
+[Parser] Match []: "4869 PROMOSCHOP2X1 5" -> 4869 [PROMO SCHOP 2X1] (Cant: 5)
+[Parser] Match [COCINA]: "0101 COMITALIANOPERSONA" -> 0101 [COM ITALIANO PERSONA] (Cant: 11)
+[Parser] Match [COCINA]: "0107 COMCOMPLETOPERSONA" -> 0102 [COM COMPLETO PERSONA] (Cant: 1)
+[Parser] Match [COCINA]: "0116 DELIVERY APP 23" -> 0110 [DELIVERY      APP] (Cant: 23)
+[Parser] Match [COCINA]: "0301 COMITALTANOGIGANTE 1" -> 0301 [COM ITALIANO GIGANTE] (Cant: 1)
+[Parser] Match [COCINA]: "0507 COMCOMPLETOSUPER" -> 0502 [COM COMPLETO SUPER] (Cant: 1)
+[Parser] Match [COCINA]: "0509 COMITALTANOSUPER 7" -> 0508 [COM ITALIANO SUPER] (Cant: 7)
+[Parser] Match [COCINA]: "0701 ASITALTANO 1" -> 0701 [AS ITALIANO] (Cant: 1)
+[Parser] Match [COCINA]: "1301 LONOITALTALDGIG 1" -> 1301 [LOMO ITALIANO GIG] (Cant: 1)
+[Parser] Match [COCINA]: "1910 POLLOAMERICANAPER 1" -> 1910 [POLLO AMERICANO PER] (Cant: 1)
+[Parser] Match [COCINA]: "2301 HAMBURGITALJANPER 2" -> 2301 [HAMBURG ITALIANA PER] (Cant: 2)
+[Parser] Match [COCINA]: "2303 HAMBURGLUCIP9 1" -> 2303 [HAMBURG LUCO PER] (Cant: 1)
+[Parser] Match [COCINA]: "2307 HAMBURGOBELITSCOF5S 1" -> 2307 [HAMBURG OBELISCO PER] (Cant: 1)
+[Parser] Match [COCINA]: "2316 HAMBCLASSICBURG2X" -> 2316 [HAMB CLASSIC BURG 2X] (Cant: 112)
+[Parser] Match [COCINA]: "3991 PAPASFRITASGRANDES J" -> 3901 [PAPAS FRITAS GRANDES] (Cant: 1)
+[Parser] Match [COCINA]: "3907 PAPASFRITASPERSONA 8" -> 3902 [PAPAS FRITAS PERSONA] (Cant: 8)
+[Parser] Match [COCINA]: "3903 CHORRILLANAGRANDE" -> 3903 [CHORRILLANA GRANDE] (Cant: 1)
+[Parser] Match [COCINA]: "4021 COLACIONJUSDCOMPLE 5" -> 4021 [COLACION JUGO+COMPLETO] (Cant: 5)
+[Parser] Match [COCINA]: "4023 CARNEMECHADACARRO 3" -> 4023 [CARNE MECHADA C ARRO] (Cant: 3)
+[Parser] Match [COCINA]: "4074 CARNEMECHADACPAPA" -> 4024 [CARNE MECHADA C PAPA] (Cant: 1)
+[Parser] Match [COCINA]: "4031 PESCAZESCALO7PAPAS 7" -> 4031 [PESCA/ESCALO/PAPAS] (Cant: 7)
+[Parser] Match [COCINA]: "4077 COLACIONTOMASHERBI" -> 4032 [COLACION TOMAS HERBI] (Cant: 1)
+[Parser] Match [COCINA]: "4033 COLACIONADMINISTRAD" -> 4033 [COLACION ADMINISTRAD] (Cant: 1)
+[Parser] Match [COCINA]: "4874 NAMB4PRS1BEBIDA" -> 4874 [HAMB+PPS+BEBIDA] (Cant: 1)
+[Parser] Match [EMPANADAS]: "3500 EMPPINOCARNEHORNO K" -> 3508 [EMP PINO CERNE HORNO] (Cant: 3)
+[Parser] Match [EMPANADAS]: "3601 MPCAMARONQUESOMR 23" -> 3601 [EMP CAMARON QUESO FR] (Cant: 23)
+[Parser] Match [EMPANADAS]: "3607 CMPCHAMPIGNONQUESO 2" -> 3602 [EMP CHAMPIGNON QUESO] (Cant: 2)
+[Parser] Match [EMPANADAS]: "3609 EMPPINOCARNEFRITA 2" -> 3609 [EMP PINO CARNE QUESO] (Cant: 2)
+[Parser] Match [EMPANADAS]: "3610 FMPPINOMARISCOFRI 12" -> 3610 [EMP PINO MARISCO FRI] (Cant: 12)
+[Parser] Match [EMPANADAS]: "3612 EMPQUESOCARNETOMA" -> 3612 [EMP CARNE CHOCLO FRI] (Cant: 1)
+[Parser] Match [EMPANADAS]: "3613 FMPQUESOCHOCLOFRI" -> 3613 [EMP QUESO CHOCLO FRI] (Cant: 1)
+[Parser] Match [EMPANADAS]: "3614 EMPVEGETARIANAFRIT 4" -> 3614 [EMP VEGETARIANA FRIT] (Cant: 4)
+[Parser] Match [EMPANADAS]: "2617 EMPQUESOFRITA 5" -> 3617 [EMP QUESO FRITA] (Cant: 5)
+[Parser] Match [EMPANADAS]: "2628 EMPANADAPOLLOQUESO" -> 3628 [EMPANADA POLLO QUESO] (Cant: 1)
+[Parser] Match [EMPANADAS]: "3629 EMPCARNEQUESO" -> 3629 [EMP CARNE QUESO] (Cant: 1)
