@@ -15,6 +15,7 @@
        * Build Command: npm run build
        * Start Command: npm start
    3. Variables de Entorno: Railway detectará el Dockerfile que creamos y lo usará. Debes copiar las variables de PostgreSQL que Railway te dio a este servicio (DB_HOST, DB_USER, etc.).
+   .
 
   Paso C: El Frontend (Servicio 2)
    1. "New" -> "GitHub Repo" -> Selecciona el mismo repositorio.
