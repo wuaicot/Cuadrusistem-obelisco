@@ -2,9 +2,7 @@ import { useState, useMemo } from "react";
 import {
   CATEGORIAS_COCINA,
   PROVEEDORES,
-  type Categoria,
   type Proveedor,
-  type ProductoProveedor,
 } from "../data/preciosData";
 
 export function PreciosProveedorPage() {
