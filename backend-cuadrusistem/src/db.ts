@@ -4,16 +4,25 @@ import chalk from 'chalk';
 
 dotenv.config();
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
-});
+// Priorizamos la cadena de conexión completa (DATABASE_URL) que es el estándar de Railway
+const connectionString = process.env.DATABASE_URL;
+
+const pool = connectionString 
+  ? new Pool({ 
+      connectionString,
+      ssl: connectionString.includes('localhost') ? false : { rejectUnauthorized: false }
+    })
+  : new Pool({
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+    });
 
 pool.on('connect', () => {
-  console.log(chalk.green('✓ Conectado a la base de datos PostgreSQL.'));
+  const mode = connectionString ? 'URL' : 'Params';
+  console.log(chalk.green(`✓ Conectado a PostgreSQL (Modo: ${mode}).`));
 });
 
 pool.on('error', (err) => {
@@ -22,11 +31,5 @@ pool.on('error', (err) => {
 });
 
 export default {
-  /**
-   * Ejecuta una consulta SQL en la base de datos.
-   * @param text La consulta SQL a ejecutar.
-   * @param params Los parámetros para la consulta.
-   * @returns El resultado de la consulta.
-   */
   query: (text: string, params: any[] = []) => pool.query(text, params),
 };
