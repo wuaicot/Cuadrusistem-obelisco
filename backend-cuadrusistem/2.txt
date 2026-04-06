@@ -1,39 +1,36 @@
-[Parser] Match []: "4101 AUSTRALLATA172" -> 4101 [Cerveza lata Austral 1/2 lt] (Cant: 1)
-[Parser] Match []: "4721 SCHIPCUILMESSACTC 1" -> 4221 [SCHOP QUILMES 500 CC] (Cant: 1)
-[Parser] Match []: "4745 PITCHERQUILHES15 J" -> 4245 [Barril Quilmes (tara 11.00)] (Cant: 1)
-[Parser] Match []: "4746 COPQNABOTELLIN" -> 4246 [CORONA BOTELLIN] (Cant: 1)
-[Parser] Match []: "430 COCACOLALATA 13" -> 4306 [COCA COLA LATA] (Cant: 13)
-[Parser] Match []: "4401 COACOLAS91CC 20" -> 4401 [COCA COLA 591CC] (Cant: 20)
-[Parser] Match []: "4501 NECTARTHD 3" -> 4501 [Juao nectar individual] (Cant: 3)
-[Parser] Match []: "4601 CAFEGRANDE 2" -> 4601 [CAFE GRANDE] (Cant: 2)
-[Parser] Match []: "4869 PROYOSCHOP21 1" -> 4869 [PROMO SCHOP 2X1] (Cant: 1)
-[Parser] Match []: "0101 COMITALITANOPERSONA 13" -> 0101 [COM ITALIANO PERSONA] (Cant: 13)
-[Parser] Match []: "0201 4PALTA 1" -> 0201 [+PALTA] (Cant: 1)
-[Parser] Match []: "0701 ASITALTANO N" -> 0701 [AS ITALIANO] (Cant: 1)
-[Parser] Match []: "0703 ASCHACARERO 1" -> 0703 [AS CHACARERO] (Cant: 1)
-[Parser] Match []: "0704 ASLUCO 3" -> 0704 [AS LUCO] (Cant: 3)
-[Parser] Match []: "U711 ASMEXICANO 2" -> 0711 [AS MEXICANO] (Cant: 2)
-[Parser] Match []: "0331 CHUR1TAGIG 2" -> 0901 [CHUR ITA GIG] (Cant: 2)
-[Parser] Match []: "2101 HAYBUITALTANAGIG 1" -> 2101 [HAMBU ITALIANA GIG] (Cant: 1)
-[Parser] Match []: "2107 HAMBUOBEGIG 1" -> 2107 [HAMBU OBE GIG] (Cant: 1)
-[Parser] Match []: "2351 HAMBURGITALTANAPER 2" -> 2301 [HAMBURG ITALIANA PER] (Cant: 2)
-[Parser] Match []: "2303 HAMBURGLUCOPER 1" -> 2303 [HAMBURG LUCO PER] (Cant: 1)
-[Parser] Match []: "3907 PAPASFRITASPERSONA 8" -> 3902 [PAPAS FRITAS PERSONA] (Cant: 8)
-[Parser] Match []: "3903 CHORRILLANAGRNNDE 2" -> 3903 [CHORRILLANA GRANDE] (Cant: 2)
-[Parser] Match []: "3964 CHORRILLANAPERSONAL 6" -> 3904 [CHORRILLANA PERSONAL] (Cant: 6)
-[Parser] Match []: "4021 COLACIONJU70COMPLE 4" -> 4021 [COLACION JUGO+COMPLETO] (Cant: 4)
-[Parser] Match []: "4029 PESCADOESCAL7ASROZ 11" -> 4029 [PESCADO/ESCAL/ARROZ] (Cant: 11)
-[Parser] Match []: "4033 COLACIONADMINISTRAD 2" -> 4033 [COLACION ADMINISTRAD] (Cant: 2)
-[Parser] Match []: "4036 CHULETASARROZ 4" -> 4036 [CHULETAS ARROZ] (Cant: 4)
-[Parser] Match []: "4871 COPERPAPAS 4" -> 4871 [COM PER+PAPAS] (Cant: 4)
-[Parser] Match []: "4874 MAYB1PPS1BEBIDA 1" -> 4874 [HAMB+PPS+BEBIDA] (Cant: 1)
-[Parser] Match []: "5201 WAAPPOLLOCLASICO 2" -> 5201 [WRAP POLLO CLASICO] (Cant: 2)
-[Parser] Match []: "5710 WRAPAMERICANOMIXTO 1" -> 5210 [WRAP AMERICANO MIXTO] (Cant: 1)
-[Parser] Match []: "3611 CHPCAMARONQUESOFR J1" -> 3611 [EMP CARNE CHOCLO FRI] (Cant: 1)
-[Parser] Match []: "3617 CHPCMAMPICNONQUSU Q" -> 3617 [EMP QUESO FRITA] (Cant: 1)
-[Parser] Match []: "3611 ENPCARNECHOCLOFRI 1" -> 3611 [EMP CARNE CHOCLO FRI] (Cant: 1)
-[Parser] Match []: "3617 ENPOJESOCARNETOMA 1" -> 3617 [EMP QUESO FRITA] (Cant: 1)
-[Parser] Match []: "3614 ENPVEGETARIANNFRIT 1" -> 3614 [EMP VEGETARIANA FRIT] (Cant: 1)
-[Parser] Match []: "3615 EMPMEXICANAFRITA 1" -> 3615 [EMP MEXICANA FRITA] (Cant: 1)
-[Parser] Match []: "3617 EMPQJESOFRITA 13" -> 3617 [EMP QUESO FRITA] (Cant: 13)
-[Parser] Match []: "3623 MECHADAQUESOFRITA" -> 3623 [MECHADA QUESO FRITA] (Cant: 1)
+ Aquí tienes la hoja de ruta definitiva para el despliegue:
+
+  1. Plataforma Recomendada: Railway (Todo en uno)
+  Aunque podrías usar Vercel para el frontend, te recomiendo Railway para ambos para mantener la "simbiósis" que mencionabas en un solo panel de control.
+
+  Paso A: La Base de Datos (PostgreSQL)
+   1. En Railway, dale a "New" -> "Database" -> "Add PostgreSQL".
+   2. Esto te generará una base de datos vacía.
+   3. Importante: Debes ejecutar el archivo backend-cuadrusistem/schema.sql en esta base de datos. Puedes hacerlo desde la pestaña "Query" de Railway o conectándote con un cliente como DBeaver o pgAdmin.
+
+  Paso B: El Backend (Servicio 1)
+   1. "New" -> "GitHub Repo" -> Selecciona tu repositorio.
+   2. En la configuración del servicio (Settings):
+       * Root Directory: backend-cuadrusistem
+       * Build Command: npm run build
+       * Start Command: npm start
+   3. Variables de Entorno: Railway detectará el Dockerfile que creamos y lo usará. Debes copiar las variables de PostgreSQL que Railway te dio a este servicio (DB_HOST, DB_USER, etc.).
+
+  Paso C: El Frontend (Servicio 2)
+   1. "New" -> "GitHub Repo" -> Selecciona el mismo repositorio.
+   2. En la configuración del servicio (Settings):
+       * Root Directory: frontend-cuadrusistem
+       * Build Command: npm run build
+       * Start Command: npm run preview (o dejar que Railway detecte Vite automáticamente).
+   3. Variable Vital: Crea la variable VITE_API_BASE_URL y ponle la URL pública que Railway le asigne a tu Backend (ej: https://backend-production-xyz.up.railway.app/api).
+
+  2. Checklist de Conectividad
+  Para que todo fluya sin problemas:
+   * [ ] CORS: En el panel de Railway del Backend, asegúrate de añadir la URL del Frontend en la variable CORS_ORIGIN. Esto permite que el navegador acepte las peticiones.
+   * [ ] SSL: Railway te da HTTPS automáticamente, lo cual es vital para que los teléfonos Apple y Android permitan subir fotos desde la cámara.
+
+  3. Consideración del Monorepo
+  Como no tienes un package.json en la raíz (son dos carpetas independientes), Railway te preguntará qué carpeta quieres desplegar al añadir el repo. Solo tienes que repetir el proceso de "New Service" dos veces,
+  eligiendo una carpeta distinta cada vez.
+
+  ¿Te gustaría que preparemos algún script de automatización para la base de datos o prefieres hacer el despliegue manual en la interfaz de Railway?
