@@ -51,7 +51,11 @@
 
 Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST
 
+npx ts-node src/check-tables.ts
+
 tree /F src
 
 backend-cuadrusistem/public/reportes-z/
 ygd2730
+
+npx ts-node src/check-tables.ts
