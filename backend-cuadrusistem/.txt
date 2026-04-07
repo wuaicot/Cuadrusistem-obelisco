@@ -58,4 +58,3 @@ tree /F src
 backend-cuadrusistem/public/reportes-z/
 ygd2730
 
-npx ts-node src/check-tables.ts

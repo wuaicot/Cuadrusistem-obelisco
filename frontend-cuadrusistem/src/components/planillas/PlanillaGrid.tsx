@@ -200,11 +200,18 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
           fetchLocales(),
           fetchTurnos(),
         ]);
-        setIngredientes(ingredientesData);
-        setLocales(localesData);
-        setTurnos(turnosData);
-        if (localesData.length > 0) setSelectedLocalId(localesData[0].id);
-        if (turnosData.length > 0) setSelectedTurnoId(turnosData[0].id);
+
+        // Defensive checks to ensure we have arrays
+        const safeIngredientes = Array.isArray(ingredientesData) ? ingredientesData : [];
+        const safeLocales = Array.isArray(localesData) ? localesData : [];
+        const safeTurnos = Array.isArray(turnosData) ? turnosData : [];
+
+        setIngredientes(safeIngredientes);
+        setLocales(safeLocales);
+        setTurnos(safeTurnos);
+
+        if (safeLocales.length > 0) setSelectedLocalId(safeLocales[0].id);
+        if (safeTurnos.length > 0) setSelectedTurnoId(safeTurnos[0].id);
       } catch (err) {
         const msg = err instanceof Error ? err.message : "Error desconocido.";
         setError(`No se pudieron cargar datos: ${msg}`);
