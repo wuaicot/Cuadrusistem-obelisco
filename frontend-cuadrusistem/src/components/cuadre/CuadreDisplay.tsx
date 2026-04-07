@@ -69,9 +69,9 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
             fetchPlanillasByType("CAJA"),
           ]);
 
-        setReportesZ(reportesData);
-        setPlanillasCocina(planillasCocinaData);
-        setPlanillasCaja(planillasCajaData);
+        setReportesZ(Array.isArray(reportesData) ? reportesData : []);
+        setPlanillasCocina(Array.isArray(planillasCocinaData) ? planillasCocinaData : []);
+        setPlanillasCaja(Array.isArray(planillasCajaData) ? planillasCajaData : []);
       } catch (err) {
         console.error("Error loading initial data for cuadre:", err);
         setError("Error al cargar los datos necesarios para el cuadre.");
