@@ -8,6 +8,11 @@ export interface Turno {
 }
 
 export const fetchTurnos = async (): Promise<Turno[]> => {
-  const response = await api.get('/turnos'); // Assuming /turnos endpoint exists
-  return response.data;
+  try {
+    const response = await api.get('/turnos');
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching turnos:", error);
+    return [];
+  }
 };

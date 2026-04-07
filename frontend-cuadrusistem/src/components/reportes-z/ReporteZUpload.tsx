@@ -34,14 +34,17 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
           fetchTurnos(),
         ]);
 
-        setLocales(localesData);
-        setTurnos(turnosData);
+        const safeLocales = Array.isArray(localesData) ? localesData : [];
+        const safeTurnos = Array.isArray(turnosData) ? turnosData : [];
 
-        if (localesData.length > 0) {
-          setSelectedLocalId(localesData[0].id);
+        setLocales(safeLocales);
+        setTurnos(safeTurnos);
+
+        if (safeLocales.length > 0) {
+          setSelectedLocalId(safeLocales[0].id);
         }
-        if (turnosData.length > 0) {
-          setSelectedTurnoId(turnosData[0].id);
+        if (safeTurnos.length > 0) {
+          setSelectedTurnoId(safeTurnos[0].id);
         }
       } catch (error) {
         console.error("Error fetching initial data:", error);

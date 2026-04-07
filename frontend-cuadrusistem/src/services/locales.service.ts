@@ -9,6 +9,11 @@ export interface Local {
 }
 
 export const fetchLocales = async (): Promise<Local[]> => {
-  const response = await api.get<Local[]>('/locales');
-  return response.data;
+  try {
+    const response = await api.get<Local[]>('/locales');
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching locales:", error);
+    return [];
+  }
 };

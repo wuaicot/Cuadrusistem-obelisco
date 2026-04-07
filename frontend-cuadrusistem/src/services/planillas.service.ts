@@ -25,8 +25,13 @@ export interface CreatePlanillaPayload {
 }
 
 export const fetchPlanillas = async (): Promise<Planilla[]> => {
-  const response = await api.get('/planillas');
-  return response.data;
+  try {
+    const response = await api.get('/planillas');
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching planillas:", error);
+    return [];
+  }
 };
 
 export const fetchPlanillasByType = async (
@@ -34,15 +39,20 @@ export const fetchPlanillasByType = async (
   localId?: string,
   turnoId?: string,
 ): Promise<Planilla[]> => {
-  let url = `/planillas?tipo=${type}`;
-  if (localId) {
-    url += `&localId=${localId}`;
+  try {
+    let url = `/planillas?tipo=${type}`;
+    if (localId) {
+      url += `&localId=${localId}`;
+    }
+    if (turnoId) {
+      url += `&turnoId=${turnoId}`;
+    }
+    const response = await api.get(url);
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error(`Error fetching planillas of type ${type}:`, error);
+    return [];
   }
-  if (turnoId) {
-    url += `&turnoId=${turnoId}`;
-  }
-  const response = await api.get(url);
-  return response.data;
 };
 
 export const createPlanilla = async (payload: CreatePlanillaPayload): Promise<Planilla> => {
