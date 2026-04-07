@@ -8,13 +8,12 @@ export interface IngredienteDef {
 
 export const fetchIngredientes = async (tipo: Role): Promise<IngredienteDef[]> => {
   try {
-    // Pass the 'tipo' as a query parameter for the backend to filter
     const response = await api.get<IngredienteDef[]>('/ingredientes', {
       params: { tipo }
     });
-    return response.data;
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error(`Error fetching ingredientes for tipo '${tipo}':`, error);
-    throw error;
+    return [];
   }
 };

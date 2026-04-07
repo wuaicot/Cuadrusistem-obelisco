@@ -18,12 +18,21 @@ export interface ReporteZ {
 }
 
 export const fetchUnprocessedReportesZ = async (): Promise<ReporteZ[]> => {
-  // Assuming a backend endpoint to fetch unprocessed ReporteZ exists
-  const response = await api.get('/reporte-z?procesado=false');
-  return response.data;
+  try {
+    const response = await api.get('/reporte-z?procesado=false');
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching unprocessed reportesZ:", error);
+    return [];
+  }
 };
 
 export const fetchAllReportesZ = async (): Promise<ReporteZ[]> => {
-  const response = await api.get('/reporte-z');
-  return response.data;
+  try {
+    const response = await api.get('/reporte-z');
+    return Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error("Error fetching all reportesZ:", error);
+    return [];
+  }
 };
