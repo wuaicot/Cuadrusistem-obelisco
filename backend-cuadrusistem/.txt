@@ -50,6 +50,7 @@
   TRUNCATE TABLE planillas CASCADE;
 
 Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST -UseBasicParsing
+Invoke-WebRequest -Uri https://cuadrusistem-obelisco-production.up.railway.app/api/debug/seed-database -Method POST -UseBasicParsing
 
 npx ts-node src/check-tables.ts
 
