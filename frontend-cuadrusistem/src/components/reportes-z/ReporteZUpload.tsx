@@ -18,7 +18,6 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
   const [locales, setLocales] = useState<Local[]>([]);
   const [selectedLocalId, setSelectedLocalId] = useState("");
 
-  // State for UI feedback
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [errorInitial, setErrorInitial] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -40,17 +39,10 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         setLocales(safeLocales);
         setTurnos(safeTurnos);
 
-        if (safeLocales.length > 0) {
-          setSelectedLocalId(safeLocales[0].id);
-        }
-        if (safeTurnos.length > 0) {
-          setSelectedTurnoId(safeTurnos[0].id);
-        }
+        if (safeLocales.length > 0) setSelectedLocalId(safeLocales[0].id);
+        if (safeTurnos.length > 0) setSelectedTurnoId(safeTurnos[0].id);
       } catch (error) {
-        console.error("Error fetching initial data:", error);
-        setErrorInitial(
-          "No se pudieron cargar los datos iniciales (locales/turnos).",
-        );
+        setErrorInitial("No se pudieron cargar locales/turnos.");
       } finally {
         setLoadingInitial(false);
       }
@@ -61,7 +53,6 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
-      // Reset feedback on new file selection
       setUploadSuccess(null);
       setUploadError(null);
     }
@@ -69,10 +60,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || !fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      alert("Por favor, complete todos los campos.");
-      return;
-    }
+    if (!file || !fechaOperacion || !selectedTurnoId || !selectedLocalId) return;
 
     setIsUploading(true);
     setUploadError(null);
@@ -86,149 +74,120 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
 
     try {
       const response = await api.post("/reporte-z", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.status === 201) {
-        setUploadSuccess(
-          response.data.message ||
-            "¡Reporte Z cargado y procesado exitosamente!",
-        );
+        setUploadSuccess("¡Reporte Z procesado con éxito!");
         setFile(null);
-        if (e.target instanceof HTMLFormElement) {
-          e.target.reset();
-        }
+        if (e.target instanceof HTMLFormElement) e.target.reset();
         onUploadSuccess();
       }
-    } catch (error: unknown) {
-      console.error("Falló cargando el archivo:", error);
-      let message = "Error desconocido al cargar el archivo.";
-      if (error && typeof error === 'object' && 'response' in error) {
-        const axiosError = error as { response?: { data?: { message?: string } } };
-        message = axiosError.response?.data?.message || message;
-      } else if (error instanceof Error) {
-        message = error.message;
-      }
-      setUploadError(`Error: ${message}`);
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Error al cargar el archivo.";
+      setUploadError(message);
     } finally {
       setIsUploading(false);
     }
   };
 
-  if (loadingInitial)
-    return <p className="text-center p-4">Cargando datos iniciales...</p>;
-  if (errorInitial)
-    return <p className="text-center p-4 text-red-500">{errorInitial}</p>;
+  if (loadingInitial) return (
+    <div className="flex justify-center p-8">
+      <div className="animate-pulse flex space-x-4">
+        <div className="rounded-full bg-gray-200 h-10 w-10"></div>
+        <div className="flex-1 space-y-6 py-1">
+          <div className="h-2 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mx-auto">
-      <h3 className="text-2xl font-bold mb-4 text-center">Cargar Reporte Z</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="file"
-          >
-            Archivo PNG/JPG del Reporte Z
-          </label>
-          <input
-            key={file ? "file-selected" : "file-empty"}
-            type="file"
-            id="file"
-            accept="image/png, image/jpeg"
-            onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            disabled={isUploading}
-          />
+    <div className="w-full max-w-xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="group">
+          <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Archivo PNG/JPG del Reporte Z</label>
+          <div className="relative">
+            <input
+              type="file"
+              id="file"
+              accept="image/png, image/jpeg"
+              onChange={handleFileChange}
+              className="hidden"
+              disabled={isUploading}
+            />
+            <label
+              htmlFor="file"
+              className={`flex flex-col items-center justify-center w-full p-6 border-2 border-dashed rounded-[1.5rem] cursor-pointer transition-all ${
+                file ? 'border-indigo-500 bg-indigo-50/50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300'
+              }`}
+            >
+              <span className="text-3xl mb-2">{file ? '✅' : '📷'}</span>
+              <span className="text-sm font-bold text-gray-700">{file ? file.name : 'Seleccionar o Tomar Foto'}</span>
+              <span className="text-xs text-gray-400 mt-1">PNG, JPG hasta 10MB</span>
+            </label>
+          </div>
         </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="fecha"
-          >
-            Fecha de Operación
-          </label>
-          <input
-            type="date"
-            id="fecha"
-            value={fechaOperacion}
-            onChange={(e) => setFechaOperacion(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            disabled={isUploading}
-            required
-          />
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-1">
+            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Fecha</label>
+            <input
+              type="date"
+              value={fechaOperacion}
+              onChange={(e) => setFechaOperacion(e.target.value)}
+              className="w-full p-3 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"
+              disabled={isUploading}
+              required
+            />
+          </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="turno"
-          >
-            Turno
-          </label>
-          <select
-            id="turno"
-            value={selectedTurnoId}
-            onChange={(e) => setSelectedTurnoId(e.target.value)}
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            disabled={isUploading}
-            required
-          >
-            {turnos.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.tipo} ({t.fecha})
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="sm:col-span-1">
+            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Turno</label>
+            <select
+              value={selectedTurnoId}
+              onChange={(e) => setSelectedTurnoId(e.target.value)}
+              className="w-full p-3 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 appearance-none"
+              disabled={isUploading}
+              required
+            >
+              {turnos.map((t) => (
+                <option key={t.id} value={t.id}>{t.tipo}</option>
+              ))}
+            </select>
+          </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="local"
-          >
-            Local
-          </label>
-          <select
-            id="local"
-            value={selectedLocalId}
-            onChange={(e) => setSelectedLocalId(e.target.value)}
-            className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            disabled={isUploading}
-            required
-          >
-            {locales.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.nombre}
-              </option>
-            ))}
-          </select>
+          <div className="sm:col-span-1">
+            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">Local</label>
+            <select
+              value={selectedLocalId}
+              onChange={(e) => setSelectedLocalId(e.target.value)}
+              className="w-full p-3 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 appearance-none"
+              disabled={isUploading}
+              required
+            >
+              {locales.map((l) => (
+                <option key={l.id} value={l.id}>{l.nombre}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:bg-gray-400"
-          disabled={
-            isUploading ||
-            !file ||
-            !fechaOperacion ||
-            !selectedLocalId ||
-            !selectedTurnoId
-          }
+          disabled={isUploading || !file}
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 px-6 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-95 disabled:opacity-50 uppercase tracking-widest text-sm"
         >
-          {isUploading ? "Cargando..." : "Cargar y Procesar Reporte"}
+          {isUploading ? "Procesando con OCR..." : "Cargar y Procesar Reporte"}
         </button>
 
         {uploadSuccess && (
-          <div className="mt-4 p-3 bg-green-100 text-green-800 border border-green-300 rounded">
+          <div className="p-4 bg-green-500 text-white text-center rounded-2xl font-bold shadow-lg animate-bounce">
             {uploadSuccess}
           </div>
         )}
         {uploadError && (
-          <div className="mt-4 p-3 bg-red-100 text-red-800 border border-red-300 rounded">
+          <div className="p-4 bg-red-500 text-white text-center rounded-2xl font-bold shadow-lg">
             {uploadError}
           </div>
         )}

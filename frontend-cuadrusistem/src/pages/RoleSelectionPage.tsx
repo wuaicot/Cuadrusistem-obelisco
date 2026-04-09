@@ -22,29 +22,44 @@ export function RoleSelectionPage() {
   };
 
   return (
-    <div className="items-center justify-center h-screen bg-orange-500 pt-28 border-solid border-4 borderstyle-groove">
-      <div className="text-center ">
-        <h1 className="text-4xl font-bold mb-16"> <span className='border border-black text-5xl'>C</span>uadru<span >S</span>istem<span className=''> _OBELISCO®</span></h1>
-        <div className="space-x-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-600 p-4">
+      <div className="w-full max-w-lg text-center fade-in">
+        <header className="mb-12">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight drop-shadow-xl">
+            <span className="bg-white text-orange-600 px-3 py-1 rounded-xl mr-1 inline-block transform -rotate-3">C</span>uadri<span className="text-orange-200">S</span>istem
+          </h1>
+          <p className="text-orange-100 mt-4 text-xl font-medium tracking-widest opacity-90 uppercase">_OBELISCO®</p>
+        </header>
+
+        <div className="grid grid-cols-1 gap-4 sm:gap-6">
           <button
             onClick={() => handleRoleSelection('COCINA')}
-            className="bg-green-800 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-2xl border-2"
+            className="group relative overflow-hidden bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white font-bold py-6 px-8 rounded-2xl text-2xl border border-white/30 shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3"
           >
-            Cocina 🍽️
+            <span className="text-3xl group-hover:rotate-12 transition-transform">🍽️</span>
+            Cocina
           </button>
+          
           <button
             onClick={() => handleRoleSelection('CAJA')}
-            className="bg-blue-800 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg text-2xl border-2"
+            className="group relative overflow-hidden bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white font-bold py-6 px-8 rounded-2xl text-2xl border border-white/30 shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3"
           >
-            Caja 💵
+            <span className="text-3xl group-hover:rotate-12 transition-transform">💵</span>
+            Caja
           </button>
+          
           <button
             onClick={() => handleRoleSelection('ADMIN')}
-            className="bg-purple-500 hover:bg-purple-700 text-grren font-bold py-4 px-8 rounded-lg text-2xl border-2"
+            className="group relative overflow-hidden bg-indigo-900/40 backdrop-blur-lg hover:bg-indigo-900/60 text-indigo-100 font-bold py-6 px-8 rounded-2xl text-2xl border border-indigo-400/30 shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3"
           >
-            Admin. ✍️
+            <span className="text-3xl group-hover:rotate-12 transition-transform">✍️</span>
+            Administrador
           </button>
         </div>
+
+        <footer className="mt-16 text-white/50 text-sm font-medium">
+          © 2026 CuadriSistem Obelisco. Todos los derechos reservados.
+        </footer>
       </div>
     </div>
   );
