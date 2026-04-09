@@ -9,14 +9,21 @@ dotenv.config();
 async function initDb() {
   console.log(chalk.blue('Intentando conectar con parámetros de .env...'));
 
-  const client = new Client({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || '5432'),
-    ssl: process.env.DB_HOST?.includes('localhost') ? false : { rejectUnauthorized: false }
-  });
+  const clientConfig = process.env.DATABASE_URL 
+    ? { 
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      }
+    : {
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_NAME,
+        password: process.env.DB_PASSWORD,
+        port: parseInt(process.env.DB_PORT || '5432'),
+        ssl: process.env.DB_HOST?.includes('localhost') ? false : { rejectUnauthorized: false }
+      };
+
+  const client = new Client(clientConfig);
 
   try {
     await client.connect();
