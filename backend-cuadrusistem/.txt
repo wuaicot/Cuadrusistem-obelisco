@@ -49,7 +49,7 @@
   TRUNCATE TABLE reportes_z CASCADE;     
   TRUNCATE TABLE planillas CASCADE;
 
-Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST
+Invoke-WebRequest -Uri http://localhost:3000/api/debug/seed-database -Method POST -UseBasicParsing
 
 npx ts-node src/check-tables.ts
 
