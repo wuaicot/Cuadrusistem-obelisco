@@ -7,7 +7,6 @@ import {
 import { fetchLocales, type Local } from "../../services/locales.service";
 import {
   createPlanilla,
-  type CreatePlanillaPayload,
   type PlanillaItem,
 } from "../../services/planillas.service";
 import { fetchTurnos, type Turno } from "../../services/turnos.service";
@@ -184,7 +183,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const [locales, setLocales] = useState<Local[]>([]);
   const [selectedLocalId, setSelectedLocalId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
@@ -273,7 +272,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
       setPlanillasData({});
       // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
+    } catch {
       setSaveError("Error al guardar planilla.");
     } finally {
       setIsSaving(false);
@@ -293,8 +292,9 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
         <div className="sticky top-0 z-30 py-4 bg-gray-50/95 backdrop-blur-sm">
           <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 grid grid-cols-2 sm:grid-cols-3 gap-3 items-end">
             <div>
-              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Fecha</label>
+              <label htmlFor="fecha-input" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Fecha</label>
               <input
+                id="fecha-input"
                 type="date"
                 value={fechaOperacion}
                 onChange={(e) => setFechaOperacion(e.target.value)}
@@ -303,8 +303,9 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
               />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Turno</label>
+              <label htmlFor="turno-select" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Turno</label>
               <select
+                id="turno-select"
                 value={selectedTurnoId}
                 onChange={(e) => setSelectedTurnoId(e.target.value)}
                 className="w-full p-2 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"
@@ -316,8 +317,9 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
               </select>
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Local</label>
+              <label htmlFor="local-select" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Local</label>
               <select
+                id="local-select"
                 value={selectedLocalId}
                 onChange={(e) => setSelectedLocalId(e.target.value)}
                 className="w-full p-2 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"

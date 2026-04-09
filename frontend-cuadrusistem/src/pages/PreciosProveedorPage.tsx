@@ -52,6 +52,7 @@ export function PreciosProveedorPage() {
         {view !== "categorias" && (
           <button
             onClick={handleBack}
+            aria-label="Volver"
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
             <svg
