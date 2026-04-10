@@ -71,17 +71,19 @@ router.post(
       console.log(chalk.yellow('1. Pre-procesando imagen...'));
       const originalBuffer = req.file.buffer;
       const processedBuffer = await preprocessTicket(originalBuffer);
+      console.log(chalk.green('✓ Pre-procesamiento finalizado.'));
 
       console.log(chalk.yellow('2. Ejecutando Tesseract OCR...'));
       const textoExtraido = await runOcr(processedBuffer);
 
       console.log(chalk.green('✓ OCR Finalizado.'));
-      console.log(chalk.magenta('\n=== TEXTO BRUTO DEL OCR (INICIO) ==='));
-      console.log(textoExtraido);
-      console.log(chalk.magenta('=== TEXTO BRUTO DEL OCR (FIN) ===\n'));
+      // console.log(chalk.magenta('\n=== TEXTO BRUTO DEL OCR (INICIO) ==='));
+      // console.log(textoExtraido);
+      // console.log(chalk.magenta('=== TEXTO BRUTO DEL OCR (FIN) ===\n'));
 
       console.log(chalk.yellow('3. Parseando texto...'));
       const ventasMap = parseReporteZ(textoExtraido);
+      console.log(chalk.green(`✓ Parseo finalizado. ${ventasMap.size} items detectados.`));
 
       const ventasArray = Array.from(ventasMap.entries()).map(
         ([codigo, cantidad]) => ({ codigo, cantidad }),
@@ -89,8 +91,19 @@ router.post(
 
       const checksum = crypto.createHash('md5').update(originalBuffer).digest('hex');
       const itemsJsonb = JSON.stringify(ventasArray);
-      const archivoOriginal = '[PROCESADO EN MEMORIA]';
+      const archivoOriginal = req.file.originalname || '[PROCESADO EN MEMORIA]';
 
+      console.log(chalk.yellow('4. Verificando duplicados (checksum)...'));
+      const checkDup = await db.query('SELECT id FROM reportes_z WHERE checksum = $1', [checksum]);
+      if (checkDup.rows.length > 0) {
+        console.log(chalk.yellow(`! El archivo ya fue procesado anteriormente (ID: ${checkDup.rows[0].id})`));
+        return res.status(409).json({ 
+          message: 'Este archivo ya ha sido subido y procesado anteriormente.',
+          reporteZId: checkDup.rows[0].id
+        });
+      }
+
+      console.log(chalk.yellow('5. Guardando en base de datos...'));
       const insertQuery = `
         INSERT INTO "reportes_z" (
           "archivo_original", "checksum", "items", "fecha_operacion",
@@ -112,8 +125,13 @@ router.post(
       });
 
     } catch (error: any) {
-      console.error(chalk.red('Error en POST /api/reporte-z:'), error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      console.error(chalk.red('Error detallado en POST /api/reporte-z:'), error);
+      res.status(500).json({ 
+        message: 'Internal Server Error', 
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+        detail: error.detail || null // Útil para errores de Postgres como duplicados
+      });
     }
   },
 );
