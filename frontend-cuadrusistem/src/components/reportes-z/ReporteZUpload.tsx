@@ -134,7 +134,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
             >
               <span className="text-3xl mb-2">{file ? "✅" : "📷"}</span>
               <span className="text-sm font-bold text-gray-700">
-                {file ? file.name : "Seleccionar o Tomar Foto"}
+                {file ? file.name : "Selecciona archivo del Z"}
               </span>
               <span className="text-xs text-gray-400 mt-1">
                 PNG, JPG hasta 10MB
@@ -214,7 +214,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
           disabled={isUploading || !file}
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 px-6 rounded-2xl shadow-lg shadow-indigo-100 transition-all active:scale-95 disabled:opacity-50 uppercase tracking-widest text-sm"
         >
-          {isUploading ? "Procesando con OCR..." : "Cargar y Procesar Reporte"}
+          {isUploading ? "Procesando el reporte Z" : "Cargar el  reporte-Z"}
         </button>
 
         {uploadSuccess && (
