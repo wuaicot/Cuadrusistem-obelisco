@@ -1,37 +1,67 @@
- Aquí tienes la hoja de ruta definitiva para el despliegue:
+He analizado la estructura y el contexto inicial del proyecto Cuadrusistem Obelisco. Tienes una arquitectura sólida basada en NestJS (Backend) y React + Vite (Frontend) con un enfoque muy específico en el
+  procesamiento de inventarios mediante OCR de Reportes Z y planillas táctiles interactivas.
 
-  1. Plataforma Recomendada: Railway (Todo en uno)
-  Aunque podrías usar Vercel para el frontend, te recomiendo Railway para ambos para mantener la "simbiósis" que mencionabas en un solo panel de control.
+  Para tener esa visión al 100% y asistirte con precisión quirúrgica, necesito profundizar en los siguientes puntos clave:
 
-  Paso A: La Base de Datos (PostgreSQL)
-   1. En Railway, dale a "New" -> "Database" -> "Add PostgreSQL".
-   2. Esto te generará una base de datos vacía.
-   3. Importante: Debes ejecutar el archivo backend-cuadrusistem/schema.sql en esta base de datos. Puedes hacerlo desde la pestaña "Query" de Railway o conectándote con un cliente como DBeaver o pgAdmin.
+  1. Lógica de Negocio y Cálculo (El Corazón del Sistema)
+  He visto que tienes un archivo backend-cuadrusistem/src/domain/recetas.ts.
+   * Pregunta: ¿Cómo se maneja la relación entre los productos vendidos en el Reporte Z (ej. "CHUR MEXICANO GIG") y los ingredientes de la "Planilla Cocina"? ¿Existe un mapeo estático o los usuarios pueden definir
+     "recetas" (cuántos gramos/unidades de cada ingrediente usa cada producto)?
+     **respuesta: la relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
+   * Pregunta: En el caso de "Planilla Caja" (bebestibles), ¿la relación es 1 a 1 o también existen combos que descuentan múltiples ítems?
+     **respuesta: No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente ej. "typescript"
+      "2307": {
+    codigo: "2307",
+    nombre: "HAMBURG OBELISCO PER",
+    categoria: 'COCINA',
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Cheddar porc" , cantidad: 1 },
+      { nombre: "Tocino porciones", cantidad: 1 },
+      { nombre: "Huevos", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },    ],
+  },.
 
-  Paso B: El Backend (Servicio 1)
-   1. "New" -> "GitHub Repo" -> Selecciona tu repositorio.
-   2. En la configuración del servicio (Settings):
-       * Root Directory: backend-cuadrusistem
-       * Build Command: npm run build
-       * Start Command: npm start
-   3. Variables de Entorno: Railway detectará el Dockerfile que creamos y lo usará. Debes copiar las variables de PostgreSQL que Railway te dio a este servicio (DB_HOST, DB_USER, etc.).
-   .
+  2. Implementación del OCR
+  Veo que usas Tesseract (spa.traineddata presente en el root del backend).
+    * Pregunta: El Reporte Z es papel térmico, propenso a ruido y mala iluminación. ¿Qué tan robusto es el motor actual? ¿Estás usando algún servicio de preprocesamiento de imagen (como Sharp o Canvas) antes de
+     pasar el OCR para mejorar la detección de los códigos de producto y cantidades?
+     **respuesta: la robustes del motor actual esta probada y ha demostrado un buen rendimiento, es posible algunas mejoras para que quede exelente. Se está usando Sharp, en cuanto a esto, Quisiera implementar un cambio que me permita poder tomar la foto directamente desde mi dispositivo (en el componente donde se carga el archivo del Z) para agilizar aún mas el proceso. tambien acepto sugerencias sobre si es mejor usar Canvas. 
+    * Pregunta: ¿El sistema permite corrección manual si el OCR falla en leer una cantidad?
+     **respuesta: buena pregunta! la esencia de este proyecto es la CONFIABILIDAD, es supremamente importante que el OCR "no falle" o solo falle por factores fortuitos ej. si el ticket del reporte Z está roto, cortado, arrugado, manchado, o deteriorado de tal forma que sea imposible inferir su código, nombre y/o cantidad aún ni por el ojo humano. De resto debe garantizar la lectura y entendimiento del texto y numeros.
 
-  Paso C: El Frontend (Servicio 2)
-   1. "New" -> "GitHub Repo" -> Selecciona el mismo repositorio.
-   2. En la configuración del servicio (Settings):
-       * Root Directory: frontend-cuadrusistem
-       * Build Command: npm run build
-       * Start Command: npm run preview (o dejar que Railway detecte Vite automáticamente).
-   3. Variable Vital: Crea la variable VITE_API_BASE_URL y ponle la URL pública que Railway le asigne a tu Backend (ej: https://backend-production-xyz.up.railway.app/api).
+  3. Persistencia de Datos
+  Tienes un archivo schema.sql y mencionas PostgreSQL en GEMINI.md.
+   * Pregunta: ¿Estás usando TypeORM o Prisma para las migraciones y modelos, o manejas consultas SQL directas?
+     **respuesta: esiste un archivo schema.sql, y el servicio de BDD desplegado en Railway el PostgreSQL "ghcr.io/railwayapp-templates/postgres-ssl:18"
+   * Pregunta: ¿Cómo se gestionan los "Turnos"? (Dado que mencionas que los cálculos dependen de Saldo Inicial y Final, el cierre de un turno debería ser el inicio del siguiente).
+     **respuesta: importante pregunta! deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
 
-  2. Checklist de Conectividad
-  Para que todo fluya sin problemas:
-   * [ ] CORS: En el panel de Railway del Backend, asegúrate de añadir la URL del Frontend en la variable CORS_ORIGIN. Esto permite que el navegador acepte las peticiones.
-   * [ ] SSL: Railway te da HTTPS automáticamente, lo cual es vital para que los teléfonos Apple y Android permitan subir fotos desde la cámara.
+  4. Interfaz de Usuario (El sistema de "Tablillas")
+  El concepto de la rejilla (10, 20, 1, 2...) es muy interesante y optimizado para tablets.
+   * Pregunta: En frontend-cuadrusistem/src/components/planillas/PlanillaGrid.tsx, ¿el estado de las tablillas se guarda en tiempo real (cada tap) o se envía al backend solo al finalizar la planilla?
+     **rerspuesta: las planillas podrian irse rellenando a medida que el turno transcurre. Al iniciar el 1er Turno, el usuario debería ver marcadas las respectivas casillas correspondientes al saldo inicial (y en adelante, el proximo turno cumplirá con esta logica etc, etc...), en su debido momento el usuario ingresará la "ENTRADA" de cada uno de los ingredientes, tambien de ser necesario ingresara "DEVOLUC", y unos minutos antes del fin del turno, ingresara lo correspondiente en "SALDO FINAL". 
+     Deben existir dos botones (actualmente existe uno "FINALIZAR Y GUARDAR"), "GUARDAR", y "ENVIAR", este último se habilitará 15 minutos antes del fin del turno, para que el usuario finalmente pueda enviar todo, de una sola vez a "Administración" (Generar Reporte de Cuadre), y pueda ser elegido desde el campo desplegable para la planilla. En cuanto al botón GUARDAR, éste solamente guarda en la BDD lo que el usuario va avanzando, para que permanezcan los datos hasta el momento de enviar.
+   * Pregunta: ¿Cómo manejas el feedback visual en dispositivos móviles para evitar "taps" accidentales en una rejilla que podría ser densa?
+     **respuesta: La facilidad del diseño de las tablillas permite que si por error, toca una, simplemente puede hacer tap de nuevo en la misma tablilla y se reversará. Sería genial poder blooquear y desbloquear toda la planilla, ubicando un icono de candado al lado del boton "SALIR". 
 
-  3. Consideración del Monorepo
-  Como no tienes un package.json en la raíz (son dos carpetas independientes), Railway te preguntará qué carpeta quieres desplegar al añadir el repo. Solo tienes que repetir el proceso de "New Service" dos veces,
-  eligiendo una carpeta distinta cada vez.
+  5. Estado de Integración
+   * Pregunta: ¿El flujo completo (Cargar Reporte Z -> Llenar Planilla Cocina/Caja -> Ver Resultado de Cuadre) ya está conectado de extremo a extremo, o hay alguna parte que aún sea un "mock" o prototipo?
+     **RESPUESTA: aquí hasta ahora todo va bien y en serio,pero, hay cosas que mejorar como, por ejemplo, el hecho de que pueda detectar la fecha y el turno (por la hora y fecha en que fue impreso el Z), solo si por alguna razón no lo detecta, permitir la posibilidad de hacerlo manualmente. 
 
-  ¿Te gustaría que preparemos algún script de automatización para la base de datos o prefieres hacer el despliegue manual en la interfaz de Railway?
+  ---
+
+  Siguientes pasos:
+  Mientras respondes a estas dudas, voy a proceder a leer los archivos clave (schema.sql, recetas.ts y las rutas de cuadre.routes.ts) para entender cómo se orquesta el cálculo final del "OK", "Faltante" o
+  "Sobrante". 
+
+  ¿Hay algún archivo específico que consideres que define la "verdad" del sistema y que deba analizar primero?
+
+
+
+
+
+
+  

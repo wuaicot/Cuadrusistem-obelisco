@@ -113,41 +113,20 @@ router.post('/', async (req: Request, res: Response) => {
     }
     console.log(chalk.cyan('-------------------------'));
 
-    // 4. Comparar y generar el detalle del resultado ordenado (CAJA primero)
+    // 4. Comparar y generar el detalle del resultado
     const todosIngredientesIds = Array.from(ingredientesMap.keys());
     const detalle: Record<string, { teorico: number, real: number, diferencia: number }> = {};
 
-    // Lista de productos para la sección CAJA (estos irán primero)
-    const nombresCaja = new Set([
-      'Ají en salsa 1 Kg', 'Atún', 'Agua mineral 1 1/2', 'Aquarius y mineral 500cc', 'Agua litro', 
-      'COCA COLA LATA', 'Bebidas 1,5 litro', 'Coca Cola 500cc.', 'Jugo nectar 1 1/2 litros', 
-      'Jugo nectar individual', 'Monster', 'RedBull', 'Barril Quilmes (tara 11,00)', 
-      'Barril Cristal (tara 9,54)', 'Cerv Stella ret 1 Lt', 'Cerv Escudo Ret 1 Lt', 
-      'Cerv Heineken ret 1 Lt', 'Cerv Cristal ret 1 Lt', 'Cerv Royal ret 1 Lt', 
-      'Cerveza Sol Ret 710cc', 'Cerveza Bot Cristal 355cc', 'Cerveza Bot Austral', 
-      'Cerveza Bot Escudo 355cc', 'Cerveza Bot Heineken 355cc', 'Cerveza Sol botellín', 
-      'Cerveza botella Royal 355cc', 'Cerveza botella Kunstman', 'Cerveza Botella Corona', 
-      'Cerveza lata Austral 1/2 lt', 'Cerveza lata Cristal 1/2 lt', 'Cerveza lata Escudo 1/2 lt', 
-      'Cerveza Heineken 1/2 lt', 'Cerveza Royal 1/2 lt', 'Cerveza Torobayo 1/2 lt', 
-      'Cerveza Escudo Silver 1/2', 'Cerveza Coors 1/2 lt', 'Cerveza lata pers Escudo', 
-      'Cerveza lata pers Cristal', 'Cerveza Heineken lata pers.', 'Cerveza Royal lata pers.', 
-      'Cerveza lata Lemon Stone', 'Emp. Horno Pino Carne', 'Emp. Horno marisco'
-    ]);
+    // Ordenar: Primero CAJA (Bebestibles), luego COCINA (Ingredientes)
+    const idsOrdenados = todosIngredientesIds.sort((a, b) => {
+      const ingA = ingredientesMap.get(a);
+      const ingB = ingredientesMap.get(b);
+      if (ingA?.tipo === 'CAJA' && ingB?.tipo !== 'CAJA') return -1;
+      if (ingA?.tipo !== 'CAJA' && ingB?.tipo === 'CAJA') return 1;
+      return (ingA?.nombre || "").localeCompare(ingB?.nombre || "");
+    });
 
-    // Separar IDs por categoría para controlar el orden de inserción
-    const idsCaja = todosIngredientesIds.filter(id => nombresCaja.has(ingredientesMap.get(id)!.nombre));
-    const idsCocina = todosIngredientesIds.filter(id => !nombresCaja.has(ingredientesMap.get(id)!.nombre));
-
-    // Insertar primero los de CAJA
-    for (const id of idsCaja) {
-      const nombre = ingredientesMap.get(id)!.nombre;
-      const teorico = usoTeorico.get(id) || 0;
-      const real = usoReal.get(id) || 0;
-      detalle[nombre] = { teorico, real, diferencia: teorico - real };
-    }
-
-    // Insertar luego los de COCINA
-    for (const id of idsCocina) {
+    for (const id of idsOrdenados) {
       const nombre = ingredientesMap.get(id)!.nombre;
       const teorico = usoTeorico.get(id) || 0;
       const real = usoReal.get(id) || 0;

@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       gridTemplateColumns: {
-        // 1.5rem for vertical name, 6rem to 8rem for labels, and flexible for numbers
-        'planilla': 'minmax(1.5rem, auto) minmax(6rem, 8rem) repeat(19, minmax(1.1rem, 1fr))',
+        // 1rem para nombre, 4.5rem para etiquetas, y celdas de números flexibles pero compactas
+        'planilla': 'minmax(1rem, auto) minmax(4.5rem, 6rem) repeat(19, minmax(0, 1fr))',
       }
     },
   },

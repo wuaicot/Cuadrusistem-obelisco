@@ -95,22 +95,22 @@ function IngredienteTabla({
   };
 
   return (
-    <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md fade-in max-w-full">
-      {/* Contenedor con scroll interno solo si es necesario, pero intentando ajustar */}
-      <div className="overflow-x-auto scrollbar-hide">
-        <div className="grid grid-cols-planilla min-w-[320px] sm:min-w-full">
+    <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md fade-in max-w-full text-[8px] sm:text-xs">
+      {/* Contenedor que evita el scroll horizontal forzado */}
+      <div className="overflow-x-hidden">
+        <div className="grid grid-cols-planilla w-full border-l border-t border-black">
           {/* Row 1: Headers */}
-          <div className="border-r border-b border-black bg-gray-50"></div>{" "}
+          <div className="border-r border-b border-black bg-gray-100"></div>{" "}
           {/* Top-left spacer */}
-          <div className="border-r border-b border-black bg-gray-50"></div>{" "}
+          <div className="border-r border-b border-black bg-gray-100"></div>{" "}
           {/* Segment header spacer */}
           {NUMEROS_PLANILLA.map((num) => (
             <div
               key={num}
-              className="h-8 sm:h-10 flex items-center justify-center border-r border-b border-black bg-gray-100 font-bold text-[9px] sm:text-xs text-gray-700"
+              className="h-6 sm:h-8 flex items-center justify-center border-r border-b border-black bg-gray-100 font-black text-[8px] sm:text-[10px] text-gray-800"
             >
               {num === 100 ? (
-                <span className="text-[10px] -rotate-90">100</span>
+                <span className="text-[10px] sm:text-xs -rotate-90">100</span>
               ) : (
                 num
               )}
@@ -118,7 +118,7 @@ function IngredienteTabla({
           ))}
           
           {/* Row 2-5: Ingredient Name (Vertical) and Data Rows */}
-          <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-xs sm:text-sm uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 py-2">
+          <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-[10px] sm:text-xs uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 py-1">
             {nombreVisible}
           </div>
 
@@ -128,7 +128,7 @@ function IngredienteTabla({
               // Segment Label Cell
               <div
                 key={segmento}
-                className="h-12 sm:h-14 min-w-[5.5rem] sm:min-w-[7rem] flex flex-col items-center justify-center border-r border-b border-black bg-gray-50 text-center font-bold text-[10px] sm:text-xs p-1 leading-tight"
+                className="h-10 sm:h-12 min-w-[4.5rem] sm:min-w-[6rem] flex flex-col items-center justify-center border-r border-b border-black bg-gray-50 text-center font-bold text-[8px] sm:text-[10px] p-0.5 leading-tight"
               >
                 <div className="text-gray-600">
                   {segmento.split(" ").map((line, i) => (
@@ -137,7 +137,7 @@ function IngredienteTabla({
                     </span>
                   ))}
                 </div>
-                <span className={`mt-1 text-[10px] font-black px-2 rounded-sm ${tablaState[segmentoKey]?.total ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                <span className={`mt-0.5 text-[9px] font-black px-1.5 rounded-sm ${tablaState[segmentoKey]?.total ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                   {tablaState[segmentoKey]?.total || 0}
                 </span>
               </div>,
@@ -145,7 +145,7 @@ function IngredienteTabla({
               ...NUMEROS_PLANILLA.map((num) => (
                 <div
                   key={`${segmento}-${num}`}
-                  className="border-r border-b border-black bg-white h-12 sm:h-14"
+                  className="border-r border-b border-black bg-white h-10 sm:h-12"
                 >
                   <Tablilla
                     isSelected={
