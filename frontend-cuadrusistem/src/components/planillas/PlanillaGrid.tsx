@@ -27,6 +27,25 @@ const NUMEROS_PLANILLA = [
 const calculateTotal = (selectedNums: number[]): number =>
   selectedNums.reduce((sum, num) => sum + num, 0);
 
+const numberToSelected = (num: number): number[] => {
+  const selected: number[] = [];
+  let remaining = num;
+  if (remaining >= 100) {
+    selected.push(100);
+    remaining -= 100;
+  }
+  const decenas = Math.floor(remaining / 10) * 10;
+  if (decenas >= 10 && decenas <= 90) {
+    selected.push(decenas);
+    remaining -= decenas;
+  }
+  const unidades = remaining % 10;
+  if (unidades >= 1 && unidades <= 9) {
+    selected.push(unidades);
+  }
+  return selected;
+};
+
 type SegmentoState = { selectedNumbers: number[]; total: number };
 type TablaState = Record<string, SegmentoState>;
 type PlanillasDataState = Record<string, TablaState>;
@@ -60,6 +79,7 @@ interface IngredienteTablaProps {
   id: string;
   nombreVisible: string;
   isSaving: boolean;
+  initialSaldo?: number;
   onStateChange: (ingredienteId: string, tablaState: TablaState) => void;
 }
 
@@ -67,9 +87,27 @@ function IngredienteTabla({
   id,
   nombreVisible,
   isSaving,
+  initialSaldo,
   onStateChange,
 }: IngredienteTablaProps) {
   const [tablaState, setTablaState] = useState<TablaState>({});
+
+  useEffect(() => {
+    if (initialSaldo !== undefined && initialSaldo > 0) {
+      const selected = numberToSelected(initialSaldo);
+      setTablaState(prev => ({
+        ...prev,
+        "SALDO_INICIAL": { selectedNumbers: selected, total: initialSaldo }
+      }));
+    } else {
+        // Si no hay saldo inicial, asegurar que el segmento esté limpio
+        setTablaState(prev => {
+            const newState = { ...prev };
+            delete newState["SALDO_INICIAL"];
+            return newState;
+        });
+    }
+  }, [initialSaldo]);
 
   useEffect(() => {
     onStateChange(id, tablaState);
@@ -83,9 +121,27 @@ function IngredienteTabla({
         total: 0,
       };
       const currentSelected = currentSegmentoState.selectedNumbers;
-      const newSelected = currentSelected.includes(number)
-        ? currentSelected.filter((n) => n !== number)
-        : [...currentSelected, number];
+      
+      let newSelected = [...currentSelected];
+
+      // Lógica Excluyente por Grupo (Opción B)
+      const isCentena = number === 100;
+      const isDecena = number >= 10 && number <= 90;
+      const isUnidad = number >= 1 && number <= 9;
+
+      if (currentSelected.includes(number)) {
+        newSelected = newSelected.filter((n) => n !== number);
+      } else {
+        if (isCentena) {
+          newSelected = newSelected.filter((n) => n !== 100);
+        } else if (isDecena) {
+          newSelected = newSelected.filter((n) => !(n >= 10 && n <= 90));
+        } else if (isUnidad) {
+          newSelected = newSelected.filter((n) => !(n >= 1 && n <= 9));
+        }
+        newSelected.push(number);
+      }
+
       const newTotal = calculateTotal(newSelected);
       return {
         ...prevState,
@@ -96,14 +152,10 @@ function IngredienteTabla({
 
   return (
     <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md fade-in max-w-full text-[8px] sm:text-xs">
-      {/* Contenedor que evita el scroll horizontal forzado */}
       <div className="overflow-x-hidden">
         <div className="grid grid-cols-planilla w-full border-l border-t border-black">
-          {/* Row 1: Headers */}
-          <div className="border-r border-b border-black bg-gray-100"></div>{" "}
-          {/* Top-left spacer */}
-          <div className="border-r border-b border-black bg-gray-100"></div>{" "}
-          {/* Segment header spacer */}
+          <div className="border-r border-b border-black bg-gray-100"></div>
+          <div className="border-r border-b border-black bg-gray-100"></div>
           {NUMEROS_PLANILLA.map((num) => (
             <div
               key={num}
@@ -117,7 +169,6 @@ function IngredienteTabla({
             </div>
           ))}
           
-          {/* Row 2-5: Ingredient Name (Vertical) and Data Rows */}
           <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-[10px] sm:text-xs uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 py-1">
             {nombreVisible}
           </div>
@@ -125,33 +176,26 @@ function IngredienteTabla({
           {SEGMENTOS.flatMap((segmento) => {
             const segmentoKey = segmento.replace(" ", "_");
             return [
-              // Segment Label Cell
               <div
                 key={segmento}
                 className="h-10 sm:h-12 min-w-[4.5rem] sm:min-w-[6rem] flex flex-col items-center justify-center border-r border-b border-black bg-gray-50 text-center font-bold text-[8px] sm:text-[10px] p-0.5 leading-tight"
               >
                 <div className="text-gray-600">
                   {segmento.split(" ").map((line, i) => (
-                    <span key={i} className="block">
-                      {line}
-                    </span>
+                    <span key={i} className="block">{line}</span>
                   ))}
                 </div>
                 <span className={`mt-0.5 text-[9px] font-black px-1.5 rounded-sm ${tablaState[segmentoKey]?.total ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
                   {tablaState[segmentoKey]?.total || 0}
                 </span>
               </div>,
-              // 19 Tablilla cells for the current segment
               ...NUMEROS_PLANILLA.map((num) => (
                 <div
                   key={`${segmento}-${num}`}
                   className="border-r border-b border-black bg-white h-10 sm:h-12"
                 >
                   <Tablilla
-                    isSelected={
-                      tablaState[segmentoKey]?.selectedNumbers.includes(num) ||
-                      false
-                    }
+                    isSelected={tablaState[segmentoKey]?.selectedNumbers.includes(num) || false}
                     onClick={() => handleNumberToggle(segmento, num)}
                     disabled={isSaving}
                   />
@@ -175,9 +219,7 @@ interface PlanillaGridProps {
 export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const [planillasData, setPlanillasData] = useState<PlanillasDataState>({});
   const [ingredientes, setIngredientes] = useState<IngredienteDef[]>([]);
-  const [fechaOperacion, setFechaOperacion] = useState(
-    new Date().toISOString().split("T")[0],
-  );
+  const [fechaOperacion, setFechaOperacion] = useState(new Date().toISOString().split("T")[0]);
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [selectedTurnoId, setSelectedTurnoId] = useState("");
   const [locales, setLocales] = useState<Local[]>([]);
@@ -187,6 +229,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
+  const [saldosAnteriores, setSaldosAnteriores] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (tipo !== "COCINA" && tipo !== "CAJA") {
@@ -197,32 +240,39 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
     const loadInitialData = async () => {
       try {
         setIsLoading(true);
-        setError(null);
         const [ingredientesData, localesData, turnosData] = await Promise.all([
           fetchIngredientes(tipo),
           fetchLocales(),
           fetchTurnos(),
         ]);
-
-        const safeIngredientes = Array.isArray(ingredientesData) ? ingredientesData : [];
-        const safeLocales = Array.isArray(localesData) ? localesData : [];
-        const safeTurnos = Array.isArray(turnosData) ? turnosData : [];
-
-        setIngredientes(safeIngredientes);
-        setLocales(safeLocales);
-        setTurnos(safeTurnos);
-
-        if (safeLocales.length > 0) setSelectedLocalId(safeLocales[0].id);
-        if (safeTurnos.length > 0) setSelectedTurnoId(safeTurnos[0].id);
+        setIngredientes(Array.isArray(ingredientesData) ? ingredientesData : []);
+        setLocales(Array.isArray(localesData) ? localesData : []);
+        setTurnos(Array.isArray(turnosData) ? turnosData : []);
+        if (localesData.length > 0) setSelectedLocalId(localesData[0].id);
+        if (turnosData.length > 0) setSelectedTurnoId(turnosData[0].id);
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "Error desconocido.";
-        setError(`No se pudieron cargar datos: ${msg}`);
+        console.error("Error loading data:", err);
       } finally {
         setIsLoading(false);
       }
     };
     loadInitialData();
   }, [tipo]);
+
+  useEffect(() => {
+    const loadSaldos = async () => {
+      if (selectedLocalId && selectedTurnoId && tipo) {
+        try {
+          const { fetchSaldoAnterior } = await import("../../services/planillas.service");
+          const saldos = await fetchSaldoAnterior(selectedLocalId, selectedTurnoId, tipo as any);
+          setSaldosAnteriores(saldos);
+        } catch (err) {
+          console.error("Error al cargar saldos:", err);
+        }
+      }
+    };
+    loadSaldos();
+  }, [selectedLocalId, selectedTurnoId, tipo]);
 
   const handleTablaStateChange = useCallback(
     (ingredienteId: string, tablaState: TablaState) => {
@@ -270,7 +320,6 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
       });
       setSaveSuccess("¡Guardado correctamente!");
       setPlanillasData({});
-      // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
       setSaveError("Error al guardar planilla.");
@@ -340,6 +389,7 @@ export function PlanillaGrid({ tipo }: PlanillaGridProps) {
               id={ing.id}
               nombreVisible={ing.nombreVisible}
               isSaving={isSaving}
+              initialSaldo={saldosAnteriores[ing.id]}
               onStateChange={handleTablaStateChange}
             />
           ))}

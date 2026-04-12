@@ -20,6 +20,74 @@ interface CreatePlanillaPayload {
 }
 
 /**
+ * @route   GET /api/planillas/saldo-anterior
+ * @desc    Obtiene el saldo final del turno anterior para usarlo como saldo inicial.
+ */
+router.get('/saldo-anterior', async (req: Request, res: Response) => {
+  const { localId, turnoId, tipo } = req.query;
+
+  if (!localId || !turnoId || !tipo) {
+    return res.status(400).json({ message: 'Faltan parámetros: localId, turnoId o tipo.' });
+  }
+
+  try {
+    // 1. Obtener info del turno actual
+    const currentTurnoRes = await db.query('SELECT tipo, fecha FROM turnos WHERE id = $1', [turnoId]);
+    if (currentTurnoRes.rows.length === 0) return res.status(404).json({ message: 'Turno no encontrado.' });
+    
+    const { tipo: currentTipo, fecha: currentFecha } = currentTurnoRes.rows[0];
+    
+    // 2. Determinar turno anterior
+    let prevTipo = '';
+    let prevFecha = currentFecha;
+
+    if (currentTipo === 'TARDE') {
+      prevTipo = 'MAÑANA';
+    } else {
+      prevTipo = 'TARDE';
+      const d = new Date(currentFecha);
+      d.setDate(d.getDate() - 1);
+      prevFecha = d.toISOString().split('T')[0];
+    }
+
+    console.log(chalk.blue(`Buscando saldo anterior: Local ${localId}, Tipo ${tipo}, Turno ${prevTipo} (${prevFecha})`));
+
+    // 3. Buscar la planilla del turno anterior
+    const prevPlanillaRes = await db.query(`
+      SELECT p.id 
+      FROM planillas p
+      JOIN turnos t ON p.turno_id = t.id
+      WHERE p.local_id = $1 AND p.tipo = $2 AND t.tipo = $3 AND t.fecha = $4
+      LIMIT 1
+    `, [localId, tipo, prevTipo, prevFecha]);
+
+    if (prevPlanillaRes.rows.length === 0) {
+      return res.status(200).json({}); // No hay turno anterior, devolvemos vacío
+    }
+
+    const prevPlanillaId = prevPlanillaRes.rows[0].id;
+
+    // 4. Obtener los SALDO_FINAL de esa planilla
+    const itemsRes = await db.query(`
+      SELECT ingrediente_id, cantidad 
+      FROM planilla_items 
+      WHERE planilla_id = $1 AND segmento = 'SALDO_FINAL'
+    `, [prevPlanillaId]);
+
+    const saldos: Record<string, number> = {};
+    itemsRes.rows.forEach(row => {
+      saldos[row.ingrediente_id] = row.cantidad;
+    });
+
+    res.status(200).json(saldos);
+
+  } catch (error) {
+    console.error(chalk.red('Error al obtener saldo anterior:'), error);
+    res.status(500).json({ message: 'Error interno.' });
+  }
+});
+
+/**
  * @route   GET /api/planillas
  * @desc    Consultar planillas existentes
  * @access  Public (temporalmente)
