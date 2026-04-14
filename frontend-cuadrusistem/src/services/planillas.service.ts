@@ -60,3 +60,17 @@ export const createPlanilla = async (payload: CreatePlanillaPayload): Promise<Pl
   const response = await api.post('/planillas', payload);
   return response.data;
 };
+
+export const fetchSaldoAnterior = async (
+  localId: string,
+  turnoId: string,
+  tipo: TipoPlanilla,
+): Promise<Record<string, number>> => {
+  try {
+    const response = await api.get(`/planillas/saldo-anterior?localId=${localId}&turnoId=${turnoId}&tipo=${tipo}`);
+    return response.data || {};
+  } catch (error) {
+    console.error("Error fetching previous balance:", error);
+    return {};
+  }
+};

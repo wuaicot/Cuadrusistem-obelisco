@@ -61,7 +61,7 @@ CREATE TABLE "planilla_items" (
   "planilla_id" UUID NOT NULL REFERENCES "planillas"("id") ON DELETE CASCADE,
   "ingrediente_id" UUID NOT NULL REFERENCES "ingredientes"("id"),
   "segmento" VARCHAR(50) NOT NULL, -- 'SALDO_INICIAL', 'ENTRADA', 'DEVOLUC', 'SALDO_FINAL'
-  "cantidad" INTEGER NOT NULL,
+  "cantidad" NUMERIC(10,2) NOT NULL,
   UNIQUE("planilla_id", "ingrediente_id", "segmento")
 );
 
