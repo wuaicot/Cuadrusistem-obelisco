@@ -8,7 +8,7 @@ const router = Router();
 interface PlanillaItemPayload {
   ingrediente: string;
   segmento: string;
-  cantidad: number;
+  cantidad: number; // Sigue siendo number, pero ahora la DB lo recibirá como NUMERIC
 }
 
 interface CreatePlanillaPayload {

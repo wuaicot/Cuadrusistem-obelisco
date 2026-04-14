@@ -18,10 +18,14 @@ const SEGMENTOS = ["SALDO INICIAL", "ENTRADA", "DEVOLUC", "SALDO FINAL"];
 const NUMEROS_UNIDADES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const NUMEROS_DECENAS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 const NUMEROS_CENTENAS = [100];
-const NUMEROS_PLANILLA = [
+const NUMEROS_FRACCION = [0.5];
+
+// Lista base que SIEMPRE tiene 20 elementos para mantener la rejilla alineada
+const NUMEROS_GRID_COMPLETO = [
   ...NUMEROS_DECENAS,
   ...NUMEROS_CENTENAS,
   ...NUMEROS_UNIDADES,
+  ...NUMEROS_FRACCION,
 ];
 
 const calculateTotal = (selectedNums: number[]): number =>
@@ -39,7 +43,13 @@ const numberToSelected = (num: number): number[] => {
     selected.push(decenas);
     remaining -= decenas;
   }
-  const unidades = remaining % 10;
+  
+  if (remaining >= 0.5) {
+    selected.push(0.5);
+    remaining -= 0.5;
+  }
+
+  const unidades = Math.floor(remaining);
   if (unidades >= 1 && unidades <= 9) {
     selected.push(unidades);
   }
@@ -92,6 +102,11 @@ function IngredienteTabla({
 }: IngredienteTablaProps) {
   const [tablaState, setTablaState] = useState<TablaState>({});
 
+  const esFraccionable = 
+    nombreVisible.includes("Carne Ave Persona") || 
+    nombreVisible.includes("Carne para As Gig.") || 
+    nombreVisible.includes("Carne Mechada");
+
   useEffect(() => {
     if (initialSaldo !== undefined && initialSaldo > 0) {
       const selected = numberToSelected(initialSaldo);
@@ -100,7 +115,6 @@ function IngredienteTabla({
         "SALDO_INICIAL": { selectedNumbers: selected, total: initialSaldo }
       }));
     } else {
-        // Si no hay saldo inicial, asegurar que el segmento esté limpio
         setTablaState(prev => {
             const newState = { ...prev };
             delete newState["SALDO_INICIAL"];
@@ -124,10 +138,10 @@ function IngredienteTabla({
       
       let newSelected = [...currentSelected];
 
-      // Lógica Excluyente por Grupo (Opción B)
       const isCentena = number === 100;
       const isDecena = number >= 10 && number <= 90;
       const isUnidad = number >= 1 && number <= 9;
+      const isFraccion = number === 0.5;
 
       if (currentSelected.includes(number)) {
         newSelected = newSelected.filter((n) => n !== number);
@@ -138,6 +152,8 @@ function IngredienteTabla({
           newSelected = newSelected.filter((n) => !(n >= 10 && n <= 90));
         } else if (isUnidad) {
           newSelected = newSelected.filter((n) => !(n >= 1 && n <= 9));
+        } else if (isFraccion) {
+          newSelected = newSelected.filter((n) => n !== 0.5);
         }
         newSelected.push(number);
       }
@@ -154,25 +170,30 @@ function IngredienteTabla({
     <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md fade-in max-w-full text-[8px] sm:text-xs">
       <div className="overflow-x-hidden">
         <div className="grid grid-cols-planilla w-full border-l border-t border-black">
+          {/* Encabezados de Números */}
           <div className="border-r border-b border-black bg-gray-100"></div>
           <div className="border-r border-b border-black bg-gray-100"></div>
-          {NUMEROS_PLANILLA.map((num) => (
+          {NUMEROS_GRID_COMPLETO.map((num) => (
             <div
               key={num}
               className="h-6 sm:h-8 flex items-center justify-center border-r border-b border-black bg-gray-100 font-black text-[8px] sm:text-[10px] text-gray-800"
             >
               {num === 100 ? (
                 <span className="text-[10px] sm:text-xs -rotate-90">100</span>
+              ) : num === 0.5 ? (
+                esFraccionable ? <span className="text-indigo-600 font-black text-[10px]">½</span> : null
               ) : (
                 num
               )}
             </div>
           ))}
           
+          {/* Nombre Vertical */}
           <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-[10px] sm:text-xs uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 py-1">
             {nombreVisible}
           </div>
 
+          {/* Filas de Datos */}
           {SEGMENTOS.flatMap((segmento) => {
             const segmentoKey = segmento.replace(" ", "_");
             return [
@@ -189,18 +210,25 @@ function IngredienteTabla({
                   {tablaState[segmentoKey]?.total || 0}
                 </span>
               </div>,
-              ...NUMEROS_PLANILLA.map((num) => (
-                <div
-                  key={`${segmento}-${num}`}
-                  className="border-r border-b border-black bg-white h-10 sm:h-12"
-                >
-                  <Tablilla
-                    isSelected={tablaState[segmentoKey]?.selectedNumbers.includes(num) || false}
-                    onClick={() => handleNumberToggle(segmento, num)}
-                    disabled={isSaving}
-                  />
-                </div>
-              )),
+              ...NUMEROS_GRID_COMPLETO.map((num) => {
+                const isFractionCell = num === 0.5;
+                const isDisabled = isSaving || (isFractionCell && !esFraccionable);
+                
+                return (
+                  <div
+                    key={`${segmento}-${num}`}
+                    className={`border-r border-b border-black h-10 sm:h-12 ${isFractionCell && !esFraccionable ? 'bg-gray-100' : 'bg-white'}`}
+                  >
+                    {isFractionCell && !esFraccionable ? null : (
+                      <Tablilla
+                        isSelected={tablaState[segmentoKey]?.selectedNumbers.includes(num) || false}
+                        onClick={() => handleNumberToggle(segmento, num)}
+                        disabled={isDisabled}
+                      />
+                    )}
+                  </div>
+                );
+              }),
             ];
           })}
         </div>
