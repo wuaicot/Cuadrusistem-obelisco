@@ -1,5 +1,5 @@
 -- Archivo: schema.sql
--- Este archivo contiene el esquema actualizado de la base de datos para CuadriSistem.
+-- Este archivo contiene el esquema actualizado de la base de datos para CuadruSistem.
 
 -- Eliminar tablas existentes en orden inverso
 DROP TABLE IF EXISTS "reportes_z" CASCADE;

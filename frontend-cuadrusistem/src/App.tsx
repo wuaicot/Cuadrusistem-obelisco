@@ -34,7 +34,7 @@ function AppLayout() {
       case '/admin/precios':
         return 'Precios por Proveedor'
       default:
-        return 'CuadriSistem'
+        return 'CuadruSistem'
     }
   }
 
@@ -52,7 +52,7 @@ function AppLayout() {
         <aside className="hidden md:flex w-72 bg-slate-900 text-white flex-col border-r border-slate-800">
           <div className="p-8">
             <h2 className="text-2xl font-black tracking-tighter text-white">
-              <span className="bg-blue-600 px-2 py-1 rounded-lg mr-1">C</span>uadriSistem
+              <span className="bg-blue-600 px-2 py-1 rounded-lg mr-1">C</span>uadruSistem
             </h2>
             <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mt-1 ml-1">Admin Panel</p>
           </div>

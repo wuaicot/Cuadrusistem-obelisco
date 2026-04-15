@@ -78,7 +78,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Pan Brioche 12", 
       "Pan mesa Gigante", 
       "Pan mesa Personal", 
-      "Pan mesa super Gigan", 
+      "Pan mesa super Gigan.", 
       "Pepinillos", 
       "Porotos verdes Kg.", 
       "Queso laminado", 
