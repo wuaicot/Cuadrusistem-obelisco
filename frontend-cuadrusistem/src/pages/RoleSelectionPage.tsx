@@ -58,7 +58,7 @@ export function RoleSelectionPage() {
         </div>
 
         <footer className="mt-16 text-white/50 text-sm font-medium">
-          © 2026 CuadriSistem-Obelisco.  Todos los derechos reservados. Naycol Linares.
+          © 2026 CuadruSistem-Obelisco.  Todos los derechos reservados. Naycol Linares.
         </footer>
       </div>
     </div>
