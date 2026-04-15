@@ -26,7 +26,7 @@ export function RoleSelectionPage() {
       <div className="w-full max-w-lg text-center fade-in">
         <header className="mb-12">
           <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight drop-shadow-xl">
-            <span className="bg-white text-orange-600 px-3 py-1 rounded-xl mr-1 inline-block transform -rotate-3">C</span>uadri<span className="text-orange-200">S</span>istem
+            <span className="bg-white text-orange-600 px-3 py-1 rounded-xl mr-1 inline-block transform -rotate-3">C</span>uadru<span className="text-orange-200">S</span>istem
           </h1>
           <p className="text-orange-100 mt-4 text-xl font-medium tracking-widest opacity-90 uppercase">OBELISCO®</p>
         </header>

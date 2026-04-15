@@ -1,15 +1,7 @@
-He analizado la estructura y el contexto inicial del proyecto Cuadrusistem Obelisco. Tienes una arquitectura sólida basada en NestJS (Backend) y React + Vite (Frontend) con un enfoque muy específico en el
-  procesamiento de inventarios mediante OCR de Reportes Z y planillas táctiles interactivas.
-
-  Para tener esa visión al 100% y asistirte con precisión quirúrgica, necesito profundizar en los siguientes puntos clave:
-
   1. Lógica de Negocio y Cálculo (El Corazón del Sistema)
-  He visto que tienes un archivo backend-cuadrusistem/src/domain/recetas.ts.
-   * Pregunta: ¿Cómo se maneja la relación entre los productos vendidos en el Reporte Z (ej. "CHUR MEXICANO GIG") y los ingredientes de la "Planilla Cocina"? ¿Existe un mapeo estático o los usuarios pueden definir
-     "recetas" (cuántos gramos/unidades de cada ingrediente usa cada producto)?
-     **respuesta: la relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
-   * Pregunta: En el caso de "Planilla Caja" (bebestibles), ¿la relación es 1 a 1 o también existen combos que descuentan múltiples ítems?
-     **respuesta: No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente ej. "typescript"
+  La relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
+  No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente, ejemplo,
+   "typescript"
       "2307": {
     codigo: "2307",
     nombre: "HAMBURG OBELISCO PER",
@@ -37,7 +29,7 @@ He analizado la estructura y el contexto inicial del proyecto Cuadrusistem Obeli
    * Pregunta: ¿Estás usando TypeORM o Prisma para las migraciones y modelos, o manejas consultas SQL directas?
      **respuesta: esiste un archivo schema.sql, y el servicio de BDD desplegado en Railway el PostgreSQL "ghcr.io/railwayapp-templates/postgres-ssl:18"
    * Pregunta: ¿Cómo se gestionan los "Turnos"? (Dado que mencionas que los cálculos dependen de Saldo Inicial y Final, el cierre de un turno debería ser el inicio del siguiente).
-     **respuesta: importante pregunta! deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
+     **respuesta: deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
 
   4. Interfaz de Usuario (El sistema de "Tablillas")
   El concepto de la rejilla (10, 20, 1, 2...) es muy interesante y optimizado para tablets.
