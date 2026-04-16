@@ -80,5 +80,53 @@ NestJS
 - asegurate de que sea 100% adaptativo para dispositivos compactos, especialmente en dispositivos Appel´s, Androids y Tablet´s en posición vertical. Las planillas deben adaptarse a la pantantalla tanto en vertical como en horizontal. No se permite el scroll horizontal.
 
 **estado actual:**
-Hemos logrado consolidar un motor de análisis que no solo lee texto, sino que entiende el contexto de las secciones y el catálogo de productos, lo cual es fundamental para garantizar que el cálculo de inventario
-  sea exacto en cada uno de los dos reportes diarios.
+Hemos logrado consolidar un motor de análisis que no solo lee texto, sino que entiende el contexto de las secciones y el catálogo de productos, lo cual es fundamental para garantizar que el cálculo de inventario sea exacto en cada uno de los dos reportes diarios.
+
+   1. Lógica de Negocio y Cálculo (El Corazón del Sistema):
+  La relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
+  No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente, ejemplo,
+   "typescript"
+      "2307": {
+    codigo: "2307",
+    nombre: "HAMBURG OBELISCO PER",
+    categoria: 'COCINA',
+    ingredientes: [
+      { nombre: "Pan Brioche 12", cantidad: 1 },
+      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
+      { nombre: "Queso laminado", cantidad: 2 },
+      { nombre: "Cheddar porc" , cantidad: 1 },
+      { nombre: "Tocino porciones", cantidad: 1 },
+      { nombre: "Huevos", cantidad: 1 },
+      { nombre: "Papas personal 150gr", cantidad: 1 },    ],
+  },.
+
+  2. Implementación del OCR:
+ 
+    la esencia de este proyecto es la CONFIABILIDAD, es supremamente importante que el OCR "no falle" o solo falle por factores fortuitos ej. si el ticket del reporte Z está roto, cortado, arrugado, manchado, o deteriorado de tal forma que sea imposible inferir su código, nombre y/o cantidad aún ni por el ojo humano. De resto debe garantizar la lectura y entendimiento del texto y numeros.
+     La robustes del motor actual esta probada y ha demostrado un buen rendimiento, es posible algunas mejoras para que quede exelente. Se está usando Sharp, en cuanto a esto, Quisiera implementar un cambio que me permita poder tomar la foto directamente desde mi dispositivo (en el componente donde se carga el archivo del Z) para agilizar aún mas el proceso. tambien acepto sugerencias sobre si es mejor usar Canvas. 
+    
+
+  3. Persistencia de Datos:
+ 
+     deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
+
+  4. Interfaz de Usuario (El sistema de "Tablillas")
+  
+     las planillas podrian irse rellenando a medida que el turno transcurre. Al iniciar el 1er Turno, el usuario debería ver marcadas las respectivas casillas correspondientes al saldo inicial (y en adelante, el proximo turno cumplirá con esta logica etc, etc...), en su debido momento el usuario ingresará la "ENTRADA" de cada uno de los ingredientes, tambien de ser necesario ingresara "DEVOLUC", y unos minutos antes del fin del turno, ingresara lo correspondiente en "SALDO FINAL". 
+     Deben existir dos botones (actualmente existe uno "FINALIZAR Y GUARDAR"), "GUARDAR", y "ENVIAR", este último se habilitará 15 minutos antes del fin del turno, para que el usuario finalmente pueda enviar todo, de una sola vez a "Administración" (Generar Reporte de Cuadre), y pueda ser elegido desde el campo desplegable para la planilla. En cuanto al botón GUARDAR, éste solamente guarda en la BDD lo que el usuario va avanzando, para que permanezcan los datos hasta el momento de enviar.
+   
+      La facilidad del diseño de las tablillas permite que si por error, toca una, simplemente puede hacer tap de nuevo en la misma tablilla y se reversará. Sería genial poder blooquear y desbloquear toda la planilla, ubicando un icono de candado al lado del boton "SALIR". 
+
+  5. Estado de Integración
+   aquí hasta ahora todo va bien y en serio,pero, hay cosas que mejorar como, por ejemplo, el hecho de que pueda detectar la fecha y el turno (por la hora y fecha en que fue impreso el Z), solo si por alguna razón no lo detecta, permitir la posibilidad de hacerlo manualmente. 
+
+
+
+ 
+
+
+
+
+
+
+  

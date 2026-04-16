@@ -1,4 +1,4 @@
-  1. Lógica de Negocio y Cálculo (El Corazón del Sistema)
+   1. Lógica de Negocio y Cálculo (El Corazón del Sistema):
   La relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
   No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente, ejemplo,
    "typescript"
@@ -16,40 +16,29 @@
       { nombre: "Papas personal 150gr", cantidad: 1 },    ],
   },.
 
-  2. Implementación del OCR
-  Veo que usas Tesseract (spa.traineddata presente en el root del backend).
-    * Pregunta: El Reporte Z es papel térmico, propenso a ruido y mala iluminación. ¿Qué tan robusto es el motor actual? ¿Estás usando algún servicio de preprocesamiento de imagen (como Sharp o Canvas) antes de
-     pasar el OCR para mejorar la detección de los códigos de producto y cantidades?
-     **respuesta: la robustes del motor actual esta probada y ha demostrado un buen rendimiento, es posible algunas mejoras para que quede exelente. Se está usando Sharp, en cuanto a esto, Quisiera implementar un cambio que me permita poder tomar la foto directamente desde mi dispositivo (en el componente donde se carga el archivo del Z) para agilizar aún mas el proceso. tambien acepto sugerencias sobre si es mejor usar Canvas. 
-    * Pregunta: ¿El sistema permite corrección manual si el OCR falla en leer una cantidad?
-     **respuesta: buena pregunta! la esencia de este proyecto es la CONFIABILIDAD, es supremamente importante que el OCR "no falle" o solo falle por factores fortuitos ej. si el ticket del reporte Z está roto, cortado, arrugado, manchado, o deteriorado de tal forma que sea imposible inferir su código, nombre y/o cantidad aún ni por el ojo humano. De resto debe garantizar la lectura y entendimiento del texto y numeros.
+  2. Implementación del OCR:
+ 
+    la esencia de este proyecto es la CONFIABILIDAD, es supremamente importante que el OCR "no falle" o solo falle por factores fortuitos ej. si el ticket del reporte Z está roto, cortado, arrugado, manchado, o deteriorado de tal forma que sea imposible inferir su código, nombre y/o cantidad aún ni por el ojo humano. De resto debe garantizar la lectura y entendimiento del texto y numeros.
+     La robustes del motor actual esta probada y ha demostrado un buen rendimiento, es posible algunas mejoras para que quede exelente. Se está usando Sharp, en cuanto a esto, Quisiera implementar un cambio que me permita poder tomar la foto directamente desde mi dispositivo (en el componente donde se carga el archivo del Z) para agilizar aún mas el proceso. tambien acepto sugerencias sobre si es mejor usar Canvas. 
+    
 
-  3. Persistencia de Datos
-  Tienes un archivo schema.sql y mencionas PostgreSQL en GEMINI.md.
-   * Pregunta: ¿Estás usando TypeORM o Prisma para las migraciones y modelos, o manejas consultas SQL directas?
-     **respuesta: esiste un archivo schema.sql, y el servicio de BDD desplegado en Railway el PostgreSQL "ghcr.io/railwayapp-templates/postgres-ssl:18"
-   * Pregunta: ¿Cómo se gestionan los "Turnos"? (Dado que mencionas que los cálculos dependen de Saldo Inicial y Final, el cierre de un turno debería ser el inicio del siguiente).
-     **respuesta: deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
+  3. Persistencia de Datos:
+ 
+     deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
 
   4. Interfaz de Usuario (El sistema de "Tablillas")
-  El concepto de la rejilla (10, 20, 1, 2...) es muy interesante y optimizado para tablets.
-   * Pregunta: En frontend-cuadrusistem/src/components/planillas/PlanillaGrid.tsx, ¿el estado de las tablillas se guarda en tiempo real (cada tap) o se envía al backend solo al finalizar la planilla?
-     **rerspuesta: las planillas podrian irse rellenando a medida que el turno transcurre. Al iniciar el 1er Turno, el usuario debería ver marcadas las respectivas casillas correspondientes al saldo inicial (y en adelante, el proximo turno cumplirá con esta logica etc, etc...), en su debido momento el usuario ingresará la "ENTRADA" de cada uno de los ingredientes, tambien de ser necesario ingresara "DEVOLUC", y unos minutos antes del fin del turno, ingresara lo correspondiente en "SALDO FINAL". 
+  
+     las planillas podrian irse rellenando a medida que el turno transcurre. Al iniciar el 1er Turno, el usuario debería ver marcadas las respectivas casillas correspondientes al saldo inicial (y en adelante, el proximo turno cumplirá con esta logica etc, etc...), en su debido momento el usuario ingresará la "ENTRADA" de cada uno de los ingredientes, tambien de ser necesario ingresara "DEVOLUC", y unos minutos antes del fin del turno, ingresara lo correspondiente en "SALDO FINAL". 
      Deben existir dos botones (actualmente existe uno "FINALIZAR Y GUARDAR"), "GUARDAR", y "ENVIAR", este último se habilitará 15 minutos antes del fin del turno, para que el usuario finalmente pueda enviar todo, de una sola vez a "Administración" (Generar Reporte de Cuadre), y pueda ser elegido desde el campo desplegable para la planilla. En cuanto al botón GUARDAR, éste solamente guarda en la BDD lo que el usuario va avanzando, para que permanezcan los datos hasta el momento de enviar.
-   * Pregunta: ¿Cómo manejas el feedback visual en dispositivos móviles para evitar "taps" accidentales en una rejilla que podría ser densa?
-     **respuesta: La facilidad del diseño de las tablillas permite que si por error, toca una, simplemente puede hacer tap de nuevo en la misma tablilla y se reversará. Sería genial poder blooquear y desbloquear toda la planilla, ubicando un icono de candado al lado del boton "SALIR". 
+   
+      La facilidad del diseño de las tablillas permite que si por error, toca una, simplemente puede hacer tap de nuevo en la misma tablilla y se reversará. Sería genial poder blooquear y desbloquear toda la planilla, ubicando un icono de candado al lado del boton "SALIR". 
 
   5. Estado de Integración
-   * Pregunta: ¿El flujo completo (Cargar Reporte Z -> Llenar Planilla Cocina/Caja -> Ver Resultado de Cuadre) ya está conectado de extremo a extremo, o hay alguna parte que aún sea un "mock" o prototipo?
-     **RESPUESTA: aquí hasta ahora todo va bien y en serio,pero, hay cosas que mejorar como, por ejemplo, el hecho de que pueda detectar la fecha y el turno (por la hora y fecha en que fue impreso el Z), solo si por alguna razón no lo detecta, permitir la posibilidad de hacerlo manualmente. 
+   aquí hasta ahora todo va bien y en serio,pero, hay cosas que mejorar como, por ejemplo, el hecho de que pueda detectar la fecha y el turno (por la hora y fecha en que fue impreso el Z), solo si por alguna razón no lo detecta, permitir la posibilidad de hacerlo manualmente. 
 
-  ---
 
-  Siguientes pasos:
-  Mientras respondes a estas dudas, voy a proceder a leer los archivos clave (schema.sql, recetas.ts y las rutas de cuadre.routes.ts) para entender cómo se orquesta el cálculo final del "OK", "Faltante" o
-  "Sobrante". 
 
-  ¿Hay algún archivo específico que consideres que define la "verdad" del sistema y que deba analizar primero?
+ 
 
 
 
