@@ -10,15 +10,14 @@ export async function preprocessTicket(imageBuffer: Buffer): Promise<Buffer> {
   return await image
     .resize({ width: 2200, withoutEnlargement: false }) 
     .grayscale()
-    .normalize() // Ajusta el contraste dinámicamente
-    .linear(1.2, -0.1) // Un poco de contraste manual pero más suave
+    .normalize()
     .sharpen()
-    .threshold(165) // Umbral un poco más bajo para no deformar caracteres delgados como '1'
+    .threshold(165)
     .extend({
       top: 60,
       bottom: 60,
       left: 60,
-      right: 60,
+      right: 200,
       background: { r: 255, g: 255, b: 255, alpha: 1 }
     })
     .toBuffer();

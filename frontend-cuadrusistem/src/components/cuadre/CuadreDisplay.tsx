@@ -465,7 +465,7 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
                   </div>
                   <div className="flex justify-between text-[10px] text-gray-400 font-medium">
                     <span>Planilla: {item.real}</span>
-                    <span>Teórico: {item.teorico}</span>
+                    <span>Reporte Z: {item.teorico}</span>
                   </div>
                 </div>
               ))}

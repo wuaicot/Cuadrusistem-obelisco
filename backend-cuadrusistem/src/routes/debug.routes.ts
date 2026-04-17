@@ -2,6 +2,7 @@
 import { Router, Request, Response } from 'express';
 import db from '../db';
 import chalk from 'chalk';
+import crypto from 'crypto';
 
 const router = Router();
 
@@ -97,12 +98,13 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Agua mineral 1 1/2", 
       "Aquarius y mineral 500cc", 
       "Agua litro", 
-      "Bebida lata", 
+      "COCA COLA LATA", 
       "Bebidas 1.5 litro", 
-      "Coca Cola 500cc.", 
+      "COCA COLA 591CC", 
       "Jugo nectar 11/2 litros", 
-      "Jugo nectar individual", 
-      "Monster", "RedBull", 
+      "Juao nectar individual", 
+      "MONSTER BEBIDA ENERG", 
+      "RedBull", 
       "Barril Quilmes (tara 11.00)", 
       "Barril Cristal (tara 9.54)", 
       "Cerv Stella ret 1 Lt", 
@@ -145,21 +147,29 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Chucrut"
     ];
 
+    // Helper para generar UUIDs deterministas basados en el nombre
+    const generateUUID = (name: string) => {
+      const hash = crypto.createHash('md5').update(name).digest('hex');
+      return `${hash.substring(0, 8)}-${hash.substring(8, 12)}-${hash.substring(12, 16)}-${hash.substring(16, 20)}-${hash.substring(20, 32)}`;
+    };
+
     // 4. Inserción de Ingredientes COCINA
     console.log(chalk.gray(`   - Inserting ${ORDEN_COCINA.length} items for COCINA...`));
     for (let i = 0; i < ORDEN_COCINA.length; i++) {
+      const name = ORDEN_COCINA[i];
       await db.query(
-        'INSERT INTO "ingredientes" ("nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4)', 
-        [ORDEN_COCINA[i], 'COCINA', 'unidades', i + 1]
+        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4, $5)', 
+        [generateUUID(name + 'COCINA'), name, 'COCINA', 'unidades', i + 1]
       );
     }
 
     // 5. Inserción de Ingredientes CAJA
     console.log(chalk.gray(`   - Inserting ${ORDEN_CAJA.length} items for CAJA...`));
     for (let i = 0; i < ORDEN_CAJA.length; i++) {
+      const name = ORDEN_CAJA[i];
       await db.query(
-        'INSERT INTO "ingredientes" ("nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4)', 
-        [ORDEN_CAJA[i], 'CAJA', 'unidades', i + 1]
+        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4, $5)', 
+        [generateUUID(name + 'CAJA'), name, 'CAJA', 'unidades', i + 1]
       );
     }
 

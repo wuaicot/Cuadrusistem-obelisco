@@ -19,7 +19,6 @@ export async function getOcrWorker() {
     gzip: false,
     logger: m => {
       if (m.status === 'recognizing text') {
-        // Log de progreso cada 20% para no saturar
         if (Math.round(m.progress * 100) % 20 === 0) {
           console.log(chalk.gray(`[OCR Progress] ${Math.round(m.progress * 100)}%`));
         }
@@ -30,7 +29,7 @@ export async function getOcrWorker() {
   await worker.setParameters({
     tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
     preserve_interword_spaces: '1',
-    tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+ /'
   });
 
   return worker;

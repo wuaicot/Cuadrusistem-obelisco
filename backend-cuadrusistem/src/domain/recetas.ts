@@ -292,13 +292,13 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: '0110',
     nombre: 'DELIVERY      APP',
     categoria: 'COCINA',
-    ingredientes: [{ nombre: 'DELIVERY      APP', cantidad: 1 }],
+    ingredientes: [], // No consume inventario físico
   },
   '0111': {
     codigo: '0111',
     nombre: 'DELIVERY      APP',
     categoria: 'COCINA',
-    ingredientes: [{ nombre: 'DELIVERY      APP', cantidad: 1 }],
+    ingredientes: [], // No consume inventario físico
   },
   '0201': {
     codigo: '0201',
@@ -386,7 +386,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: 'COM COMPLETO SUPER',
     categoria: 'COCINA',
     ingredientes: [
-      { nombre: 'Pan mesa súper Gigan.', cantidad: 1 },
+      { nombre: 'Pan mesa super Gigan.', cantidad: 1 },
       { nombre: 'Vienesas personal', cantidad: 2 },
     ],
   },
@@ -395,7 +395,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: 'COM CATALANA SUPER',
     categoria: 'COCINA',
     ingredientes: [
-      { nombre: 'Pan mesa súper Gigan.', cantidad: 1 },
+      { nombre: 'Pan mesa super Gigan.', cantidad: 1 },
       { nombre: 'Vienesas personal', cantidad: 2 },
       { nombre: 'Queso laminado', cantidad: 3 },
     ],
@@ -405,7 +405,7 @@ export const MENUS: Record<string, MenuDef> = {
     nombre: 'COM ITALIANO SUPER',
     categoria: 'COCINA',
     ingredientes: [
-      { nombre: 'Pan mesa súper Gigan.', cantidad: 1 },
+      { nombre: 'Pan mesa super Gigan.', cantidad: 1 },
       { nombre: 'Vienesas personal', cantidad: 2 },
     ],
   },
@@ -1265,6 +1265,14 @@ export const MENUS: Record<string, MenuDef> = {
     ingredientes: [{ nombre: 'Chuleta', cantidad: 1 }],
   },
 
+  '4822': {
+    codigo: '4822',
+    nombre: 'Sopaipillas',
+    categoria: 'COCINA',
+    ingredientes: [
+      { nombre: 'Sopaipillas', cantidad: 1 },      
+    ],
+  },
   '4871': {
     codigo: '4871',
     nombre: 'COM PER+PAPAS',

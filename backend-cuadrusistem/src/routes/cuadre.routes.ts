@@ -51,9 +51,20 @@ router.post('/', async (req: Request, res: Response) => {
 
     if (reporteZResult.rows.length === 0) throw new Error('No se encontró el Reporte Z.');
     
-    // Mapas para búsqueda rápida
+    // Mapas para búsqueda rápida con NORMALIZACIÓN
+    const normalize = (s: string) => 
+      s.trim()
+       .toLowerCase()
+       .normalize("NFD")
+       .replace(/[\u0300-\u036f]/g, "") // Quitar acentos
+       .replace(/\s+/g, " ")            // Unificar múltiples espacios
+       .replace(/\s+\./g, ".")          // Quitar espacios antes de puntos (ej: "Ave .Gigante")
+       .replace(/\.\s+/g, ".");         // Quitar espacios después de puntos
+
     const ingredientesMap = new Map(ingredientesResult.rows.map(ing => [ing.id, { nombre: ing.nombre_visible, tipo: ing.tipo }]));
-    const ingredientesNombreMap = new Map(ingredientesResult.rows.map(ing => [ing.nombre_visible, ing.id]));
+    
+    // Mapa normalizado: nombre_normalizado -> id
+    const ingredientesNombreMap = new Map(ingredientesResult.rows.map(ing => [normalize(ing.nombre_visible), ing.id]));
 
     // 2. Calcular Uso Teórico (basado en Reporte Z y Recetario)
     const ventas = reporteZResult.rows[0].items as { codigo: string; cantidad: number }[];
@@ -65,22 +76,28 @@ router.post('/', async (req: Request, res: Response) => {
       if (receta) {
         // Para bebestibles que no tienen 'ingredientes' pero son un ingrediente en sí mismos
         if (!receta.ingredientes || receta.ingredientes.length === 0) {
-            const ingredienteId = ingredientesNombreMap.get(receta.nombre);
+            const ingredienteId = ingredientesNombreMap.get(normalize(receta.nombre));
             if (ingredienteId) {
                 const cantidadNecesaria = venta.cantidad;
                 usoTeorico.set(ingredienteId, (usoTeorico.get(ingredienteId) || 0) + cantidadNecesaria);
                 console.log(`  - Venta [${venta.codigo}] ${receta.nombre}: ${venta.cantidad} un. -> Uso Teórico: ${cantidadNecesaria} de ${receta.nombre}`);
+            } else {
+                console.log(chalk.red(`  [ALERTA] Ingrediente no encontrado en DB para bebestible: "${receta.nombre}"`));
             }
         } else { // Para Menus y Empanadas con lista de ingredientes
             for (const itemReceta of receta.ingredientes) {
-                const ingredienteId = ingredientesNombreMap.get(itemReceta.nombre);
+                const ingredienteId = ingredientesNombreMap.get(normalize(itemReceta.nombre));
                 if (ingredienteId) {
                     const cantidadNecesaria = itemReceta.cantidad * venta.cantidad;
                     usoTeorico.set(ingredienteId, (usoTeorico.get(ingredienteId) || 0) + cantidadNecesaria);
                     console.log(`  - Venta [${venta.codigo}] ${receta.nombre}: ${venta.cantidad} un. -> Uso Teórico: ${cantidadNecesaria} de ${itemReceta.nombre}`);
+                } else {
+                    console.log(chalk.red(`  [ALERTA] Ingrediente no encontrado en DB para receta [${venta.codigo}]: "${itemReceta.nombre}"`));
                 }
             }
         }
+      } else {
+          console.log(chalk.gray(`  - Código ${venta.codigo} no encontrado en recetario.`));
       }
     }
     console.log(chalk.cyan('-----------------------------'));
@@ -93,7 +110,8 @@ router.post('/', async (req: Request, res: Response) => {
       if (!usoRealSource.has(item.ingrediente_id)) {
         usoRealSource.set(item.ingrediente_id, {});
       }
-      usoRealSource.get(item.ingrediente_id)![item.segmento] = item.cantidad;
+      // Forzar conversión a Number para evitar NaN
+      usoRealSource.get(item.ingrediente_id)![item.segmento] = Number(item.cantidad);
     }
 
     const usoReal = new Map<string, number>();
@@ -103,13 +121,13 @@ router.post('/', async (req: Request, res: Response) => {
       const devolucion = segmentos['DEVOLUC'] || 0;
       const final = segmentos['SALDO_FINAL'] || 0;
       
-      //la formula
-      const consumo = (inicial + entrada - devolucion) - final;
+      // La fórmula corregida con Number()
+      const consumo = (Number(inicial) + Number(entrada) - Number(devolucion)) - Number(final);
       usoReal.set(ingredienteId, consumo);
+      
       const ingData = ingredientesMap.get(ingredienteId);
       const nombreIng = ingData ? ingData.nombre : 'Desconocido';
       console.log(`  - [${nombreIng}]: (Inicial ${inicial} + Entrada ${entrada} - Devolución ${devolucion}) - Final ${final} = Consumo Real ${consumo}`);
-
     }
     console.log(chalk.cyan('-------------------------'));
 

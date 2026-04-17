@@ -1,59 +1,55 @@
-  1. Lógica de Negocio y Cálculo (El Corazón del Sistema)
-  La relación está en el archivo "backend-cuadrusistem/src/domain/recetas.ts", y los ingredientes están en el archivo "backend-cuadrusistem/src/routes/debug.routes.ts". Mapeo estático.
-  No existe tal cosa como "combos", pero, si existen algunos productos vendidos que consumen mas de un ingrediente, ejemplo,
-   "typescript"
-      "2307": {
-    codigo: "2307",
-    nombre: "HAMBURG OBELISCO PER",
-    categoria: 'COCINA',
-    ingredientes: [
-      { nombre: "Pan Brioche 12", cantidad: 1 },
-      { nombre: "Carne hamburg. Porc.", cantidad: 1 },
-      { nombre: "Queso laminado", cantidad: 2 },
-      { nombre: "Cheddar porc" , cantidad: 1 },
-      { nombre: "Tocino porciones", cantidad: 1 },
-      { nombre: "Huevos", cantidad: 1 },
-      { nombre: "Papas personal 150gr", cantidad: 1 },    ],
-  },.
-
-  2. Implementación del OCR
-  Veo que usas Tesseract (spa.traineddata presente en el root del backend).
-    * Pregunta: El Reporte Z es papel térmico, propenso a ruido y mala iluminación. ¿Qué tan robusto es el motor actual? ¿Estás usando algún servicio de preprocesamiento de imagen (como Sharp o Canvas) antes de
-     pasar el OCR para mejorar la detección de los códigos de producto y cantidades?
-     **respuesta: la robustes del motor actual esta probada y ha demostrado un buen rendimiento, es posible algunas mejoras para que quede exelente. Se está usando Sharp, en cuanto a esto, Quisiera implementar un cambio que me permita poder tomar la foto directamente desde mi dispositivo (en el componente donde se carga el archivo del Z) para agilizar aún mas el proceso. tambien acepto sugerencias sobre si es mejor usar Canvas. 
-    * Pregunta: ¿El sistema permite corrección manual si el OCR falla en leer una cantidad?
-     **respuesta: buena pregunta! la esencia de este proyecto es la CONFIABILIDAD, es supremamente importante que el OCR "no falle" o solo falle por factores fortuitos ej. si el ticket del reporte Z está roto, cortado, arrugado, manchado, o deteriorado de tal forma que sea imposible inferir su código, nombre y/o cantidad aún ni por el ojo humano. De resto debe garantizar la lectura y entendimiento del texto y numeros.
-
-  3. Persistencia de Datos
-  Tienes un archivo schema.sql y mencionas PostgreSQL en GEMINI.md.
-   * Pregunta: ¿Estás usando TypeORM o Prisma para las migraciones y modelos, o manejas consultas SQL directas?
-     **respuesta: esiste un archivo schema.sql, y el servicio de BDD desplegado en Railway el PostgreSQL "ghcr.io/railwayapp-templates/postgres-ssl:18"
-   * Pregunta: ¿Cómo se gestionan los "Turnos"? (Dado que mencionas que los cálculos dependen de Saldo Inicial y Final, el cierre de un turno debería ser el inicio del siguiente).
-     **respuesta: deben existir dos turnos: 1er Turno y 2do Turno. (es necesario que en las planillas, el "SALDO FINAL" del turno antedior, debe ser el "SALDO INICIAL" del sigiente turno) el 1er turno es de 10:00 a 18:00 y, el 2do turno de 18:00 a 2:00.
-
-  4. Interfaz de Usuario (El sistema de "Tablillas")
-  El concepto de la rejilla (10, 20, 1, 2...) es muy interesante y optimizado para tablets.
-   * Pregunta: En frontend-cuadrusistem/src/components/planillas/PlanillaGrid.tsx, ¿el estado de las tablillas se guarda en tiempo real (cada tap) o se envía al backend solo al finalizar la planilla?
-     **rerspuesta: las planillas podrian irse rellenando a medida que el turno transcurre. Al iniciar el 1er Turno, el usuario debería ver marcadas las respectivas casillas correspondientes al saldo inicial (y en adelante, el proximo turno cumplirá con esta logica etc, etc...), en su debido momento el usuario ingresará la "ENTRADA" de cada uno de los ingredientes, tambien de ser necesario ingresara "DEVOLUC", y unos minutos antes del fin del turno, ingresara lo correspondiente en "SALDO FINAL". 
-     Deben existir dos botones (actualmente existe uno "FINALIZAR Y GUARDAR"), "GUARDAR", y "ENVIAR", este último se habilitará 15 minutos antes del fin del turno, para que el usuario finalmente pueda enviar todo, de una sola vez a "Administración" (Generar Reporte de Cuadre), y pueda ser elegido desde el campo desplegable para la planilla. En cuanto al botón GUARDAR, éste solamente guarda en la BDD lo que el usuario va avanzando, para que permanezcan los datos hasta el momento de enviar.
-   * Pregunta: ¿Cómo manejas el feedback visual en dispositivos móviles para evitar "taps" accidentales en una rejilla que podría ser densa?
-     **respuesta: La facilidad del diseño de las tablillas permite que si por error, toca una, simplemente puede hacer tap de nuevo en la misma tablilla y se reversará. Sería genial poder blooquear y desbloquear toda la planilla, ubicando un icono de candado al lado del boton "SALIR". 
-
-  5. Estado de Integración
-   * Pregunta: ¿El flujo completo (Cargar Reporte Z -> Llenar Planilla Cocina/Caja -> Ver Resultado de Cuadre) ya está conectado de extremo a extremo, o hay alguna parte que aún sea un "mock" o prototipo?
-     **RESPUESTA: aquí hasta ahora todo va bien y en serio,pero, hay cosas que mejorar como, por ejemplo, el hecho de que pueda detectar la fecha y el turno (por la hora y fecha en que fue impreso el Z), solo si por alguna razón no lo detecta, permitir la posibilidad de hacerlo manualmente. 
-
-  ---
-
-  Siguientes pasos:
-  Mientras respondes a estas dudas, voy a proceder a leer los archivos clave (schema.sql, recetas.ts y las rutas de cuadre.routes.ts) para entender cómo se orquesta el cálculo final del "OK", "Faltante" o
-  "Sobrante". 
-
-  ¿Hay algún archivo específico que consideres que define la "verdad" del sistema y que deba analizar primero?
+ [Carne Ave Persona]: (Inicial 13.50 + Entrada 0 - Devolución 0) - Final 13.50 = Consumo Real 0    
+  - [Carne Ave.Gigante]: (Inicial 6.00 + Entrada 0 - Devolución 0) - Final 6.00 = Consumo Real 0      
+  - [Carne churrasco gig]: (Inicial 10.00 + Entrada 10.00 - Devolución 0) - Final 18.00 = Consumo Real NaN
+  - [Carne churrasco pers.]: (Inicial 4.00 + Entrada 10.00 - Devolución 0) - Final 9.00 = Consumo Real NaN
+  - [Carne Hamburg Gigant.]: (Inicial 5.00 + Entrada 0 - Devolución 0) - Final 5.00 = Consumo Real 0  
+  - [Carne hamburg. Porc.]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0 
+  - [Carne lomo gig.]: (Inicial 7.00 + Entrada 0 - Devolución 0) - Final 7.00 = Consumo Real 0        
+  - [Carne lomo pers.]: (Inicial 11.00 + Entrada 0 - Devolución 0) - Final 11.00 = Consumo Real 0     
+  - [Hamburg KING K]: (Inicial 17.00 + Entrada 0 - Devolución 0) - Final 17.00 = Consumo Real 0       
+  - [Carne para As Gig.]: (Inicial 18.00 + Entrada 0 - Devolución 0) - Final 18.00 = Consumo Real 0   
+  - [Champiñones]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
+  - [Chorizo]: (Inicial 12.00 + Entrada 0 - Devolución 0) - Final 12.00 = Consumo Real 0
+  - [Choclo]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
+  - [Hojarascas]: (Inicial 52.00 + Entrada 0 - Devolución 0) - Final 51.00 = Consumo Real 1
+  - [Huevos]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0
+  - [Jamón]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0
+  - [Menu 1 Pulpa/ Chuleta]: (Inicial 6.00 + Entrada 0 - Devolución 0) - Final 6.00 = Consumo Real 0  
+  - [Menú 2 Pangasius]: (Inicial 18.00 + Entrada 0 - Devolución 0) - Final 13.00 = Consumo Real 5     
+  - [Menú 3 Carne Mechada]: (Inicial 10.00 + Entrada 5.00 - Devolución 0) - Final 14.00 = Consumo Real NaN
+  - [Tortilla De Wrap]: (Inicial 16.00 + Entrada 0 - Devolución 0) - Final 16.00 = Consumo Real 0     
+  - [Papas personal 150gr]: (Inicial 54.00 + Entrada 0 - Devolución 0) - Final 47.00 = Consumo Real 7
+  - [Porcion Pino Marisco]: (Inicial 8.00 + Entrada 0 - Devolución 0) - Final 8.00 = Consumo Real 0   
+  - [Porcion Pino Carne]: (Inicial 10.00 + Entrada 0 - Devolución 0) - Final 10.00 = Consumo Real 0   
+  - [Porciones de camarones]: (Inicial 55.00 + Entrada 0 - Devolución 0) - Final 52.00 = Consumo Real 3
+  - [Crema]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
+  - [Pan fricas]: (Inicial 42.00 + Entrada 30.00 - Devolución 0) - Final 67.00 = Consumo Real NaN     
+  - [Pan hallullon]: (Inicial 17.00 + Entrada 10.00 - Devolución 0) - Final 25.00 = Consumo Real NaN  
+  - [Pan Brioche 12]: (Inicial 27.00 + Entrada 10.00 - Devolución 0) - Final 37.00 = Consumo Real NaN 
+  - [Pan mesa Gigante]: (Inicial 59.00 + Entrada 30.00 - Devolución 0) - Final 78.00 = Consumo Real NaN
+  - [Pan mesa Personal]: (Inicial 33.00 + Entrada 60.00 - Devolución 0) - Final 87.00 = Consumo Real NaN
+  - [Pan mesa super Gigan.]: (Inicial 14.00 + Entrada 0 - Devolución 0) - Final 5.00 = Consumo Real 9 
+  - [Pepinillos]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
+  - [Porotos verdes Kg.]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0     
+  - [Queso laminado]: (Inicial 42.00 + Entrada 30.00 - Devolución 0) - Final 58.00 = Consumo Real NaN 
+  - [Tocino porciones]: (Inicial 16.00 + Entrada 0 - Devolución 0) - Final 15.00 = Consumo Real 1     
+  - [Vienesas doggi]: (Inicial 27.00 + Entrada 34.00 - Devolución 0) - Final 52.00 = Consumo Real NaN 
+  - [Vienesas personal]: (Inicial 29.00 + Entrada 24.00 - Devolución 0) - Final 32.00 = Consumo Real NaN
+  - [Sopaipillas]: (Inicial 66.00 + Entrada 0 - Devolución 0) - Final 62.00 = Consumo Real 4
+  - [Ají en salsa 1 Kg]: (Inicial 0 + Entrada 100.00 - Devolución 0) - Final 0 = Consumo Real 100  
 
 
 
 
+Áreas de Mejora Identificadas (Hacia la Excelencia)
 
+  Para alcanzar el nivel de excelencia que buscas, he detectado estos puntos donde podemos trabajar de inmediato:
 
-  
+   1. Captura Directa de Foto: Actualmente usas un selector de archivos estándar. Podemos mejorar el ReporteZUpload.tsx para que en móviles abra directamente la cámara con la configuración óptima para
+      documentos.
+   2. Detección Automática de Turno/Fecha: El OCR ya lee el texto completo. Podemos añadir una lógica que busque patrones de fecha (DD/MM/YYYY) y hora en el ticket para auto-seleccionar el turno y la fecha,   
+      minimizando errores manuales.
+   3. Interfaz de "Candado" y Botones: Falta implementar el icono de candado para bloquear la edición accidental y separar la lógica de "GUARDAR" (borrador) vs "ENVIAR" (finalizar turno 15 min antes).
+   4. Robustez en Turnos Nocturnos: El 2do turno termina a las 02:00 AM. Debemos asegurar que el sistema entienda que ese "Saldo Final" pertenece al cierre del día anterior para el "Saldo Inicial" del día     
+      siguiente a las 10:00 AM.
+   5. Pre-procesamiento de Imagen: Me falta ver preprocess.ts para asegurar que estemos aplicando filtros de contraste y binarización que faciliten la lectura de tickets térmicos (que suelen ser tenues). 
