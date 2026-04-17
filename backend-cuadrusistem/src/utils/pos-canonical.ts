@@ -95,45 +95,30 @@ export function extractCantidadRobust(line: string, codigoDetectado?: string | n
   const text = line.trim().toUpperCase();
   const parts = text.split(/\s+/).filter(p => p.length > 0);
   
-  if (parts.length < 2) {
-    // Si no hay espacios, es muy probable que no haya cantidad al final
-    // o que esté pegada al texto. 
-    // Casos especiales detectados:
-    if (text.includes('COMITALIANOPERSONA')) return 11;
-    if (text.includes('COMCOMPLETOPERSONA')) return 11;
-    return 1; 
-  }
+  if (parts.length < 2) return 1;
 
   let lastPart = parts[parts.length - 1];
 
-  // Si la última parte es una letra suelta o símbolo común de OCR
+  // 1. Si la última parte termina en un número real (ej: "3", "25"), lo tomamos
+  const matchNumber = lastPart.match(/(\d+)$/);
+  if (matchNumber) {
+    const qty = parseInt(matchNumber[1], 10);
+    // Evitar confundir código con cantidad
+    if (codigoDetectado && qty.toString() === codigoDetectado.toString()) return 1;
+    return (qty > 0 && qty < 500) ? qty : 1;
+  }
+
+  // 2. Solo traducimos caracteres solitarios muy específicos si el OCR falló
+  // pero la línea parece terminar ahí (ej: "|", "I", "L" suelen ser "1")
   const charToNumber: Record<string, number> = { 
-    'K': 3, 'J': 1, 'I': 1, 'L': 1, 'T': 7, 'B': 8, 'S': 5, 'O': 0, 'Q': 0, 'H': 4, '|': 1 
+    '|': 1, 'I': 1, 'L': 1, 'J': 1, 'S': 5, 'B': 8
   };
   
-  if (lastPart.length === 1 && charToNumber[lastPart] !== undefined) return charToNumber[lastPart];
-
-  // Si la última parte es totalmente alfabética y larga (como "GRANDE"), no es una cantidad
-  if (/^[A-Z]{3,}$/.test(lastPart)) {
-     if (text.includes('COMITALIANOPERSONA')) return 11;
-     return 1;
+  if (lastPart.length === 1 && charToNumber[lastPart] !== undefined) {
+    return charToNumber[lastPart];
   }
 
-  // Limpiar y traducir con un mapeo más agresivo
-  let candidate = lastPart.replace(/[^0-9OQTI LB SH]/g, '');
-  let translated = "";
-  for (const char of candidate) {
-    if (/[0-9]/.test(char)) translated += char;
-    else if (charToNumber[char] !== undefined) translated += charToNumber[char].toString();
-  }
-
-  const match = translated.match(/(\d+)$/);
-  if (match) {
-    const qty = parseInt(match[1], 10);
-    // Filtro de cordura: cantidades > 200 en un solo ticket son raras para este negocio
-    return (qty > 0 && qty < 200) ? qty : 1;
-  }
-
+  // 3. En cualquier otro caso (como "PAPAS", "GIGANTE", etc.), asumimos 1
   return 1;
 }
 

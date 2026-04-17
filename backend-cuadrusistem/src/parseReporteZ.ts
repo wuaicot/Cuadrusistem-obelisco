@@ -55,9 +55,16 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
     // 0. Identificar cambio de sección con Regex flexible
     const upper = linea.toUpperCase();
     
-    if (/[0O]1\s*BAR/.test(upper)) { seccionActual = 'BAR'; continue; }
-    if (/[0O]2\s*COCINA/.test(upper)) { seccionActual = 'COCINA'; continue; }
-    if (/[0O]3\s*EMPANADAS/.test(upper)) { seccionActual = 'EMPANADAS'; continue; }
+    // Regex mejorada para detectar secciones incluso con errores de OCR en el número (01, 02, 03)
+    if (/[0-9OQ]\s*BAR/.test(upper) || (upper.includes('BAR') && (upper.includes('01') || upper.includes('O1')))) { 
+      seccionActual = 'BAR'; continue; 
+    }
+    if (/[0-9OQ]\s*COCINA/.test(upper) || (upper.includes('COCINA') && (upper.includes('02') || upper.includes('O2')))) { 
+      seccionActual = 'COCINA'; continue; 
+    }
+    if (/[0-9OQ]\s*EMPANADAS/.test(upper) || (upper.includes('EMPANADAS') && (upper.includes('03') || upper.includes('O3')))) { 
+      seccionActual = 'EMPANADAS'; continue; 
+    }
 
     if (
       upper.includes('TOTAL') ||
