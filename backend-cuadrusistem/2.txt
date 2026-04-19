@@ -43,7 +43,7 @@
 
 Áreas de Mejora Identificadas (Hacia la Excelencia)
 
-  Para alcanzar el nivel de excelencia que buscas, he detectado estos puntos donde podemos trabajar de inmediato:
+  Para alcanzar el nivel de excelencia que buscamos, podemos trabajar de inmediato estos puntos:
 
    1. Captura Directa de Foto: Actualmente usas un selector de archivos estándar. Podemos mejorar el ReporteZUpload.tsx para que en móviles abra directamente la cámara con la configuración óptima para
       documentos.
