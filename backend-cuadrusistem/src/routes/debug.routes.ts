@@ -62,7 +62,6 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Menu 1 Pulpa/ Chuleta", 
       "Menú 2 Pangasius", 
       "Menú 3 Carne Mechada", 
-      "Chuleta", 
       "Menu 4 costillar", 
       "Tortilla De Wrap", 
       "Papas grandes 700gr", 
@@ -147,6 +146,42 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Chucrut"
     ];
 
+    // Mapa de costos base para el seed
+    const COSTOS: Record<string, number> = {
+      "Vienesas personal": 257.92,
+      "Vienesas doggi": 332.03,
+      "Pan mesa Personal": 150.00,
+      "Pan mesa Gigante": 220.00,
+      "Pan mesa super Gigan.": 310.00,
+      "Carne para As Gig.": 1077.73,
+      "Carne churrasco pers.": 1077.73,
+      "Carne churrasco gig": 2155.54,
+      "Carne Ave Persona": 806.82, // Calculado desde GAG
+      "Carne lomo pers.": 1250.00, // Estimado mercado
+      "Carne Hamburg Gigant.": 980.00, // Estimado mercado
+      "Pan fricas": 180.00,
+      "Pan hallullon": 200.00,
+      "Queso laminado": 212.43,
+      "Huevos": 120.00,
+      "Chorizo": 222.18,
+      "Tocino porciones": 137.35,
+      "Hojarascas": 268.90,
+      "COCA COLA LATA": 648.77,
+      "COCA COLA 591CC": 766.83,
+      "Cerv Stella ret 1 Lt": 1457.70,
+      "Cerveza Torobayo 1/2 lt": 1516.20,
+      "Agua mineral 1 1/2": 1956.36,
+      "Ketchup": 1599.70,
+      "Mostaza": 1020.00,
+      "Chucrut": 1590.00,
+      "Pepinillos": 3590.00,
+      "Sal sachet": 6500.00,
+      "Arroz": 5191.20,
+      "Menú 2 Pangasius": 2790.00,
+      "Menú 3 Carne Mechada": 1450.00,
+      "DELIVERY      APP": 0, // Ignorar financieramente
+    };
+
     // Helper para generar UUIDs deterministas basados en el nombre
     const generateUUID = (name: string) => {
       const hash = crypto.createHash('md5').update(name).digest('hex');
@@ -157,9 +192,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
     console.log(chalk.gray(`   - Inserting ${ORDEN_COCINA.length} items for COCINA...`));
     for (let i = 0; i < ORDEN_COCINA.length; i++) {
       const name = ORDEN_COCINA[i];
+      const costo = COSTOS[name] || 0;
       await db.query(
-        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4, $5)', 
-        [generateUUID(name + 'COCINA'), name, 'COCINA', 'unidades', i + 1]
+        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "costo_neto", "orden") VALUES ($1, $2, $3, $4, $5, $6)', 
+        [generateUUID(name + 'COCINA'), name, 'COCINA', 'unidades', costo, i + 1]
       );
     }
 
@@ -167,9 +203,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
     console.log(chalk.gray(`   - Inserting ${ORDEN_CAJA.length} items for CAJA...`));
     for (let i = 0; i < ORDEN_CAJA.length; i++) {
       const name = ORDEN_CAJA[i];
+      const costo = COSTOS[name] || 0;
       await db.query(
-        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "orden") VALUES ($1, $2, $3, $4, $5)', 
-        [generateUUID(name + 'CAJA'), name, 'CAJA', 'unidades', i + 1]
+        'INSERT INTO "ingredientes" ("id", "nombre_visible", "tipo", "unidad", "costo_neto", "orden") VALUES ($1, $2, $3, $4, $5, $6)', 
+        [generateUUID(name + 'CAJA'), name, 'CAJA', 'unidades', costo, i + 1]
       );
     }
 

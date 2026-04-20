@@ -1,7 +1,5 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
-import path from 'path';
-import fs from 'fs';
 import crypto from 'crypto';
 import chalk from 'chalk';
 
@@ -9,7 +7,6 @@ import { runOcr } from '../ocr/ocrWorker';
 import { preprocessTicket } from '../ocr/preprocess';
 import { parseReporteZ } from '../parseReporteZ';
 import db from '../db';
-import { recetas as catalog } from '../domain/recetas';
 
 const router = Router();
 
@@ -75,19 +72,22 @@ router.post(
 
       console.log(chalk.yellow('2. Ejecutando Tesseract OCR...'));
       const textoExtraido = await runOcr(processedBuffer);
-
       console.log(chalk.green('✓ OCR Finalizado.'));
-      // console.log(chalk.magenta('\n=== TEXTO BRUTO DEL OCR (INICIO) ==='));
-      // console.log(textoExtraido);
-      // console.log(chalk.magenta('=== TEXTO BRUTO DEL OCR (FIN) ===\n'));
 
       console.log(chalk.yellow('3. Parseando texto...'));
-      const ventasMap = parseReporteZ(textoExtraido);
-      console.log(chalk.green(`✓ Parseo finalizado. ${ventasMap.size} items detectados.`));
+      const { ventas, fecha, hora } = parseReporteZ(textoExtraido);
+      console.log(chalk.green(`✓ Parseo finalizado. ${ventas.size} items detectados.`));
 
-      const ventasArray = Array.from(ventasMap.entries()).map(
+      const ventasArray = Array.from(ventas.entries()).map(
         ([codigo, cantidad]) => ({ codigo, cantidad }),
       );
+
+      // Inferencia de Turno sugerido basándose en la hora del ticket
+      let suggestedTurno = 'MAÑANA';
+      if (hora) {
+        const [hh] = hora.split(':').map(Number);
+        if (hh >= 18 || hh < 3) suggestedTurno = 'TARDE'; // TARDE es de 18:00 a 02:00
+      }
 
       const checksum = crypto.createHash('md5').update(originalBuffer).digest('hex');
       const itemsJsonb = JSON.stringify(ventasArray);
@@ -121,7 +121,12 @@ router.post(
 
       res.status(201).json({
         message: 'Reporte Z procesado.',
-        reporteZId: result.rows[0].id
+        reporteZId: result.rows[0].id,
+        detectedMetadata: {
+          fecha,
+          hora,
+          suggestedTurno
+        }
       });
 
     } catch (error: any) {
@@ -129,8 +134,7 @@ router.post(
       res.status(500).json({ 
         message: 'Internal Server Error', 
         error: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-        detail: error.detail || null // Útil para errores de Postgres como duplicados
+        detail: error.detail || null 
       });
     }
   },

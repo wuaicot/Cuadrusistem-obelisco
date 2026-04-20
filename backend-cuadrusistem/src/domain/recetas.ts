@@ -136,7 +136,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   },
   '4240': {
     codigo: '4240',
-    nombre: 'STELLA LITRO 1LT',
+    nombre: 'Cerv Stella ret 1 Lt',
     categoria: 'BAR',
     unidad: 'unidad',
   },
@@ -154,7 +154,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   },
   '4246': {
     codigo: '4246',
-    nombre: 'CORONA BOTELLIN',
+    nombre: 'Cerveza botella Corona',
     categoria: 'BAR',
     unidad: 'unidad',
   },
@@ -198,13 +198,13 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   },
   '4426': {
     codigo: '4426',
-    nombre: 'VITAL 1 1/2',
+    nombre: 'Agua mineral 1 1/2',
     categoria: 'BAR',
     unidad: 'unidad',
   },
   '4428': {
     codigo: '4428',
-    nombre: 'BBIDA 1 1/5',
+    nombre: 'Bebidas 1.5 litro',
     categoria: 'BAR',
     unidad: 'unidad',
   },
@@ -224,7 +224,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
 
   '4601': {
     codigo: '4601',
-    nombre: 'CAFE GRANDE',
+    nombre: 'Sobres de café',
     categoria: 'BAR',
     unidad: 'unidad',
   },
@@ -236,7 +236,7 @@ export const BEBESTIBLES: Record<string, BebestibleDef> = {
   },
   '4869': {
     codigo: '4869',
-    nombre: 'PROMO SCHOP 2X1',
+    nombre: 'Cerveza Torobayo 1/2 lt', // Mapeo para la promo
     categoria: 'BAR',
     unidad: 'unidad',
   },
@@ -1214,19 +1214,19 @@ export const MENUS: Record<string, MenuDef> = {
     codigo: '4023',
     nombre: 'CARNE MECHADA C ARRO',
     categoria: 'COCINA',
-    ingredientes: [{ nombre: 'Carne Mechada', cantidad: 1 }],
+    ingredientes: [{ nombre: 'Menú 3 Carne Mechada', cantidad: 1 }],
   },
   '4024': {
     codigo: '4024',
     nombre: 'CARNE MECHADA C PAPA',
     categoria: 'COCINA',
-    ingredientes: [{ nombre: 'Carne Mechada', cantidad: 1 }],
+    ingredientes: [{ nombre: 'Menú 3 Carne Mechada', cantidad: 1 }],
   },
   '4025': {
     codigo: '4025',
     nombre: 'CARNE MECHADA C/ENSA',
     categoria: 'COCINA',
-    ingredientes: [{ nombre: 'Carne Mechada', cantidad: 1 }],
+    ingredientes: [{ nombre: 'Menú 3 Carne Mechada', cantidad: 1 }],
   },
   '4029': {
     codigo: '4029',
@@ -1602,7 +1602,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     categoria: 'EMPANADAS',
     ingredientes: [
       { nombre: 'Hojarascas', cantidad: 1 },
-      { nombre: 'Carne Mechada', cantidad: 0.5 },
+      { nombre: 'Menú 3 Carne Mechada', cantidad: 1 },
       { nombre: 'Queso laminado', cantidad: 2 },
     ],
   },
@@ -1622,7 +1622,7 @@ export const EMPANADAS: Record<string, EmpanadaDef> = {
     categoria: 'EMPANADAS',
     ingredientes: [
       { nombre: 'Hojarascas', cantidad: 1 },
-      { nombre: 'Carne Ave Personal', cantidad: 0.5 },
+      { nombre: 'Carne Ave Persona', cantidad: 0.5 },
       { nombre: 'Queso laminado', cantidad: 2 },
     ],
   },

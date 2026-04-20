@@ -10,9 +10,9 @@ export async function preprocessTicket(imageBuffer: Buffer): Promise<Buffer> {
   return await image
     .resize({ width: 2200, withoutEnlargement: false }) 
     .grayscale()
-    .normalize()
-    .sharpen()
-    .threshold(165)
+    .linear(1.5, -0.2) // Aumenta el contraste: multiplica por 1.5 y resta brillo
+    .sharpen({ sigma: 1.5, m1: 2, m2: 20 }) // Realce agresivo de bordes de letras
+    .threshold(175) // Umbral ligeramente más alto para capturar tintas tenues
     .extend({
       top: 60,
       bottom: 60,

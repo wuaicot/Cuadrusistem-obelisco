@@ -78,9 +78,19 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
       });
 
       if (response.status === 201) {
-        setUploadSuccess("¡Reporte Z procesado con éxito!");
+        const { detectedMetadata } = response.data;
+        
+        if (detectedMetadata) {
+          if (detectedMetadata.fecha) setFechaOperacion(detectedMetadata.fecha);
+          if (detectedMetadata.suggestedTurno) {
+            const turnoMatch = turnos.find(t => t.tipo === detectedMetadata.suggestedTurno);
+            if (turnoMatch) setSelectedTurnoId(turnoMatch.id);
+          }
+        }
+
+        setUploadSuccess("¡Reporte Z procesado con éxito! Se han sugerido fecha y turno del ticket.");
         setFile(null);
-        if (e.target instanceof HTMLFormElement) e.target.reset();
+        // if (e.target instanceof HTMLFormElement) e.target.reset();
         onUploadSuccess();
       }
     } catch (error: unknown) {
@@ -120,6 +130,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
               type="file"
               id="file"
               accept="image/png, image/jpeg"
+              capture="environment"
               onChange={handleFileChange}
               className="hidden"
               disabled={isUploading}

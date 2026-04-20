@@ -16,11 +16,56 @@ interface CreatePlanillaPayload {
   tipo: 'COCINA' | 'CAJA';
   turnoId: string;
   localId: string;
+  estado: 'BORRADOR' | 'ENVIADO';
   items: PlanillaItemPayload[];
 }
+/**
+ * @route   GET /api/planillas/items
+ * @desc    Obtiene los items de una planilla existente (para recuperar borradores).
+ */
+router.get('/items', async (req: Request, res: Response) => {
+  const { localId, fecha, turnoId, tipo } = req.query;
+
+  if (!localId || !fecha || !turnoId || !tipo) {
+    return res.status(400).json({ message: 'Faltan parámetros de contexto.' });
+  }
+
+  try {
+    // 1. Buscar la planilla
+    const planillaRes = await db.query(`
+      SELECT id, estado FROM planillas 
+      WHERE local_id = $1 AND fecha = $2 AND turno_id = $3 AND tipo = $4
+      LIMIT 1
+    `, [localId, fecha, turnoId, tipo]);
+
+    if (planillaRes.rows.length === 0) {
+      return res.status(200).json({ items: [], estado: null });
+    }
+
+    const planillaId = planillaRes.rows[0].id;
+    const estado = planillaRes.rows[0].estado;
+
+    // 2. Obtener sus items
+    const itemsRes = await db.query(`
+      SELECT ingrediente_id, segmento, cantidad 
+      FROM planilla_items 
+      WHERE planilla_id = $1
+    `, [planillaId]);
+
+    res.status(200).json({
+      items: itemsRes.rows,
+      estado
+    });
+
+  } catch (error) {
+    console.error(chalk.red('Error al recuperar items de planilla:'), error);
+    res.status(500).json({ message: 'Error interno.' });
+  }
+});
 
 /**
  * @route   GET /api/planillas/saldo-anterior
+...
  * @desc    Obtiene el saldo final del turno anterior para usarlo como saldo inicial.
  */
 router.get('/saldo-anterior', async (req: Request, res: Response) => {
@@ -57,7 +102,7 @@ router.get('/saldo-anterior', async (req: Request, res: Response) => {
       SELECT p.id 
       FROM planillas p
       JOIN turnos t ON p.turno_id = t.id
-      WHERE p.local_id = $1 AND p.tipo = $2 AND t.tipo = $3 AND t.fecha = $4
+      WHERE p.local_id = $1 AND p.tipo = $2 AND t.tipo = $3 AND t.fecha = $4 AND p.estado = 'ENVIADO'
       LIMIT 1
     `, [localId, tipo, prevTipo, prevFecha]);
 
@@ -145,17 +190,31 @@ router.post('/', async (req: Request, res: Response) => {
     await db.query('BEGIN');
     console.log(chalk.magenta('-> Transacción iniciada.'));
 
-    // 1. Insertar en la tabla 'planillas'
-    const planillaInsertQuery = `
-      INSERT INTO "planillas" (fecha, tipo, turno_id, local_id)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id;
-    `;
-    const planillaInsertParams = [payload.fecha, payload.tipo, payload.turnoId, payload.localId];
-    const planillaResult = await db.query(planillaInsertQuery, planillaInsertParams);
-    const newPlanillaId = planillaResult.rows[0].id;
-    
-    console.log(chalk.cyan(`   - Creada planilla con ID: ${newPlanillaId}`));
+    // 1. Buscar si ya existe la planilla
+    const existingRes = await db.query(`
+      SELECT id FROM planillas 
+      WHERE fecha = $1 AND tipo = $2 AND turno_id = $3 AND local_id = $4
+      LIMIT 1
+    `, [payload.fecha, payload.tipo, payload.turnoId, payload.localId]);
+
+    let planillaId: string;
+
+    if (existingRes.rows.length > 0) {
+      planillaId = existingRes.rows[0].id;
+      await db.query('UPDATE planillas SET estado = $1 WHERE id = $2', [payload.estado || 'BORRADOR', planillaId]);
+      await db.query('DELETE FROM planilla_items WHERE planilla_id = $1', [planillaId]);
+      console.log(chalk.cyan(`   - Actualizando planilla existente ID: ${planillaId}`));
+    } else {
+      const planillaInsertQuery = `
+        INSERT INTO "planillas" (fecha, tipo, turno_id, local_id, estado)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING id;
+      `;
+      const planillaInsertParams = [payload.fecha, payload.tipo, payload.turnoId, payload.localId, payload.estado || 'BORRADOR'];
+      const planillaResult = await db.query(planillaInsertQuery, planillaInsertParams);
+      planillaId = planillaResult.rows[0].id;
+      console.log(chalk.cyan(`   - Creada nueva planilla ID: ${planillaId}`));
+    }
 
     // 2. Insertar cada item en 'planilla_items'
     if (payload.items.length > 0) {
@@ -165,7 +224,7 @@ router.post('/', async (req: Request, res: Response) => {
           INSERT INTO "planilla_items" (planilla_id, ingrediente_id, segmento, cantidad)
           VALUES ($1, $2, $3, $4);
         `;
-        const itemInsertParams = [newPlanillaId, item.ingrediente, item.segmento, item.cantidad];
+        const itemInsertParams = [planillaId, item.ingrediente, item.segmento, item.cantidad];
         await db.query(itemInsertQuery, itemInsertParams);
       }
       console.log(chalk.cyan(`   - Items insertados correctamente.`));
@@ -177,7 +236,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     res.status(201).json({
       message: 'Planilla guardada exitosamente en la base de datos.',
-      planillaId: newPlanillaId,
+      planillaId: planillaId,
     });
 
   } catch (error) {

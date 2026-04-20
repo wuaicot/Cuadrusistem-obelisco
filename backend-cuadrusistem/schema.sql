@@ -41,6 +41,7 @@ CREATE TABLE "ingredientes" (
   "nombre_visible" VARCHAR(100) NOT NULL,
   "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')),
   "unidad" VARCHAR(50),
+  "costo_neto" NUMERIC(10,2) DEFAULT 0, -- Nueva columna para valorización
   "orden" INTEGER NOT NULL DEFAULT 0, -- Nueva columna para el orden exacto
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -52,6 +53,7 @@ CREATE TABLE "planillas" (
   "tipo" VARCHAR(50) NOT NULL CHECK (tipo IN ('COCINA', 'CAJA')),
   "turno_id" UUID NOT NULL REFERENCES "turnos"("id"),
   "local_id" UUID NOT NULL REFERENCES "locales"("id"),
+  "estado" VARCHAR(20) DEFAULT 'BORRADOR' CHECK (estado IN ('BORRADOR', 'ENVIADO')),
   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
