@@ -40,7 +40,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Aceite Lt.",       
       "Aceitunas", 
       "Aji verde", 
-      "Carne Ave Persona", 
+      "Carne Ave Personal", 
       "Carne Ave.Gigante", 
       "Carne churrasco gig", 
       "Carne churrasco pers.", 
@@ -156,7 +156,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
       "Carne para As Gig.": 1077.73,
       "Carne churrasco pers.": 1077.73,
       "Carne churrasco gig": 2155.54,
-      "Carne Ave Persona": 806.82, // Calculado desde GAG
+      "Carne Ave Personal": 806.82, // Calculado desde GAG
       "Carne lomo pers.": 1250.00, // Estimado mercado
       "Carne Hamburg Gigant.": 980.00, // Estimado mercado
       "Pan fricas": 180.00,
