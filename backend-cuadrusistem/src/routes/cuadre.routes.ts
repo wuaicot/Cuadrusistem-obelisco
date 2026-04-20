@@ -46,7 +46,7 @@ router.post('/', async (req: Request, res: Response) => {
     ] = await Promise.all([
       db.query('SELECT items FROM "reportes_z" WHERE id = $1', [reporteZId]),
       db.query('SELECT ingrediente_id, segmento, cantidad FROM "planilla_items" WHERE planilla_id = ANY($1::uuid[])', [[planillaCocinaId, planillaCajaId]]),
-      db.query('SELECT id, nombre_visible, tipo FROM "ingredientes"')
+      db.query('SELECT id, nombre_visible, tipo, costo_neto FROM "ingredientes"')
     ]);
 
     if (reporteZResult.rows.length === 0) throw new Error('No se encontró el Reporte Z.');
@@ -58,10 +58,14 @@ router.post('/', async (req: Request, res: Response) => {
        .normalize("NFD")
        .replace(/[\u0300-\u036f]/g, "") // Quitar acentos
        .replace(/\s+/g, " ")            // Unificar múltiples espacios
-       .replace(/\s+\./g, ".")          // Quitar espacios antes de puntos (ej: "Ave .Gigante")
+       .replace(/\s+\./g, ".")          // Quitar espacios antes de puntos
        .replace(/\.\s+/g, ".");         // Quitar espacios después de puntos
 
-    const ingredientesMap = new Map(ingredientesResult.rows.map(ing => [ing.id, { nombre: ing.nombre_visible, tipo: ing.tipo }]));
+    const ingredientesMap = new Map(ingredientesResult.rows.map(ing => [ing.id, { 
+      nombre: ing.nombre_visible, 
+      tipo: ing.tipo,
+      costo: Number(ing.costo_neto || 0)
+    }]));
     
     // Mapa normalizado: nombre_normalizado -> id
     const ingredientesNombreMap = new Map(ingredientesResult.rows.map(ing => [normalize(ing.nombre_visible), ing.id]));
@@ -133,7 +137,7 @@ router.post('/', async (req: Request, res: Response) => {
 
     // 4. Comparar y generar el detalle del resultado
     const todosIngredientesIds = Array.from(ingredientesMap.keys());
-    const detalle: Record<string, { teorico: number, real: number, diferencia: number }> = {};
+    const detalle: Record<string, { teorico: number, real: number, diferencia: number, costo: number, valorizacion: number }> = {};
 
     // Ordenar: Primero CAJA (Bebestibles), luego COCINA (Ingredientes)
     const idsOrdenados = todosIngredientesIds.sort((a, b) => {
@@ -145,10 +149,21 @@ router.post('/', async (req: Request, res: Response) => {
     });
 
     for (const id of idsOrdenados) {
-      const nombre = ingredientesMap.get(id)!.nombre;
+      const ingData = ingredientesMap.get(id)!;
+      const nombre = ingData.nombre;
       const teorico = usoTeorico.get(id) || 0;
       const real = usoReal.get(id) || 0;
-      detalle[nombre] = { teorico, real, diferencia: teorico - real };
+      const diferencia = teorico - real;
+      const costo = ingData.costo;
+      const valorizacion = diferencia * costo;
+
+      detalle[nombre] = { 
+        teorico, 
+        real, 
+        diferencia, 
+        costo,
+        valorizacion
+      };
     }
 
     // 5. Marcar Reporte Z como procesado

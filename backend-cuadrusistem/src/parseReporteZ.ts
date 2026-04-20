@@ -36,15 +36,21 @@ const catalog = getRecetasArray();
 function normalizeLine(line: string): string {
   return line
     .replace(/[|]/g, '')
-    // NO eliminamos fracciones aquí, lo hará extractCantidadRobust de forma más selectiva
     .replace(/\s+/g, ' ')
     .trim()
 }
 
-export function parseReporteZ(textoZ: string): Map<string, number> {
+export type ReporteZData = {
+  ventas: Map<string, number>;
+  fecha?: string;
+  hora?: string;
+};
 
+export function parseReporteZ(textoZ: string): ReporteZData {
   const ventas = new Map<string, number>()
   let seccionActual = '' 
+  let detectedFecha: string | undefined;
+  let detectedHora: string | undefined;
 
   const lineas = textoZ
     .split('\n')
@@ -52,10 +58,25 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
     .filter(line => line.length > 3)
 
   for (const linea of lineas) {
-    // 0. Identificar cambio de sección con Regex flexible
     const upper = linea.toUpperCase();
-    
-    // Regex mejorada para detectar secciones incluso con errores de OCR en el número (01, 02, 03)
+
+    // 0. EXTRACCIÓN DE METADATOS (Fecha y Hora)
+    if (!detectedFecha) {
+      const matchFecha = upper.match(/(\d{2})[-\/](\d{2})[-\/](\d{2,4})/);
+      if (matchFecha) {
+        let [_, dd, mm, yy] = matchFecha;
+        if (yy.length === 2) yy = '20' + yy;
+        detectedFecha = `${yy}-${mm}-${dd}`;
+      }
+    }
+    if (!detectedHora) {
+      const matchHora = upper.match(/(\d{2}):(\d{2})/);
+      if (matchHora) {
+        detectedHora = `${matchHora[1]}:${matchHora[2]}`;
+      }
+    }
+
+    // 1. Identificar cambio de sección
     if (/[0-9OQ]\s*BAR/.test(upper) || (upper.includes('BAR') && (upper.includes('01') || upper.includes('O1')))) { 
       seccionActual = 'BAR'; continue; 
     }
@@ -66,6 +87,7 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
       seccionActual = 'EMPANADAS'; continue; 
     }
 
+    // Saltar líneas de encabezado comunes
     if (
       upper.includes('TOTAL') ||
       upper.includes('VENTASPORARTICULO') ||
@@ -77,23 +99,18 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
       upper.includes('OBELISCO')
     ) continue
 
-    // 1. Identificar Producto
+    // 2. Identificar Producto
     const codigo = matchProductHybrid(linea, catalog, seccionActual)
     if (!codigo) continue
 
-    // 2. Extraer Cantidad
+    // 3. Extraer Cantidad
     let cantidad = extractCantidadRobust(linea, codigo)
     
     if (cantidad === null || cantidad <= 0) {
-      // Solo asumimos 1 si el match por nombre fue muy fuerte (>0.8)
-      // Esto evita capturar basura de metadatos como productos
-      // (Pasamos la lógica de validación aquí si es necesario, 
-      // pero por ahora usemos un log para auditar)
-      cantidad = 1;
+      cantidad = 1; // Asumir 1 si se detectó el producto pero la cantidad está borrosa
     }
 
-    // 3. Consolidación estricta en el Map
-    // Limpiamos el código por si acaso tuviera espacios
+    // 4. Consolidación
     const cleanCode = codigo.trim();
     const actual = ventas.get(cleanCode) ?? 0
     ventas.set(cleanCode, actual + cantidad)
@@ -102,5 +119,5 @@ export function parseReporteZ(textoZ: string): Map<string, number> {
     console.log(`[Parser] Match [${seccionActual}]: "${linea}" -> ${cleanCode} [${prod?.nombre || '?'}] (Cant: ${cantidad})`)
   }
 
-  return ventas
+  return { ventas, fecha: detectedFecha, hora: detectedHora };
 }

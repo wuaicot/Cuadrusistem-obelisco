@@ -21,7 +21,8 @@ export interface CreatePlanillaPayload {
   tipo: TipoPlanilla;
   turnoId: string;
   localId: string;
-  items: PlanillaItem[]; // This uses the detailed item type
+  estado: 'BORRADOR' | 'ENVIADO'; // Nuevo campo
+  items: PlanillaItem[];
 }
 
 export const fetchPlanillas = async (): Promise<Planilla[]> => {
@@ -72,5 +73,20 @@ export const fetchSaldoAnterior = async (
   } catch (error) {
     console.error("Error fetching previous balance:", error);
     return {};
+  }
+};
+
+export const fetchPlanillaItems = async (
+  localId: string,
+  fecha: string,
+  turnoId: string,
+  tipo: TipoPlanilla,
+): Promise<{ items: PlanillaItem[], estado: string | null }> => {
+  try {
+    const response = await api.get(`/planillas/items?localId=${localId}&fecha=${fecha}&turnoId=${turnoId}&tipo=${tipo}`);
+    return response.data || { items: [], estado: null };
+  } catch (error) {
+    console.error("Error fetching current planilla items:", error);
+    return { items: [], estado: null };
   }
 };

@@ -32,6 +32,8 @@ type CuadreDetalle = {
   teorico: number;
   real: number;
   diferencia: number;
+  costo: number;
+  valorizacion: number;
 };
 
 interface CuadreDisplayProps {
@@ -87,29 +89,18 @@ export function CuadreDisplay({ reporteZRefreshKey }: CuadreDisplayProps) {
     loadInitialData();
   }, [reporteZRefreshKey]);
 
-  // Map ingredients to prices
+  // Map ingredients to prices (Now directly from backend)
   const valorizedData = useMemo(() => {
     if (!cuadreData || !cuadreData.detalle) return [];
 
-    const allProducts = PROVEEDORES.flatMap((p) => p.productos);
-
     return Object.entries(cuadreData.detalle).map(([name, data]) => {
       const d = data as CuadreDetalle;
-      // Heuristic: Find product by name (case insensitive, partial match)
-      const product = allProducts.find(
-        (p) =>
-          name.toLowerCase().includes(p.nombre.toLowerCase()) ||
-          p.nombre.toLowerCase().includes(name.toLowerCase()),
-      );
-
-      const precioUnitario = product ? product.precioNetoUnidad : 0;
-      const valorDiferencia = d.diferencia * precioUnitario;
 
       return {
         nombre: name,
         ...d,
-        precioUnitario,
-        valorDiferencia,
+        precioUnitario: d.costo,
+        valorDiferencia: d.valorizacion,
       };
     });
   }, [cuadreData]);

@@ -7,7 +7,6 @@ import {
 import { fetchLocales, type Local } from "../../services/locales.service";
 import {
   createPlanilla,
-  type PlanillaItem,
 } from "../../services/planillas.service";
 import { fetchTurnos, type Turno } from "../../services/turnos.service";
 
@@ -15,44 +14,20 @@ import { fetchTurnos, type Turno } from "../../services/turnos.service";
 // // Constants, Types, and Helpers
 // ============================================================================
 const SEGMENTOS = ["SALDO INICIAL", "ENTRADA", "DEVOLUC", "SALDO FINAL"];
-const NUMEROS_UNIDADES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const NUMEROS_DECENAS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
-const NUMEROS_CENTENAS = [100];
-const NUMEROS_FRACCION = [0.5];
-
-// Lista base que SIEMPRE tiene 20 elementos para mantener la rejilla alineada
-const NUMEROS_GRID_COMPLETO = [
-  ...NUMEROS_DECENAS,
-  ...NUMEROS_CENTENAS,
-  ...NUMEROS_UNIDADES,
-  ...NUMEROS_FRACCION,
-];
+const NUMEROS_GRID_COMPLETO = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0.5];
 
 const calculateTotal = (selectedNums: number[]): number =>
   selectedNums.reduce((sum, num) => sum + num, 0);
 
 const numberToSelected = (num: number): number[] => {
   const selected: number[] = [];
-  let remaining = num;
-  if (remaining >= 100) {
-    selected.push(100);
-    remaining -= 100;
-  }
+  let remaining = Number(num);
+  if (remaining >= 100) { selected.push(100); remaining -= 100; }
   const decenas = Math.floor(remaining / 10) * 10;
-  if (decenas >= 10 && decenas <= 90) {
-    selected.push(decenas);
-    remaining -= decenas;
-  }
-  
-  if (remaining >= 0.5) {
-    selected.push(0.5);
-    remaining -= 0.5;
-  }
-
-  const unidades = Math.floor(remaining);
-  if (unidades >= 1 && unidades <= 9) {
-    selected.push(unidades);
-  }
+  if (decenas >= 10) { selected.push(decenas); remaining -= decenas; }
+  if (remaining >= 0.5) { selected.push(0.5); remaining -= 0.5; }
+  const unidades = Math.round(remaining);
+  if (unidades >= 1) { selected.push(unidades); }
   return selected;
 };
 
@@ -61,391 +36,186 @@ type TablaState = Record<string, SegmentoState>;
 type PlanillasDataState = Record<string, TablaState>;
 
 // ============================================================================
-// // Sub-component: Tablilla (The clickable cell)
+// // Sub-components
 // ============================================================================
-interface TablillaProps {
-  isSelected: boolean;
-  onClick: () => void;
-  disabled: boolean;
-}
+const Tablilla = React.memo(({ isSelected, onClick, disabled }: { isSelected: boolean; onClick: () => void; disabled: boolean }) => (
+  <div
+    onClick={disabled ? undefined : onClick}
+    className={`h-full w-full cursor-pointer transition-all duration-75 active:scale-90 ${isSelected ? "bg-[#000033] shadow-inner" : "bg-white"} ${!disabled && !isSelected ? "hover:bg-blue-50" : ""} ${disabled ? "opacity-30 cursor-not-allowed bg-gray-100" : ""}`}
+  />
+));
 
-function Tablilla({ isSelected, onClick, disabled }: TablillaProps) {
-  return (
-    <div
-      onClick={disabled ? undefined : onClick}
-      className={`h-full w-full cursor-pointer transition-all duration-150 active:scale-90 ${
-        isSelected ? "bg-[#000033] shadow-inner" : "bg-white"
-      } ${
-        !disabled && !isSelected ? "hover:bg-blue-50" : ""
-      } ${disabled ? "opacity-30 cursor-not-allowed bg-gray-100" : ""}`}
-    />
-  );
-}
-
-// ============================================================================
-// // Sub-component: IngredienteTabla (The full grid for one ingredient)
-// ============================================================================
-interface IngredienteTablaProps {
-  id: string;
-  nombreVisible: string;
-  isSaving: boolean;
-  initialSaldo?: number;
-  onStateChange: (ingredienteId: string, tablaState: TablaState) => void;
-}
-
-function IngredienteTabla({
-  id,
-  nombreVisible,
-  isSaving,
-  initialSaldo,
-  onStateChange,
-}: IngredienteTablaProps) {
-  const [tablaState, setTablaState] = useState<TablaState>({});
-
-  const esFraccionable = 
-    nombreVisible.includes("Carne Ave Persona") || 
-    nombreVisible.includes("Carne para As Gig.") || 
-    nombreVisible.includes("Carne Mechada");
-
-  useEffect(() => {
-    if (initialSaldo !== undefined && initialSaldo > 0) {
-      const selected = numberToSelected(initialSaldo);
-      setTablaState(prev => ({
-        ...prev,
-        "SALDO_INICIAL": { selectedNumbers: selected, total: initialSaldo }
-      }));
-    } else {
-        setTablaState(prev => {
-            const newState = { ...prev };
-            delete newState["SALDO_INICIAL"];
-            return newState;
-        });
-    }
-  }, [initialSaldo]);
-
-  useEffect(() => {
-    onStateChange(id, tablaState);
-  }, [tablaState, id, onStateChange]);
-
-  const handleNumberToggle = (segmento: string, number: number) => {
-    const segmentoKey = segmento.replace(" ", "_");
-    setTablaState((prevState) => {
-      const currentSegmentoState = prevState[segmentoKey] || {
-        selectedNumbers: [],
-        total: 0,
-      };
-      const currentSelected = currentSegmentoState.selectedNumbers;
-      
-      let newSelected = [...currentSelected];
-
-      const isCentena = number === 100;
-      const isDecena = number >= 10 && number <= 90;
-      const isUnidad = number >= 1 && number <= 9;
-      const isFraccion = number === 0.5;
-
-      if (currentSelected.includes(number)) {
-        newSelected = newSelected.filter((n) => n !== number);
-      } else {
-        if (isCentena) {
-          newSelected = newSelected.filter((n) => n !== 100);
-        } else if (isDecena) {
-          newSelected = newSelected.filter((n) => !(n >= 10 && n <= 90));
-        } else if (isUnidad) {
-          newSelected = newSelected.filter((n) => !(n >= 1 && n <= 9));
-        } else if (isFraccion) {
-          newSelected = newSelected.filter((n) => n !== 0.5);
-        }
-        newSelected.push(number);
-      }
-
-      const newTotal = calculateTotal(newSelected);
-      return {
-        ...prevState,
-        [segmentoKey]: { selectedNumbers: newSelected, total: newTotal },
-      };
-    });
-  };
+const IngredienteTabla = React.memo(({ id, nombreVisible, isSavingOrLocked, data, onToggle }: { id: string; nombreVisible: string; isSavingOrLocked: boolean; data: TablaState; onToggle: (id: string, seg: string, n: number) => void }) => {
+  const esFraccionable = nombreVisible.includes("Carne") || nombreVisible.includes("Lomo") || nombreVisible.includes("Ave");
 
   return (
-    <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md fade-in max-w-full text-[8px] sm:text-xs">
-      <div className="overflow-x-hidden">
-        <div className="grid grid-cols-planilla w-full border-l border-t border-black">
-          {/* Encabezados de Números */}
-          <div className="border-r border-b border-black bg-gray-100"></div>
-          <div className="border-r border-b border-black bg-gray-100"></div>
-          {NUMEROS_GRID_COMPLETO.map((num) => (
-            <div
-              key={num}
-              className="h-6 sm:h-8 flex items-center justify-center border-r border-b border-black bg-gray-100 font-black text-[8px] sm:text-[10px] text-gray-800"
-            >
-              {num === 100 ? (
-                <span className="text-[10px] sm:text-xs -rotate-90">100</span>
-              ) : num === 0.5 ? (
-                esFraccionable ? <span className="text-indigo-600 font-black text-[10px]">½</span> : null
-              ) : (
-                num
-              )}
-            </div>
-          ))}
-          
-          {/* Nombre Vertical */}
-          <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-[10px] sm:text-xs uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 py-1">
-            {nombreVisible}
+    <div className="bg-black p-[1px] rounded-lg overflow-hidden shadow-md max-w-full text-[8px] sm:text-xs mb-4">
+      <div className="grid grid-cols-planilla w-full border-l border-t border-black bg-gray-100">
+        <div className="border-r border-b border-black h-6"></div>
+        <div className="border-r border-b border-black h-6"></div>
+        {NUMEROS_GRID_COMPLETO.map(n => (
+          <div key={n} className="flex items-center justify-center border-r border-b border-black font-black text-[8px] sm:text-[10px]">
+            {n === 100 ? <span className="-rotate-90">100</span> : n === 0.5 ? (esFraccionable ? "½" : "") : n}
           </div>
-
-          {/* Filas de Datos */}
-          {SEGMENTOS.flatMap((segmento) => {
-            const segmentoKey = segmento.replace(" ", "_");
-            return [
-              <div
-                key={segmento}
-                className="h-10 sm:h-12 min-w-[4.5rem] sm:min-w-[6rem] flex flex-col items-center justify-center border-r border-b border-black bg-gray-50 text-center font-bold text-[8px] sm:text-[10px] p-0.5 leading-tight"
-              >
-                <div className="text-gray-600">
-                  {segmento.split(" ").map((line, i) => (
-                    <span key={i} className="block">{line}</span>
-                  ))}
-                </div>
-                <span className={`mt-0.5 text-[9px] font-black px-1.5 rounded-sm ${tablaState[segmentoKey]?.total ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                  {tablaState[segmentoKey]?.total || 0}
-                </span>
-              </div>,
-              ...NUMEROS_GRID_COMPLETO.map((num) => {
-                const isFractionCell = num === 0.5;
-                const isDisabled = isSaving || (isFractionCell && !esFraccionable);
-                
-                return (
-                  <div
-                    key={`${segmento}-${num}`}
-                    className={`border-r border-b border-black h-10 sm:h-12 ${isFractionCell && !esFraccionable ? 'bg-gray-100' : 'bg-white'}`}
-                  >
-                    {isFractionCell && !esFraccionable ? null : (
-                      <Tablilla
-                        isSelected={tablaState[segmentoKey]?.selectedNumbers.includes(num) || false}
-                        onClick={() => handleNumberToggle(segmento, num)}
-                        disabled={isDisabled}
-                      />
-                    )}
-                  </div>
-                );
-              }),
-            ];
-          })}
+        ))}
+        <div className="row-span-4 flex items-center justify-center border-r border-b border-black bg-white font-black text-center text-[10px] sm:text-xs uppercase [writing-mode:vertical-lr] rotate-180 py-2">
+          {nombreVisible}
         </div>
+        {SEGMENTOS.map(segmento => {
+          const key = segmento.replace(" ", "_");
+          const state = data[key] || { selectedNumbers: [], total: 0 };
+          return (
+            <React.Fragment key={segmento}>
+              <div className="h-10 sm:h-12 min-w-[4.5rem] flex flex-col items-center justify-center border-r border-b border-black bg-gray-50 p-1">
+                <div className="text-gray-600 leading-none text-[7px] sm:text-[9px] uppercase font-bold">{segmento}</div>
+                <span className={`mt-1 text-[10px] font-black px-2 rounded ${state.total ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500'}`}>{state.total}</span>
+              </div>
+              {NUMEROS_GRID_COMPLETO.map(n => (
+                <div key={`${segmento}-${n}`} className={`border-r border-b border-black h-10 sm:h-12 ${n === 0.5 && !esFraccionable ? 'bg-gray-100' : 'bg-white'}`}>
+                  {(n !== 0.5 || esFraccionable) && (
+                    <Tablilla isSelected={state.selectedNumbers.includes(n)} onClick={() => onToggle(id, segmento, n)} disabled={isSavingOrLocked} />
+                  )}
+                </div>
+              ))}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
   );
-}
+});
 
 // ============================================================================
-// // Main Component: PlanillaGrid (The page container)
+// // Main Page Component
 // ============================================================================
-interface PlanillaGridProps {
-  tipo: Role;
-}
-
-export function PlanillaGrid({ tipo }: PlanillaGridProps) {
+export function PlanillaGrid({ tipo }: { tipo: Role }) {
   const [planillasData, setPlanillasData] = useState<PlanillasDataState>({});
   const [ingredientes, setIngredientes] = useState<IngredienteDef[]>([]);
   const [fechaOperacion, setFechaOperacion] = useState(new Date().toISOString().split("T")[0]);
-  const [turnos, setTurnos] = useState<Turno[]>([]);
   const [selectedTurnoId, setSelectedTurnoId] = useState("");
-  const [locales, setLocales] = useState<Local[]>([]);
   const [selectedLocalId, setSelectedLocalId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
-  const [saldosAnteriores, setSaldosAnteriores] = useState<Record<string, number>>({});
+  const [statusMsg, setStatusMsg] = useState<{ t: 's' | 'e', m: string } | null>(null);
+  const [turnos, setTurnos] = useState<Turno[]>([]);
+  const [locales, setLocales] = useState<Local[]>([]);
+  const [isLocked, setIsLocked] = useState(false);
 
+  // 1. Cargar Catálogos
   useEffect(() => {
-    if (tipo !== "COCINA" && tipo !== "CAJA") {
-      setError("Tipo de planilla no válido o no seleccionado.");
-      setIsLoading(false);
-      return;
-    }
-    const loadInitialData = async () => {
+    (async () => {
       try {
-        setIsLoading(true);
-        const [ingredientesData, localesData, turnosData] = await Promise.all([
-          fetchIngredientes(tipo),
-          fetchLocales(),
-          fetchTurnos(),
-        ]);
-        setIngredientes(Array.isArray(ingredientesData) ? ingredientesData : []);
-        setLocales(Array.isArray(localesData) ? localesData : []);
-        setTurnos(Array.isArray(turnosData) ? turnosData : []);
-        if (localesData.length > 0) setSelectedLocalId(localesData[0].id);
-        if (turnosData.length > 0) setSelectedTurnoId(turnosData[0].id);
-      } catch (err) {
-        console.error("Error loading data:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadInitialData();
+        const [ing, loc, tur] = await Promise.all([fetchIngredientes(tipo), fetchLocales(), fetchTurnos()]);
+        setIngredientes(ing); setLocales(loc); setTurnos(tur);
+        if (loc.length) setSelectedLocalId(loc[0].id);
+        if (tur.length) setSelectedTurnoId(tur[0].id);
+      } catch (e) { console.error(e); } finally { setIsLoading(false); }
+    })();
   }, [tipo]);
 
+  // 2. Hidratación (PERSISTENCIA REAL)
   useEffect(() => {
-    const loadSaldos = async () => {
-      if (selectedLocalId && selectedTurnoId && tipo) {
-        try {
-          const { fetchSaldoAnterior } = await import("../../services/planillas.service");
-          const saldos = await fetchSaldoAnterior(selectedLocalId, selectedTurnoId, tipo as any);
-          setSaldosAnteriores(saldos);
-        } catch (err) {
-          console.error("Error al cargar saldos:", err);
+    const hydrate = async () => {
+      if (!selectedLocalId || !selectedTurnoId || !fechaOperacion) return;
+      try {
+        const { fetchPlanillaItems, fetchSaldoAnterior } = await import("../../services/planillas.service");
+        const [ant, draft] = await Promise.all([
+          fetchSaldoAnterior(selectedLocalId, selectedTurnoId, tipo as any),
+          fetchPlanillaItems(selectedLocalId, fechaOperacion, selectedTurnoId, tipo as any)
+        ]);
+
+        const merged: PlanillasDataState = {};
+        // Primero saldos anteriores
+        Object.entries(ant).forEach(([id, qty]) => {
+          merged[id] = { "SALDO_INICIAL": { selectedNumbers: numberToSelected(qty), total: qty } };
+        });
+
+        // Sobreescribir con borrador (MAREO DE CAMPOS CORREGIDO)
+        if (draft.items?.length) {
+          draft.items.forEach((it: any) => {
+            const ingId = it.ingrediente_id || it.ingrediente; // Soporta ambos nombres de campo
+            if (!merged[ingId]) merged[ingId] = {};
+            merged[ingId][it.segmento] = {
+              selectedNumbers: numberToSelected(it.cantidad),
+              total: Number(it.cantidad)
+            };
+          });
+          setIsLocked(draft.estado === 'ENVIADO');
+        } else {
+          setIsLocked(false);
         }
-      }
+        setPlanillasData(merged);
+      } catch (e) { console.error("Error hydrate:", e); }
     };
-    loadSaldos();
-  }, [selectedLocalId, selectedTurnoId, tipo]);
+    hydrate();
+  }, [selectedLocalId, selectedTurnoId, fechaOperacion, tipo, isSaving]);
 
-  const handleTablaStateChange = useCallback(
-    (ingredienteId: string, tablaState: TablaState) => {
-      setPlanillasData((prevData) => ({
-        ...prevData,
-        [ingredienteId]: tablaState,
-      }));
-    },
-    [],
-  );
+  const handleToggle = useCallback((ingId: string, seg: string, n: number) => {
+    const key = seg.replace(" ", "_");
+    setPlanillasData(prev => {
+      const ing = prev[ingId] || {};
+      const s = ing[key] || { selectedNumbers: [], total: 0 };
+      let next = [...s.selectedNumbers];
+      if (next.includes(n)) { next = next.filter(x => x !== n); }
+      else {
+        if (n === 100) next = next.filter(x => x !== 100);
+        else if (n >= 10) next = next.filter(x => x < 10 || x > 90);
+        else if (n >= 1) next = next.filter(x => x < 1 || x > 9);
+        else next = next.filter(x => x !== 0.5);
+        next.push(n);
+      }
+      return { ...prev, [ingId]: { ...ing, [key]: { selectedNumbers: next, total: calculateTotal(next) } } };
+    });
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (tipo !== "COCINA" && tipo !== "CAJA") return;
-    if (!fechaOperacion || !selectedTurnoId || !selectedLocalId) {
-      setSaveError("Complete Fecha, Turno y Local.");
-      return;
-    }
-    setIsSaving(true);
-    setSaveError(null);
-    setSaveSuccess(null);
-    const items: PlanillaItem[] = Object.entries(planillasData)
-      .flatMap(([ingredienteId, tablaState]) =>
-        Object.entries(tablaState).map(([segmento, state]) => ({
-          ingrediente: ingredienteId,
-          segmento,
-          cantidad: state.total,
-        })),
-      )
-      .filter((item) => item.cantidad > 0);
-
-    if (items.length === 0) {
-      setSaveError("Ingrese al menos un valor.");
-      setIsSaving(false);
-      return;
-    }
+  const save = async (est: 'BORRADOR' | 'ENVIADO') => {
+    setIsSaving(true); setStatusMsg(null);
+    const items = Object.entries(planillasData).flatMap(([id, t]) => 
+      Object.entries(t).map(([seg, s]) => ({ ingrediente: id, segmento: seg, cantidad: s.total }))
+    ).filter(i => i.cantidad > 0);
 
     try {
-      await createPlanilla({
-        fecha: fechaOperacion,
-        tipo,
-        turnoId: selectedTurnoId,
-        localId: selectedLocalId,
-        items,
-      });
-      setSaveSuccess("¡Guardado correctamente!");
-      setPlanillasData({});
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch {
-      setSaveError("Error al guardar planilla.");
-    } finally {
-      setIsSaving(false);
-    }
+      await createPlanilla({ fecha: fechaOperacion, tipo, turnoId: selectedTurnoId, localId: selectedLocalId, estado: est, items });
+      setStatusMsg({ t: 's', m: est === 'ENVIADO' ? "¡Turno enviado!" : "¡Progreso guardado!" });
+      if (est === 'ENVIADO') setIsLocked(true);
+    } catch { setStatusMsg({ t: 'e', m: "Error al guardar." }); } finally { setIsSaving(false); }
   };
 
-  if (isLoading) return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
-      <p className="text-gray-500 font-medium">Cargando ingredientes...</p>
-    </div>
-  );
+  if (isLoading) return <div className="flex h-screen items-center justify-center font-black text-indigo-600 animate-pulse">CARGANDO...</div>;
 
   return (
-    <div className="max-w-full overflow-x-hidden pb-20 px-2 sm:px-4">
-      <form onSubmit={handleSubmit} className="fade-in">
-        <div className="sticky top-0 z-30 py-4 bg-gray-50/95 backdrop-blur-sm">
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 grid grid-cols-2 sm:grid-cols-3 gap-3 items-end">
-            <div>
-              <label htmlFor="fecha-input" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Fecha</label>
-              <input
-                id="fecha-input"
-                type="date"
-                value={fechaOperacion}
-                onChange={(e) => setFechaOperacion(e.target.value)}
-                className="w-full p-2 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="turno-select" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Turno</label>
-              <select
-                id="turno-select"
-                value={selectedTurnoId}
-                onChange={(e) => setSelectedTurnoId(e.target.value)}
-                className="w-full p-2 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"
-                required
-              >
-                {turnos.map((t) => (
-                  <option key={t.id} value={t.id}>{t.tipo}</option>
-                ))}
-              </select>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <label htmlFor="local-select" className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Local</label>
-              <select
-                id="local-select"
-                value={selectedLocalId}
-                onChange={(e) => setSelectedLocalId(e.target.value)}
-                className="w-full p-2 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500"
-                required
-              >
-                {locales.map((l) => (
-                  <option key={l.id} value={l.id}>{l.nombre}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+    <div className="max-w-full pb-32 px-2 sm:px-4">
+      <div className="sticky top-0 z-30 py-4 bg-gray-50/90 backdrop-blur grid grid-cols-2 sm:grid-cols-4 gap-2 items-end">
+        <div className="bg-white p-2 rounded-xl shadow-sm border">
+          <label className="block text-[8px] font-bold text-gray-400 uppercase">Fecha</label>
+          <input type="date" value={fechaOperacion} onChange={e => setFechaOperacion(e.target.value)} disabled={isLocked} className="w-full text-xs font-bold outline-none" />
         </div>
+        <div className="bg-white p-2 rounded-xl shadow-sm border">
+          <label className="block text-[8px] font-bold text-gray-400 uppercase">Turno</label>
+          <select value={selectedTurnoId} onChange={e => setSelectedTurnoId(e.target.value)} disabled={isLocked} className="w-full text-xs font-bold outline-none">
+            {turnos.map(t => <option key={t.id} value={t.id}>{t.tipo}</option>)}
+          </select>
+        </div>
+        <div className="bg-white p-2 rounded-xl shadow-sm border">
+          <label className="block text-[8px] font-bold text-gray-400 uppercase">Local</label>
+          <select value={selectedLocalId} onChange={e => setSelectedLocalId(e.target.value)} disabled={isLocked} className="w-full text-xs font-bold outline-none">
+            {locales.map(l => <option key={l.id} value={l.id}>{l.nombre}</option>)}
+          </select>
+        </div>
+        <button onClick={() => setIsLocked(!isLocked)} className={`p-2 rounded-xl border-2 font-black text-[9px] uppercase flex items-center justify-center gap-2 ${isLocked ? 'bg-red-50 border-red-200 text-red-600' : 'bg-green-50 border-green-200 text-green-600'}`}>
+          {isLocked ? "🔒 Cerrado" : "🔓 Abierto"}
+        </button>
+      </div>
 
-        <div className="space-y-6 mt-4">
-          {ingredientes.map((ing) => (
-            <IngredienteTabla
-              key={ing.id}
-              id={ing.id}
-              nombreVisible={ing.nombreVisible}
-              isSaving={isSaving}
-              initialSaldo={saldosAnteriores[ing.id]}
-              onStateChange={handleTablaStateChange}
-            />
-          ))}
-        </div>
+      <div className="mt-4">{ingredientes.map(ing => <IngredienteTabla key={ing.id} id={ing.id} nombreVisible={ing.nombreVisible} isSavingOrLocked={isSaving || isLocked} data={planillasData[ing.id] || {}} onToggle={handleToggle} />)}</div>
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-50 via-gray-50 to-transparent z-40">
-          <div className="max-w-4xl mx-auto">
-            <button
-              type="submit"
-              disabled={isSaving}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 px-6 rounded-2xl shadow-xl shadow-indigo-200 transition-all active:scale-95 disabled:opacity-50 uppercase tracking-widest text-sm"
-            >
-              {isSaving ? "Guardando..." : "Finalizar y Guardar"}
-            </button>
-            
-            {saveSuccess && (
-              <div className="absolute bottom-20 left-4 right-4 animate-bounce p-3 bg-green-500 text-white text-center rounded-xl font-bold shadow-lg">
-                {saveSuccess}
-              </div>
-            )}
-            {saveError && (
-              <div className="absolute bottom-20 left-4 right-4 p-3 bg-red-500 text-white text-center rounded-xl font-bold shadow-lg">
-                {saveError}
-              </div>
-            )}
-          </div>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-100 flex flex-col gap-2 max-w-4xl mx-auto z-40">
+        {statusMsg && <div className={`p-2 rounded-lg text-center text-[10px] font-bold text-white animate-bounce ${statusMsg.t === 's' ? 'bg-green-500' : 'bg-red-500'}`}>{statusMsg.m}</div>}
+        <div className="flex gap-2">
+          <button onClick={() => save('BORRADOR')} disabled={isSaving || isLocked} className="flex-1 bg-white border-2 border-indigo-600 text-indigo-600 font-black py-4 rounded-2xl text-[10px] uppercase shadow-lg">Guardar Avance</button>
+          <button onClick={() => save('ENVIADO')} disabled={isSaving || isLocked} className="flex-[1.5] bg-indigo-600 text-white font-black py-4 rounded-2xl text-[10px] uppercase shadow-indigo-200 shadow-xl">Enviar a Admin</button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
