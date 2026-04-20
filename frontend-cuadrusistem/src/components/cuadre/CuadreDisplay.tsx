@@ -11,7 +11,6 @@ import {
   processCuadre,
   type CuadreResult,
 } from "../../services/cuadre.service";
-import { PROVEEDORES } from "../../data/preciosData";
 
 // Helper function to determine the class for the 'diferencia' cell
 function getDiferenciaClass(diferencia: number): string {

@@ -175,7 +175,7 @@ export function PlanillaGrid({ tipo }: { tipo: Role }) {
     ).filter(i => i.cantidad > 0);
 
     try {
-      await createPlanilla({ fecha: fechaOperacion, tipo, turnoId: selectedTurnoId, localId: selectedLocalId, estado: est, items });
+      await createPlanilla({ fecha: fechaOperacion, tipo: tipo as any, turnoId: selectedTurnoId, localId: selectedLocalId, estado: est, items });
       setStatusMsg({ t: 's', m: est === 'ENVIADO' ? "¡Turno enviado!" : "¡Progreso guardado!" });
       if (est === 'ENVIADO') setIsLocked(true);
     } catch { setStatusMsg({ t: 'e', m: "Error al guardar." }); } finally { setIsSaving(false); }
