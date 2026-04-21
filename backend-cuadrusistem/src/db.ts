@@ -14,7 +14,7 @@ const dbConfig = process.env.DATABASE_URL
       password: String(process.env.DB_PASSWORD || ''),
       host: String(process.env.DB_HOST || 'localhost'),
       port: Number(process.env.DB_PORT || 5432),
-      database: String(process.env.DB_NAME || 'railway'),
+      database: String(process.env.DB_NAME || 'cuadrusistem'),
       ssl: process.env.DB_HOST?.includes('localhost') ? false : { rejectUnauthorized: false }
     };
 
