@@ -6,10 +6,18 @@ dotenv.config();
 
 let connectionString = process.env.DATABASE_URL;
 
-// PARCHE DE ROBUSTEZ: Si la URL viene de Railway y termina en /railway, la cambiamos a /cuadrusistem
-if (connectionString && connectionString.includes('railway') && connectionString.endsWith('/railway')) {
-  console.log(chalk.magenta('-> Corrigiendo DATABASE_URL de /railway a /cuadrusistem...'));
-  connectionString = connectionString.replace(/\/railway$/, '/cuadrusistem');
+if (connectionString) {
+  try {
+    const dbUrl = new URL(connectionString);
+    // Si la base de datos es 'railway' o está vacía, forzamos 'cuadrusistem'
+    if (dbUrl.pathname === '/railway' || dbUrl.pathname === '/' || !dbUrl.pathname) {
+      console.log(chalk.magenta(`-> Cambiando base de datos en URL de "${dbUrl.pathname}" a "/cuadrusistem"`));
+      dbUrl.pathname = '/cuadrusistem';
+      connectionString = dbUrl.toString();
+    }
+  } catch (e) {
+    console.error(chalk.red('Error al parsear DATABASE_URL:'), e);
+  }
 }
 
 const dbConfig = connectionString 
