@@ -83,6 +83,7 @@ export function ReporteZUpload({ onUploadSuccess }: ReporteZUploadProps) {
         if (detectedMetadata) {
           if (detectedMetadata.fecha) setFechaOperacion(detectedMetadata.fecha);
           if (detectedMetadata.suggestedTurno) {
+            // Buscar el turno que coincida con la sugerencia (1er Turno o 2do Turno)
             const turnoMatch = turnos.find(t => t.tipo === detectedMetadata.suggestedTurno);
             if (turnoMatch) setSelectedTurnoId(turnoMatch.id);
           }

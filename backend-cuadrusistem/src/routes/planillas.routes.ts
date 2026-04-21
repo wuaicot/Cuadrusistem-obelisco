@@ -86,10 +86,10 @@ router.get('/saldo-anterior', async (req: Request, res: Response) => {
     let prevTipo = '';
     let prevFecha = currentFecha;
 
-    if (currentTipo === 'TARDE') {
-      prevTipo = 'MAÑANA';
+    if (currentTipo === '2do Turno') {
+      prevTipo = '1er Turno';
     } else {
-      prevTipo = 'TARDE';
+      prevTipo = '2do Turno';
       const d = new Date(currentFecha);
       d.setDate(d.getDate() - 1);
       prevFecha = d.toISOString().split('T')[0];

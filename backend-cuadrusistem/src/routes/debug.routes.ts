@@ -33,7 +33,10 @@ router.post('/seed-database', async (req: Request, res: Response) => {
     console.log(chalk.gray('   - Inserting base entities...'));
     await db.query(`INSERT INTO "users" (id, nombre) VALUES ('d3f8e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d', 'Admin User');`);
     await db.query(`INSERT INTO "locales" (id, nombre) VALUES ('a1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7b', 'Obelisco');`);
-    await db.query(`INSERT INTO "turnos" (id, tipo, fecha) VALUES ('b1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7c', 'DIURNO', CURRENT_DATE);`);
+    
+    // Insertar los dos turnos estandarizados
+    await db.query(`INSERT INTO "turnos" (id, tipo, fecha) VALUES ('b1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7c', '1er Turno', CURRENT_DATE);`);
+    await db.query(`INSERT INTO "turnos" (id, tipo, fecha) VALUES ('c1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d', '2do Turno', CURRENT_DATE);`);
 
     // 3. Listas Ordenadas según Planillas Reales del Obelisco
     const ORDEN_COCINA = [
