@@ -4,9 +4,17 @@ import chalk from 'chalk';
 
 dotenv.config();
 
-const dbConfig = process.env.DATABASE_URL 
+let connectionString = process.env.DATABASE_URL;
+
+// PARCHE DE ROBUSTEZ: Si la URL viene de Railway y termina en /railway, la cambiamos a /cuadrusistem
+if (connectionString && connectionString.includes('railway') && connectionString.endsWith('/railway')) {
+  console.log(chalk.magenta('-> Corrigiendo DATABASE_URL de /railway a /cuadrusistem...'));
+  connectionString = connectionString.replace(/\/railway$/, '/cuadrusistem');
+}
+
+const dbConfig = connectionString 
   ? { 
-      connectionString: process.env.DATABASE_URL,
+      connectionString: connectionString,
       ssl: { rejectUnauthorized: false }
     }
   : {
@@ -18,10 +26,12 @@ const dbConfig = process.env.DATABASE_URL
       ssl: process.env.DB_HOST?.includes('localhost') ? false : { rejectUnauthorized: false }
     };
 
-// Log de configuración (sin password)
-const logConfig = { ...dbConfig };
-if ('password' in logConfig) (logConfig as any).password = '****';
-console.log(chalk.yellow('Intentando conectar a DB con:'), logConfig);
+// Log de configuración (ocultando datos sensibles)
+const logSafe = connectionString 
+  ? { connectionString: connectionString.replace(/:.*@/, ':****@') }
+  : { ...dbConfig, password: '****' };
+
+console.log(chalk.yellow('Configuración de DB final:'), logSafe);
 
 const pool = new Pool(dbConfig);
 
