@@ -83,10 +83,10 @@ router.post(
       );
 
       // Inferencia de Turno sugerido basándose en la hora del ticket
-      let suggestedTurno = 'MAÑANA';
+      let suggestedTurno = '1er Turno';
       if (hora) {
         const [hh] = hora.split(':').map(Number);
-        if (hh >= 18 || hh < 3) suggestedTurno = 'TARDE'; // TARDE es de 18:00 a 02:00
+        if (hh >= 18 || hh < 3) suggestedTurno = '2do Turno'; // 2do Turno es de 18:00 a 02:00
       }
 
       const checksum = crypto.createHash('md5').update(originalBuffer).digest('hex');

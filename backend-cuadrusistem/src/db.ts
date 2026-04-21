@@ -18,6 +18,11 @@ const dbConfig = process.env.DATABASE_URL
       ssl: process.env.DB_HOST?.includes('localhost') ? false : { rejectUnauthorized: false }
     };
 
+// Log de configuración (sin password)
+const logConfig = { ...dbConfig };
+if ('password' in logConfig) (logConfig as any).password = '****';
+console.log(chalk.yellow('Intentando conectar a DB con:'), logConfig);
+
 const pool = new Pool(dbConfig);
 
 pool.on('connect', () => {
