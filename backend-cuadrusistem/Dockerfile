@@ -32,8 +32,9 @@ COPY --from=builder /app/dist ./dist
 RUN npm install --omit=dev
 
 # Copiar archivos de entrenamiento de Tesseract si los tienes localmente
-# (En tu estructura vi spa.traineddata)
 COPY --from=builder /app/spa.traineddata ./
+# Copiar el esquema de la base de datos
+COPY --from=builder /app/schema.sql ./
 
 EXPOSE 3000
 

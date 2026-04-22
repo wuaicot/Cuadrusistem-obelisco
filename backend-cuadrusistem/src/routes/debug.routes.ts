@@ -15,7 +15,14 @@ const router = Router();
 router.post('/init-schema', async (req: Request, res: Response) => {
   console.log(chalk.yellow('⚠️  Received request to INITIALIZE SCHEMA.'));
   try {
-    const schemaPath = path.join(__dirname, '..', '..', 'schema.sql');
+    // En producción (dentro de dist/), el archivo está dos niveles arriba: /app/schema.sql
+    const schemaPath = path.join(process.cwd(), 'schema.sql');
+    console.log(chalk.cyan(`   - Buscando esquema en: ${schemaPath}`));
+    
+    if (!fs.existsSync(schemaPath)) {
+      throw new Error(`No se encontró el archivo schema.sql en: ${schemaPath}`);
+    }
+
     const schemaSql = fs.readFileSync(schemaPath, 'utf8');
     
     await db.query(schemaSql);
@@ -55,7 +62,7 @@ router.post('/seed-database', async (req: Request, res: Response) => {
     await db.query(`INSERT INTO "users" (id, nombre) VALUES ('d3f8e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d', 'Admin User');`);
     await db.query(`INSERT INTO "locales" (id, nombre) VALUES ('a1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7b', 'Obelisco');`);
     
-    // Insertar los dos turnos estandarizados
+    // Insertar los dos turnos estandarizados del restaurante
     await db.query(`INSERT INTO "turnos" (id, tipo, fecha) VALUES ('b1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7c', '1er Turno', CURRENT_DATE);`);
     await db.query(`INSERT INTO "turnos" (id, tipo, fecha) VALUES ('c1f5e9c0-8a4c-4a3d-9b6b-3e5e4a5d6f7d', '2do Turno', CURRENT_DATE);`);
 
