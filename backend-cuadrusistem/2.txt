@@ -1,55 +1,12 @@
- [Carne Ave Persona]: (Inicial 13.50 + Entrada 0 - Devolución 0) - Final 13.50 = Consumo Real 0    
-  - [Carne Ave.Gigante]: (Inicial 6.00 + Entrada 0 - Devolución 0) - Final 6.00 = Consumo Real 0      
-  - [Carne churrasco gig]: (Inicial 10.00 + Entrada 10.00 - Devolución 0) - Final 18.00 = Consumo Real NaN
-  - [Carne churrasco pers.]: (Inicial 4.00 + Entrada 10.00 - Devolución 0) - Final 9.00 = Consumo Real NaN
-  - [Carne Hamburg Gigant.]: (Inicial 5.00 + Entrada 0 - Devolución 0) - Final 5.00 = Consumo Real 0  
-  - [Carne hamburg. Porc.]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0 
-  - [Carne lomo gig.]: (Inicial 7.00 + Entrada 0 - Devolución 0) - Final 7.00 = Consumo Real 0        
-  - [Carne lomo pers.]: (Inicial 11.00 + Entrada 0 - Devolución 0) - Final 11.00 = Consumo Real 0     
-  - [Hamburg KING K]: (Inicial 17.00 + Entrada 0 - Devolución 0) - Final 17.00 = Consumo Real 0       
-  - [Carne para As Gig.]: (Inicial 18.00 + Entrada 0 - Devolución 0) - Final 18.00 = Consumo Real 0   
-  - [Champiñones]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
-  - [Chorizo]: (Inicial 12.00 + Entrada 0 - Devolución 0) - Final 12.00 = Consumo Real 0
-  - [Choclo]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
-  - [Hojarascas]: (Inicial 52.00 + Entrada 0 - Devolución 0) - Final 51.00 = Consumo Real 1
-  - [Huevos]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0
-  - [Jamón]: (Inicial 22.00 + Entrada 0 - Devolución 0) - Final 22.00 = Consumo Real 0
-  - [Menu 1 Pulpa/ Chuleta]: (Inicial 6.00 + Entrada 0 - Devolución 0) - Final 6.00 = Consumo Real 0  
-  - [Menú 2 Pangasius]: (Inicial 18.00 + Entrada 0 - Devolución 0) - Final 13.00 = Consumo Real 5     
-  - [Menú 3 Carne Mechada]: (Inicial 10.00 + Entrada 5.00 - Devolución 0) - Final 14.00 = Consumo Real NaN
-  - [Tortilla De Wrap]: (Inicial 16.00 + Entrada 0 - Devolución 0) - Final 16.00 = Consumo Real 0     
-  - [Papas personal 150gr]: (Inicial 54.00 + Entrada 0 - Devolución 0) - Final 47.00 = Consumo Real 7
-  - [Porcion Pino Marisco]: (Inicial 8.00 + Entrada 0 - Devolución 0) - Final 8.00 = Consumo Real 0   
-  - [Porcion Pino Carne]: (Inicial 10.00 + Entrada 0 - Devolución 0) - Final 10.00 = Consumo Real 0   
-  - [Porciones de camarones]: (Inicial 55.00 + Entrada 0 - Devolución 0) - Final 52.00 = Consumo Real 3
-  - [Crema]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
-  - [Pan fricas]: (Inicial 42.00 + Entrada 30.00 - Devolución 0) - Final 67.00 = Consumo Real NaN     
-  - [Pan hallullon]: (Inicial 17.00 + Entrada 10.00 - Devolución 0) - Final 25.00 = Consumo Real NaN  
-  - [Pan Brioche 12]: (Inicial 27.00 + Entrada 10.00 - Devolución 0) - Final 37.00 = Consumo Real NaN 
-  - [Pan mesa Gigante]: (Inicial 59.00 + Entrada 30.00 - Devolución 0) - Final 78.00 = Consumo Real NaN
-  - [Pan mesa Personal]: (Inicial 33.00 + Entrada 60.00 - Devolución 0) - Final 87.00 = Consumo Real NaN
-  - [Pan mesa super Gigan.]: (Inicial 14.00 + Entrada 0 - Devolución 0) - Final 5.00 = Consumo Real 9 
-  - [Pepinillos]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0
-  - [Porotos verdes Kg.]: (Inicial 1.00 + Entrada 0 - Devolución 0) - Final 1.00 = Consumo Real 0     
-  - [Queso laminado]: (Inicial 42.00 + Entrada 30.00 - Devolución 0) - Final 58.00 = Consumo Real NaN 
-  - [Tocino porciones]: (Inicial 16.00 + Entrada 0 - Devolución 0) - Final 15.00 = Consumo Real 1     
-  - [Vienesas doggi]: (Inicial 27.00 + Entrada 34.00 - Devolución 0) - Final 52.00 = Consumo Real NaN 
-  - [Vienesas personal]: (Inicial 29.00 + Entrada 24.00 - Devolución 0) - Final 32.00 = Consumo Real NaN
-  - [Sopaipillas]: (Inicial 66.00 + Entrada 0 - Devolución 0) - Final 62.00 = Consumo Real 4
-  - [Ají en salsa 1 Kg]: (Inicial 0 + Entrada 100.00 - Devolución 0) - Final 0 = Consumo Real 100  
-
-
-
-
-Áreas de Mejora Identificadas (Hacia la Excelencia)
-
-  Para alcanzar el nivel de excelencia que buscamos, podemos trabajar de inmediato estos puntos:
-
-   1. Captura Directa de Foto: Actualmente usas un selector de archivos estándar. Podemos mejorar el ReporteZUpload.tsx para que en móviles abra directamente la cámara con la configuración óptima para
-      documentos.
-   2. Detección Automática de Turno/Fecha: El OCR ya lee el texto completo. Podemos añadir una lógica que busque patrones de fecha (DD/MM/YYYY) y hora en el ticket para auto-seleccionar el turno y la fecha,   
-      minimizando errores manuales.
-   3. Interfaz de "Candado" y Botones: Falta implementar el icono de candado para bloquear la edición accidental y separar la lógica de "GUARDAR" (borrador) vs "ENVIAR" (finalizar turno 15 min antes).
-   4. Robustez en Turnos Nocturnos: El 2do turno termina a las 02:00 AM. Debemos asegurar que el sistema entienda que ese "Saldo Final" pertenece al cierre del día anterior para el "Saldo Inicial" del día     
-      siguiente a las 10:00 AM.
-   5. Pre-procesamiento de Imagen: Me falta ver preprocess.ts para asegurar que estemos aplicando filtros de contraste y binarización que faciliten la lectura de tickets térmicos (que suelen ser tenues). 
+CREATE TABLE "reportes_z" (
+      "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      "archivo_original" VARCHAR(255) NOT NULL,
+      "checksum" VARCHAR(64) UNIQUE NOT NULL,
+      "items" JSONB,
+      "fecha_operacion" DATE NOT NULL,
+      "local_id" UUID REFERENCES "locales"("id"),
+      "turno_id" UUID REFERENCES "turnos"("id"),
+      "admin_id" UUID,
+      "procesado" BOOLEAN DEFAULT FALSE,
+      "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
