@@ -3,8 +3,29 @@ import { Router, Request, Response } from 'express';
 import db from '../db';
 import chalk from 'chalk';
 import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
 
 const router = Router();
+
+/**
+ * POST /api/debug/init-schema
+ * @desc    (Development Only) Crea las tablas en la base de datos usando schema.sql.
+ */
+router.post('/init-schema', async (req: Request, res: Response) => {
+  console.log(chalk.yellow('⚠️  Received request to INITIALIZE SCHEMA.'));
+  try {
+    const schemaPath = path.join(__dirname, '..', '..', 'schema.sql');
+    const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+    
+    await db.query(schemaSql);
+    console.log(chalk.green('✓ Database schema initialized (Tables created).'));
+    res.status(200).json({ message: 'Esquema inicializado correctamente (Tablas creadas).' });
+  } catch (error: any) {
+    console.error(chalk.red('✗ Error initializing schema:'), error);
+    res.status(500).json({ message: 'Error al inicializar el esquema.', error: error.message });
+  }
+});
 
 /**
  * POST /api/debug/seed-database
